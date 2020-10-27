@@ -1,0 +1,87 @@
+{
+  "name": "sense-di",
+  "description": "SenseDi: Dependency injection which makes sense",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": {
+    "name": "Mikhail Nasyrov",
+    "email": "mikhail@mnasyrov.com",
+    "url": "https://github.com/mnasyrov"
+  },
+  "homepage": "https://github.com/mnasyrov/sense-di",
+  "bugs": "https://github.com/mnasyrov/sense-di/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mnasyrov/sense-di.git"
+  },
+  "keywords": [
+    "functional",
+    "dependency",
+    "injection",
+    "ioc"
+  ],
+  "engines": {
+    "node": ">=12"
+  },
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "microbundle watch",
+    "clean": "rimraf dist",
+    "lint": "npm-run-all lint:*",
+    "lint:eslint": "eslint src",
+    "lint:tsc": "tsc --noEmit",
+    "test": "jest",
+    "build": "microbundle build --format cjs,module",
+    "preversion": "npm-run-all -s lint test",
+    "postversion": "npm run release",
+    "prerelease": "npm run clean",
+    "release": "npm publish --access public",
+    "prepare": "microbundle build"
+  },
+  "devDependencies": {
+    "@types/jest": "26.0.14",
+    "@size-limit/preset-small-lib": "4.6.0",
+    "@typescript-eslint/parser": "4.3.0",
+    "@typescript-eslint/eslint-plugin": "4.3.0",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "7.10.0",
+    "husky": "4.3.0",
+    "jest": "26.4.2",
+    "lint-staged": "10.4.0",
+    "microbundle": "0.12.4",
+    "npm-run-all": "4.1.5",
+    "prettier": "2.1.2",
+    "rimraf": "3.0.2",
+    "size-limit": "4.6.0",
+    "tslib": "2.0.1",
+    "ts-jest": "26.4.1",
+    "typescript": "4.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "*.{ts,css,json,md,html}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
