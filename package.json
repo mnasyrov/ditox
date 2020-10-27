@@ -24,8 +24,10 @@
     "node": ">=12"
   },
   "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.module.js",
+  "unpkg": "dist/index.umd.js",
+  "umb:main": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "source": "src/index.ts",
   "sideEffects": false,
@@ -42,12 +44,12 @@
     "lint:eslint": "eslint src",
     "lint:tsc": "tsc --noEmit",
     "test": "jest",
-    "build": "microbundle build --format cjs,module",
+    "build": "microbundle build --name sense-di --format cjs,es,umd",
     "preversion": "npm-run-all -s lint test",
     "postversion": "npm run release",
     "prerelease": "npm run clean",
     "release": "npm publish --access public",
-    "prepare": "microbundle build"
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@types/jest": "26.0.14",
