@@ -37,6 +37,18 @@ describe('Container', () => {
       expect(container.get(NUMBER)).toBe(2);
       expect(factory).toBeCalledTimes(0);
     });
+
+    it('should not rebind internal tokens', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const custom = createContainer();
+      container.bindValue(CONTAINER, custom);
+      container.bindValue(PARENT_CONTAINER, custom);
+
+      expect(container.get(CONTAINER)).toBe(container);
+      expect(container.get(PARENT_CONTAINER)).toBe(parent);
+    });
   });
 
   describe('bindFactory()', () => {
@@ -111,6 +123,26 @@ describe('Container', () => {
       expect(factory).toBeCalledTimes(1);
       expect(callback).toBeCalledTimes(1);
     });
+
+    it('should not rebind internal tokens', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const factory = () => createContainer();
+      container.bindFactory(CONTAINER, factory);
+      container.bindFactory(PARENT_CONTAINER, factory);
+
+      expect(container.get(CONTAINER)).toBe(container);
+      expect(container.get(PARENT_CONTAINER)).toBe(parent);
+    });
+  });
+
+  describe('unbind()', () => {
+    // TODO
+  });
+
+  describe('unbindAll()', () => {
+    // TODO
   });
 });
 
