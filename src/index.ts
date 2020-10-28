@@ -35,7 +35,13 @@ export const PARENT_CONTAINER: Token<Container> = createToken(
   'Ditox.ParentContainer',
 );
 
-export class ContainerError extends Error {}
+export class ResolverError extends Error {
+  constructor(message: string) {
+    super(message);
+    Object.setPrototypeOf(this, new.target.prototype);
+    this.name = 'ResolverError';
+  }
+}
 
 const NOT_FOUND = Symbol();
 
@@ -117,7 +123,7 @@ export function createContainer(parentContainer?: Container): Container {
         return parentContainer.resolve(token);
       }
 
-      throw new ContainerError(
+      throw new ResolverError(
         `Token "${token.symbol.description}" is not provided`,
       );
     },

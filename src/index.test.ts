@@ -1,11 +1,11 @@
 import {
   CONTAINER,
-  ContainerError,
   createContainer,
   createToken,
   getValues,
   inject,
   PARENT_CONTAINER,
+  ResolverError,
   resolveValues,
 } from './index';
 
@@ -38,7 +38,7 @@ describe('Container', () => {
       expect(factory).toBeCalledTimes(0);
     });
 
-    it('should not rebind internal tokens', () => {
+    it('should not rebind CONTAINER and PARENT_CONTAINER tokens', () => {
       const parent = createContainer();
       const container = createContainer(parent);
 
@@ -124,7 +124,7 @@ describe('Container', () => {
       expect(callback).toBeCalledTimes(1);
     });
 
-    it('should not rebind internal tokens', () => {
+    it('should not rebind CONTAINER and PARENT_CONTAINER tokens', () => {
       const parent = createContainer();
       const container = createContainer(parent);
 
@@ -196,6 +196,17 @@ describe('Container', () => {
       expect(container.get(NUMBER)).toBeUndefined();
       expect(factory).toHaveBeenCalledTimes(1);
     });
+
+    it('should not unbind CONTAINER and PARENT_CONTAINER tokens', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      container.unbind(CONTAINER);
+      container.unbind(PARENT_CONTAINER);
+
+      expect(container.get(CONTAINER)).toBe(container);
+      expect(container.get(PARENT_CONTAINER)).toBe(parent);
+    });
   });
 
   describe('unbindAll()', () => {
@@ -239,29 +250,151 @@ describe('Container', () => {
       expect(unbind2).toHaveBeenCalledTimes(1);
       expect(unbind2).toHaveBeenCalledWith(20);
     });
-  });
-});
 
-describe('CONTAINER token', () => {
-  it('should be resolved as the container', () => {
-    const container = createContainer();
-    const result = container.get(CONTAINER);
-    expect(result).toBe(container);
-  });
-});
+    it('should remain CONTAINER and PARENT_CONTAINER tokens', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
 
-describe('PARENT_CONTAINER token', () => {
-  it('should be resolved as the parent container', () => {
-    const parent = createContainer();
-    const container = createContainer(parent);
-    const result = container.get(PARENT_CONTAINER);
-    expect(result).toBe(parent);
+      container.unbindAll();
+
+      expect(container.get(CONTAINER)).toBe(container);
+      expect(container.get(PARENT_CONTAINER)).toBe(parent);
+    });
   });
 
-  it('should be resolved as undefined in case there is no parent container', () => {
-    const container = createContainer();
-    const result = container.get(PARENT_CONTAINER);
-    expect(result).toBeUndefined();
+  describe('get()', () => {
+    it('should return a provided value', () => {
+      const container = createContainer();
+      container.bindValue(NUMBER, 1);
+      expect(container.get(NUMBER)).toBe(1);
+    });
+
+    it('should return "undefined" in case a value is not provided', () => {
+      const container = createContainer();
+      expect(container.get(NUMBER)).toBeUndefined();
+    });
+
+    it('should return a value from the parent container', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+      parent.bindValue(NUMBER, 1);
+      expect(container.get(NUMBER)).toBe(1);
+    });
+
+    it('should return "undefined" in case the parent container does not provide a value', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+      expect(container.get(NUMBER)).toBeUndefined();
+    });
+
+    it('should return a value from the container in case it overrides the parent container', () => {
+      const parent = createContainer();
+      parent.bindValue(NUMBER, 1);
+
+      const container = createContainer(parent);
+      container.bindValue(NUMBER, 2);
+
+      expect(container.get(NUMBER)).toBe(2);
+    });
+
+    it('should return a value from the parent container in case the value was unbound from the current one', () => {
+      const parent = createContainer();
+      parent.bindValue(NUMBER, 1);
+
+      const container = createContainer(parent);
+      container.bindValue(NUMBER, 2);
+      container.unbind(NUMBER);
+
+      expect(container.get(NUMBER)).toBe(1);
+    });
+
+    it('should return the container for CONTAINER token', () => {
+      const container = createContainer();
+      const result = container.get(CONTAINER);
+      expect(result).toBe(container);
+    });
+
+    it('should return the parent container for PARENT_CONTAINER token', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+      const result = container.get(PARENT_CONTAINER);
+      expect(result).toBe(parent);
+    });
+
+    it('should return "undefined" for PARENT_CONTAINER token in case there is no parent container', () => {
+      const container = createContainer();
+      const result = container.get(PARENT_CONTAINER);
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('resolve()', () => {
+    it('should resolve a provided value', () => {
+      const container = createContainer();
+      container.bindValue(NUMBER, 1);
+      expect(container.resolve(NUMBER)).toBe(1);
+    });
+
+    it('should throw ResolverError in case a value is not provided', () => {
+      const container = createContainer();
+      expect(() => container.resolve(NUMBER)).toThrowError(ResolverError);
+    });
+
+    it('should resolve a value from the parent container', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+      parent.bindValue(NUMBER, 1);
+      expect(container.resolve(NUMBER)).toBe(1);
+    });
+
+    it('should throw ResolverError in case the parent container does not provide a value', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+      expect(() => container.resolve(NUMBER)).toThrowError(ResolverError);
+    });
+
+    it('should resolve a value from the container in case it overrides the parent container', () => {
+      const parent = createContainer();
+      parent.bindValue(NUMBER, 1);
+
+      const container = createContainer(parent);
+      container.bindValue(NUMBER, 2);
+
+      expect(container.resolve(NUMBER)).toBe(2);
+    });
+
+    it('should resolve a value from the parent container in case the value was unbound from the current one', () => {
+      const parent = createContainer();
+      parent.bindValue(NUMBER, 1);
+
+      const container = createContainer(parent);
+      container.bindValue(NUMBER, 2);
+      container.unbind(NUMBER);
+
+      expect(container.resolve(NUMBER)).toBe(1);
+    });
+
+    it('should resolve CONTAINER token as the container', () => {
+      const container = createContainer();
+      const result = container.resolve(CONTAINER);
+      expect(result).toBe(container);
+    });
+
+    it('should resolve PARENT_CONTAINER as the parent container', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+      const result = container.get(PARENT_CONTAINER);
+      expect(result).toBe(parent);
+    });
+
+    it('should throw ResolverError for PARENT_CONTAINER token in case there is no parent container', () => {
+      const container = createContainer();
+      expect(() => container.resolve(PARENT_CONTAINER)).toThrowError(
+        new ResolverError(
+          `Token "${PARENT_CONTAINER.symbol.description}" is not provided`,
+        ),
+      );
+    });
   });
 });
 
@@ -301,9 +434,7 @@ describe('resolveValues', () => {
     expect(() => {
       resolveValues(container, [NUMBER, STRING]);
     }).toThrowError(
-      new ContainerError(
-        `Token "${STRING.symbol.description}" is not provided`,
-      ),
+      new ResolverError(`Token "${STRING.symbol.description}" is not provided`),
     );
   });
 });
