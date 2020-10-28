@@ -1,6 +1,6 @@
 {
   "name": "ditox",
-  "description": "Detoxed dependency injection which makes sense",
+  "description": "Detoxed dependency injection for JS, Typescript and Flow.",
   "version": "0.1.0",
   "license": "MIT",
   "author": {
