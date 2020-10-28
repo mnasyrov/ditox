@@ -1,6 +1,6 @@
 {
-  "name": "sense-di",
-  "description": "SenseDi: Dependency injection which makes sense",
+  "name": "ditox",
+  "description": "Detoxed dependency injection which makes sense",
   "version": "0.1.0",
   "license": "MIT",
   "author": {
@@ -8,11 +8,11 @@
     "email": "mikhail@mnasyrov.com",
     "url": "https://github.com/mnasyrov"
   },
-  "homepage": "https://github.com/mnasyrov/sense-di",
-  "bugs": "https://github.com/mnasyrov/sense-di/issues",
+  "homepage": "https://github.com/mnasyrov/ditox",
+  "bugs": "https://github.com/mnasyrov/ditox/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mnasyrov/sense-di.git"
+    "url": "https://github.com/mnasyrov/ditox.git"
   },
   "keywords": [
     "functional",
@@ -44,7 +44,7 @@
     "lint:eslint": "eslint src",
     "lint:tsc": "tsc --noEmit",
     "test": "jest",
-    "build": "microbundle build --name sense-di --format cjs,es,umd",
+    "build": "microbundle build --name ditox --format cjs,es,umd",
     "preversion": "npm-run-all -s lint test",
     "postversion": "npm run release",
     "prerelease": "npm run clean",
