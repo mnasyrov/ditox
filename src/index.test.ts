@@ -138,11 +138,107 @@ describe('Container', () => {
   });
 
   describe('unbind()', () => {
-    // TODO
+    it('should unbind a value', () => {
+      const container = createContainer();
+      container.bindValue(NUMBER, 1);
+      container.unbind(NUMBER);
+      expect(container.get(NUMBER)).toBeUndefined();
+    });
+
+    it('should unbind "singleton" factory silently in case its value has never been resolved', () => {
+      const container = createContainer();
+
+      const factory = jest.fn(() => 1);
+      const onUnbind = jest.fn();
+      container.bindFactory(NUMBER, factory, {scope: 'singleton', onUnbind});
+      container.unbind(NUMBER);
+
+      expect(container.get(NUMBER)).toBeUndefined();
+      expect(factory).toHaveBeenCalledTimes(0);
+      expect(onUnbind).toHaveBeenCalledTimes(0);
+    });
+
+    it('should unbind "singleton" factory with calling "onUnbind" in case its value has  been resolved', () => {
+      const container = createContainer();
+
+      const factory = jest.fn(() => 100);
+      const onUnbind = jest.fn();
+      container.bindFactory(NUMBER, factory, {scope: 'singleton', onUnbind});
+
+      expect(container.get(NUMBER)).toBe(100);
+      container.unbind(NUMBER);
+
+      expect(container.get(NUMBER)).toBeUndefined();
+      expect(factory).toHaveBeenCalledTimes(1);
+      expect(onUnbind).toHaveBeenCalledTimes(1);
+      expect(onUnbind).toHaveBeenCalledWith(100);
+    });
+
+    it('should unbind "transient" factory in case its value has never been resolved', () => {
+      const container = createContainer();
+
+      const factory = jest.fn(() => 1);
+      container.bindFactory(NUMBER, factory, {scope: 'transient'});
+      container.unbind(NUMBER);
+
+      expect(container.get(NUMBER)).toBeUndefined();
+      expect(factory).toHaveBeenCalledTimes(0);
+    });
+
+    it('should unbind "transient" factory in case its value has been resolved', () => {
+      const container = createContainer();
+
+      const factory = jest.fn(() => 1);
+      container.bindFactory(NUMBER, factory, {scope: 'transient'});
+      expect(container.get(NUMBER)).toBe(1);
+
+      container.unbind(NUMBER);
+      expect(container.get(NUMBER)).toBeUndefined();
+      expect(factory).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('unbindAll()', () => {
-    // TODO
+    it('should unbind all values and factories', () => {
+      const container = createContainer();
+
+      container.bindValue(NUMBER, 1);
+      container.bindFactory(STRING, () => '2');
+      expect(container.get(NUMBER)).toBe(1);
+      expect(container.get(STRING)).toBe('2');
+
+      container.unbindAll();
+      expect(container.get(NUMBER)).toBeUndefined();
+      expect(container.get(STRING)).toBeUndefined();
+    });
+
+    it('should call "onUnbind" callbacks for factories with resolved singleton values', () => {
+      const F1 = createToken('f1');
+      const F2 = createToken('f2');
+
+      const unbind1 = jest.fn();
+      const unbind2 = jest.fn();
+
+      const container = createContainer();
+      container.bindFactory(F1, () => 10, {
+        scope: 'singleton',
+        onUnbind: unbind1,
+      });
+      container.bindFactory(F2, () => 20, {
+        scope: 'singleton',
+        onUnbind: unbind2,
+      });
+
+      expect(container.get(F2)).toBe(20);
+
+      container.unbindAll();
+      expect(container.get(F1)).toBeUndefined();
+      expect(container.get(F2)).toBeUndefined();
+
+      expect(unbind1).toHaveBeenCalledTimes(0);
+      expect(unbind2).toHaveBeenCalledTimes(1);
+      expect(unbind2).toHaveBeenCalledWith(20);
+    });
   });
 });
 

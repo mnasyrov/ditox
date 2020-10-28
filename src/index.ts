@@ -7,10 +7,14 @@ export function createToken<T>(key: string): Token<T> {
   return {symbol: Symbol(key)};
 }
 
-export type FactoryOptions<T> = {
-  scope?: 'singleton' | 'transient';
-  onUnbind?: (value: T) => void;
-};
+export type FactoryOptions<T> =
+  | {
+      scope?: 'singleton';
+      onUnbind?: (value: T) => void;
+    }
+  | {
+      scope: 'transient';
+    };
 
 export type Container = {
   bindValue<T>(token: Token<T>, value: T): void;
@@ -26,9 +30,9 @@ export type Container = {
   resolve<T>(token: Token<T>): T;
 };
 
-export const CONTAINER: Token<Container> = createToken('SenseDi.Container');
+export const CONTAINER: Token<Container> = createToken('Ditox.Container');
 export const PARENT_CONTAINER: Token<Container> = createToken(
-  'SenseDi.ParentContainer',
+  'Ditox.ParentContainer',
 );
 
 export class ContainerError extends Error {}
@@ -73,12 +77,8 @@ export function createContainer(parentContainer?: Container): Container {
         return;
       }
 
-      const context = factories.get(token.symbol);
-
-      if (context && context.options?.onUnbind && values.has(token.symbol)) {
-        const value = values.get(token.symbol);
-        context.options.onUnbind(value);
-      }
+      const options = factories.get(token.symbol)?.options;
+      invokeUnbindCallback(values, token.symbol, options);
 
       values.delete(token.symbol);
       factories.delete(token.symbol);
@@ -86,10 +86,7 @@ export function createContainer(parentContainer?: Container): Container {
 
     unbindAll(): void {
       factories.forEach((context, key) => {
-        if (context.options?.onUnbind && values.has(key)) {
-          const value = values.get(key);
-          context.options.onUnbind(value);
-        }
+        invokeUnbindCallback(values, key, context?.options);
       });
 
       values.clear();
@@ -164,8 +161,8 @@ function lookup<T>(
       const {factory, options} = context;
       const value = factory();
 
-      if (options?.scope !== 'transient') {
-        // Store as a singleton value
+      if (options?.scope === undefined || options?.scope === 'singleton') {
+        // Memoize the result value
         values.set(token.symbol, value);
       }
 
@@ -174,6 +171,17 @@ function lookup<T>(
   }
 
   return NOT_FOUND;
+}
+
+function invokeUnbindCallback<T>(
+  values: ValuesMap,
+  key: symbol,
+  options: FactoryOptions<T> | undefined,
+) {
+  if (options && (options as any).onUnbind && values.has(key)) {
+    const value = values.get(key);
+    (options as any).onUnbind(value);
+  }
 }
 
 export function getValues<
