@@ -4,6 +4,7 @@ import {
   createToken,
   getValues,
   inject,
+  optional,
   PARENT_CONTAINER,
   ResolverError,
   resolveValues,
@@ -326,6 +327,16 @@ describe('Container', () => {
       const result = container.get(PARENT_CONTAINER);
       expect(result).toBeUndefined();
     });
+
+    it('should return optional value in case optional token is not provided', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const optionalNumber = optional(NUMBER, 1);
+
+      expect(parent.get(optionalNumber)).toBe(1);
+      expect(container.get(optionalNumber)).toBe(1);
+    });
   });
 
   describe('resolve()', () => {
@@ -395,6 +406,16 @@ describe('Container', () => {
         ),
       );
     });
+
+    it('should resolve an optional value in case the optional token is not provided', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const optionalNumber = optional(NUMBER, 1);
+
+      expect(parent.resolve(optionalNumber)).toBe(1);
+      expect(container.resolve(optionalNumber)).toBe(1);
+    });
   });
 });
 
@@ -404,7 +425,7 @@ describe('getValues', () => {
     container.bindValue(NUMBER, 1);
     container.bindValue(STRING, 'abc');
 
-    const values: [number, string] = getValues(container, [NUMBER, STRING]);
+    const values: [number, string] = getValues(container, NUMBER, STRING);
     expect(values).toEqual([1, 'abc']);
   });
 
@@ -412,8 +433,18 @@ describe('getValues', () => {
     const container = createContainer();
     container.bindValue(NUMBER, 1);
 
-    const values = getValues(container, [NUMBER, STRING]);
+    const values = getValues(container, NUMBER, STRING);
     expect(values).toEqual([1, undefined]);
+  });
+
+  it('should return values of optional tokens in case they are not provided', () => {
+    const container = createContainer();
+    container.bindValue(NUMBER, 1);
+
+    const OPTIONAL_STRING = optional(STRING, 'value');
+
+    const values = getValues(container, NUMBER, STRING, OPTIONAL_STRING);
+    expect(values).toEqual([1, undefined, 'value']);
   });
 });
 
@@ -423,7 +454,7 @@ describe('resolveValues', () => {
     container.bindValue(NUMBER, 1);
     container.bindValue(STRING, 'abc');
 
-    const values: [number, string] = resolveValues(container, [NUMBER, STRING]);
+    const values: [number, string] = resolveValues(container, NUMBER, STRING);
     expect(values).toEqual([1, 'abc']);
   });
 
@@ -432,10 +463,18 @@ describe('resolveValues', () => {
     container.bindValue(NUMBER, 1);
 
     expect(() => {
-      resolveValues(container, [NUMBER, STRING]);
+      resolveValues(container, NUMBER, STRING);
     }).toThrowError(
       new ResolverError(`Token "${STRING.symbol.description}" is not provided`),
     );
+  });
+
+  it('should resolve values of optional tokens in case they are not provided', () => {
+    const container = createContainer();
+    container.bindValue(NUMBER, 1);
+
+    const values = getValues(container, NUMBER, optional(STRING, 'value'));
+    expect(values).toEqual([1, 'value']);
   });
 });
 
@@ -447,10 +486,41 @@ describe('inject()', () => {
 
     const decoratedFactory = inject(
       container,
-      [NUMBER, STRING],
       (a: number, b: string) => a + b,
+      NUMBER,
+      STRING,
     );
 
     expect(decoratedFactory()).toBe('12');
+  });
+
+  it('should throw ResolverError error in case a value is not provided', () => {
+    const container = createContainer();
+    container.bindValue(NUMBER, 1);
+
+    const decoratedFactory = inject(
+      container,
+      (a: number, b: string) => a + b,
+      NUMBER,
+      STRING,
+    );
+
+    expect(() => decoratedFactory()).toThrowError(
+      new ResolverError(`Token "${STRING.symbol.description}" is not provided`),
+    );
+  });
+
+  it('should inject values of optional tokens in case values are not provided', () => {
+    const container = createContainer();
+    container.bindValue(NUMBER, 1);
+
+    const decoratedFactory = inject(
+      container,
+      (a, b) => a + b,
+      NUMBER,
+      optional(STRING, 'value'),
+    );
+
+    expect(decoratedFactory()).toBe('1value');
   });
 });

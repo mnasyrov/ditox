@@ -3,8 +3,33 @@ export type Token<T> = {
   type?: T; // Anchor for Typescript type inference.
 };
 
+export type OptionalToken<T> = {
+  symbol: symbol;
+  type?: T; // Anchor for Typescript type inference.
+  isOptional: true;
+  optionalValue: T;
+};
+
+export type TokenLike<T> = Token<T> | OptionalToken<T>;
+
 export function createToken<T>(key: string): Token<T> {
   return {symbol: Symbol(key)};
+}
+
+export function optional<T>(
+  token: Token<T>,
+  optionalValue: T,
+): OptionalToken<T>;
+export function optional<T>(token: Token<T>): OptionalToken<T | void>;
+export function optional<T>(
+  token: Token<T>,
+  optionalValue?: T,
+): OptionalToken<T | void> {
+  return {
+    symbol: token.symbol,
+    isOptional: true,
+    optionalValue,
+  };
 }
 
 export type FactoryOptions<T> =
@@ -26,8 +51,8 @@ export type Container = {
   unbind<T>(token: Token<T>): void;
   unbindAll(): void;
 
-  get<T>(token: Token<T>): T | undefined;
-  resolve<T>(token: Token<T>): T;
+  get<T>(token: Token<T> | OptionalToken<T>): T | undefined;
+  resolve<T>(token: Token<T> | OptionalToken<T>): T;
 };
 
 export const CONTAINER: Token<Container> = createToken('Ditox.Container');
@@ -100,7 +125,7 @@ export function createContainer(parentContainer?: Container): Container {
       bindContainers(values, container, parentContainer);
     },
 
-    get<T>(token: Token<T>): T | undefined {
+    get<T>(token: TokenLike<T>): T | undefined {
       const value = lookup(values, factories, token);
       if (value !== NOT_FOUND) {
         return value;
@@ -110,10 +135,14 @@ export function createContainer(parentContainer?: Container): Container {
         return parentContainer.get(token);
       }
 
+      if ('isOptional' in token && token.isOptional) {
+        return token.optionalValue;
+      }
+
       return undefined;
     },
 
-    resolve<T>(token: Token<T>): T {
+    resolve<T>(token: TokenLike<T>): T {
       const value = lookup(values, factories, token);
       if (value !== NOT_FOUND) {
         return value;
@@ -121,6 +150,10 @@ export function createContainer(parentContainer?: Container): Container {
 
       if (parentContainer) {
         return parentContainer.resolve(token);
+      }
+
+      if ('isOptional' in token && token.isOptional) {
+        return token.optionalValue;
       }
 
       throw new ResolverError(
@@ -134,7 +167,7 @@ export function createContainer(parentContainer?: Container): Container {
   return container;
 }
 
-function isInternalToken<T>(token: Token<T>): boolean {
+function isInternalToken<T>(token: TokenLike<T>): boolean {
   return (
     token.symbol === CONTAINER.symbol ||
     token.symbol === PARENT_CONTAINER.symbol
@@ -155,7 +188,7 @@ function bindContainers(
 function lookup<T>(
   values: ValuesMap,
   factories: FactoriesMap,
-  token: Token<T>,
+  token: TokenLike<T>,
 ): T | typeof NOT_FOUND {
   if (values.has(token.symbol)) {
     return values.get(token.symbol);
@@ -191,30 +224,36 @@ function invokeUnbindCallback<T>(
 }
 
 export function getValues<
-  Values extends (unknown | void)[],
-  Tokens extends {[K in keyof Values]: Token<Values[K]>}
->(container: Container, tokens: Tokens): Values {
+  Tokens extends TokenLike<unknown>[],
+  Values extends {
+    [K in keyof Tokens]: Tokens[K] extends TokenLike<infer V> ? V : never;
+  }
+>(container: Container, ...tokens: Tokens): Values {
   return tokens.map(container.get) as Values;
 }
 
 export function resolveValues<
-  Values extends unknown[],
-  Tokens extends {[K in keyof Values]: Token<Values[K]>}
->(container: Container, tokens: Tokens): Values {
+  Tokens extends TokenLike<unknown>[],
+  Values extends {
+    [K in keyof Tokens]: Tokens[K] extends TokenLike<infer V> ? V : never;
+  }
+>(container: Container, ...tokens: Tokens): Values {
   return tokens.map(container.resolve) as Values;
 }
 
 export function inject<
-  Values extends unknown[],
-  Tokens extends {[K in keyof Values]: Token<Values[K]>},
+  Tokens extends TokenLike<unknown>[],
+  Values extends {
+    [K in keyof Tokens]: Tokens[K] extends TokenLike<infer V> ? V : never;
+  },
   Result
 >(
   container: Container,
-  tokens: Tokens,
   factory: (...params: Values) => Result,
+  ...tokens: Tokens
 ): () => Result {
   return () => {
-    const values: Values = resolveValues(container, tokens);
+    const values: Values = tokens.map(container.resolve) as Values;
     return factory(...values);
   };
 }
