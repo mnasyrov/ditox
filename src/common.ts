@@ -12,6 +12,26 @@ export type OptionalToken<T> = {
 
 export type TokenLike<T> = Token<T> | OptionalToken<T>;
 
+export function token<T>(description: string): Token<T> {
+  return {symbol: Symbol(description)};
+}
+
+export function optional<T>(
+  token: Token<T>,
+  optionalValue: T,
+): OptionalToken<T>;
+export function optional<T>(token: Token<T>): OptionalToken<T | void>;
+export function optional<T>(
+  token: Token<T>,
+  optionalValue?: T,
+): OptionalToken<T | void> {
+  return {
+    symbol: token.symbol,
+    isOptional: true,
+    optionalValue,
+  };
+}
+
 export type FactoryOptions<T> =
   | {
       scope?: 'singleton';
@@ -35,28 +55,8 @@ export type Container = {
   resolve<T>(token: Token<T> | OptionalToken<T>): T;
 };
 
-export function createToken<T>(key: string): Token<T> {
-  return {symbol: Symbol(key)};
-}
-
-export function optional<T>(
-  token: Token<T>,
-  optionalValue: T,
-): OptionalToken<T>;
-export function optional<T>(token: Token<T>): OptionalToken<T | void>;
-export function optional<T>(
-  token: Token<T>,
-  optionalValue?: T,
-): OptionalToken<T | void> {
-  return {
-    symbol: token.symbol,
-    isOptional: true,
-    optionalValue,
-  };
-}
-
-export const CONTAINER: Token<Container> = createToken('Ditox.Container');
-export const PARENT_CONTAINER: Token<Container> = createToken(
+export const CONTAINER: Token<Container> = token('Ditox.Container');
+export const PARENT_CONTAINER: Token<Container> = token(
   'Ditox.ParentContainer',
 );
 

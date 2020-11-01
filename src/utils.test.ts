@@ -1,9 +1,9 @@
-import {createToken, optional, ResolverError} from './common';
+import {token, optional, ResolverError} from './common';
 import {bindMultiValue, getValues, inject, resolveValues} from './utils';
 import {createContainer} from './container';
 
-const NUMBER = createToken<number>('number');
-const STRING = createToken<string>('string');
+const NUMBER = token<number>('number');
+const STRING = token<string>('string');
 
 describe('getValues', () => {
   it('should return values for the tokens', () => {
@@ -112,7 +112,7 @@ describe('inject()', () => {
 });
 
 describe('bindMultiValue', () => {
-  const NUMBERS = createToken<Array<number>>('numbers');
+  const NUMBERS = token<Array<number>>('numbers');
 
   it('should append a value to an array declared by a token', () => {
     const container = createContainer();

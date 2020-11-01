@@ -1,14 +1,14 @@
 import {createContainer} from './container';
 import {
   CONTAINER,
-  createToken,
+  token,
   optional,
   PARENT_CONTAINER,
   ResolverError,
 } from './common';
 
-const NUMBER = createToken<number>('number');
-const STRING = createToken<string>('string');
+const NUMBER = token<number>('number');
+const STRING = token<string>('string');
 
 describe('Container', () => {
   describe('bindValue()', () => {
@@ -222,8 +222,8 @@ describe('Container', () => {
     });
 
     it('should call "onUnbind" callbacks for factories with resolved singleton values', () => {
-      const F1 = createToken('f1');
-      const F2 = createToken('f2');
+      const F1 = token('f1');
+      const F2 = token('f2');
 
       const unbind1 = jest.fn();
       const unbind2 = jest.fn();
