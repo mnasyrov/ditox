@@ -5,7 +5,6 @@ import {
   PARENT_CONTAINER,
   ResolverError,
   Token,
-  TokenLike,
 } from './common';
 
 const NOT_FOUND = Symbol();
@@ -65,7 +64,7 @@ export function createContainer(parentContainer?: Container): Container {
       bindContainers(values, container, parentContainer);
     },
 
-    get<T>(token: TokenLike<T>): T | undefined {
+    get<T>(token: Token<T>): T | undefined {
       const value = lookup(values, factories, token);
       if (value !== NOT_FOUND) {
         return value;
@@ -82,7 +81,7 @@ export function createContainer(parentContainer?: Container): Container {
       return undefined;
     },
 
-    resolve<T>(token: TokenLike<T>): T {
+    resolve<T>(token: Token<T>): T {
       const value = lookup(values, factories, token);
       if (value !== NOT_FOUND) {
         return value;
@@ -107,7 +106,7 @@ export function createContainer(parentContainer?: Container): Container {
   return container;
 }
 
-function isInternalToken<T>(token: TokenLike<T>): boolean {
+function isInternalToken<T>(token: Token<T>): boolean {
   return (
     token.symbol === CONTAINER.symbol ||
     token.symbol === PARENT_CONTAINER.symbol
@@ -128,7 +127,7 @@ function bindContainers(
 function lookup<T>(
   values: ValuesMap,
   factories: FactoriesMap,
-  token: TokenLike<T>,
+  token: Token<T>,
 ): T | typeof NOT_FOUND {
   if (values.has(token.symbol)) {
     return values.get(token.symbol);

@@ -1,4 +1,4 @@
-export type Token<T> = {
+export type RequiredToken<T> = {
   symbol: symbol;
   type?: T; // Anchor for Typescript type inference.
 };
@@ -10,7 +10,7 @@ export type OptionalToken<T> = {
   optionalValue: T;
 };
 
-export type TokenLike<T> = Token<T> | OptionalToken<T>;
+export type Token<T> = RequiredToken<T> | OptionalToken<T>;
 
 export function token<T>(description: string): Token<T> {
   return {symbol: Symbol(description)};
@@ -51,8 +51,8 @@ export type Container = {
   unbind<T>(token: Token<T>): void;
   unbindAll(): void;
 
-  get<T>(token: Token<T> | OptionalToken<T>): T | undefined;
-  resolve<T>(token: Token<T> | OptionalToken<T>): T;
+  get<T>(token: Token<T>): T | undefined;
+  resolve<T>(token: Token<T>): T;
 };
 
 export const CONTAINER: Token<Container> = token('Ditox.Container');
