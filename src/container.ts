@@ -1,11 +1,4 @@
-import {
-  CONTAINER,
-  Container,
-  FactoryOptions,
-  PARENT_CONTAINER,
-  ResolverError,
-  Token,
-} from './common';
+import {Container, FactoryOptions, ResolverError, token, Token} from './common';
 
 const NOT_FOUND = Symbol();
 
@@ -16,6 +9,11 @@ type FactoryContext = {
 
 type ValuesMap = Map<symbol, any>;
 type FactoriesMap = Map<symbol, FactoryContext>;
+
+export const CONTAINER: Token<Container> = token('ditox.Container');
+export const PARENT_CONTAINER: Token<Container> = token(
+  'ditox.ParentContainer',
+);
 
 export function createContainer(parentContainer?: Container): Container {
   const values: ValuesMap = new Map<symbol, any>();

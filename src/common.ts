@@ -55,11 +55,6 @@ export type Container = {
   resolve<T>(token: Token<T>): T;
 };
 
-export const CONTAINER: Token<Container> = token('Ditox.Container');
-export const PARENT_CONTAINER: Token<Container> = token(
-  'Ditox.ParentContainer',
-);
-
 export class ResolverError extends Error {
   constructor(message: string) {
     super(message);

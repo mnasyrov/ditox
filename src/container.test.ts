@@ -1,11 +1,5 @@
-import {createContainer} from './container';
-import {
-  CONTAINER,
-  token,
-  optional,
-  PARENT_CONTAINER,
-  ResolverError,
-} from './common';
+import {CONTAINER, createContainer, PARENT_CONTAINER} from './container';
+import {token, optional, ResolverError} from './common';
 
 const NUMBER = token<number>('number');
 const STRING = token<string>('string');
