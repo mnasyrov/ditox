@@ -34,3 +34,13 @@ export function inject<
     return factory(...values);
   };
 }
+
+export function bindMultiValue<T>(
+  container: Container,
+  token: TokenLike<Array<T>>,
+  value: T,
+): void {
+  const prevValues = container.get(token) ?? [];
+  const nextValues = [...prevValues, value];
+  container.bindValue(token, nextValues);
+}

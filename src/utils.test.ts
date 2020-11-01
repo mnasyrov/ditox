@@ -1,5 +1,5 @@
 import {createToken, optional, ResolverError} from './common';
-import {getValues, inject, resolveValues} from './utils';
+import {bindMultiValue, getValues, inject, resolveValues} from './utils';
 import {createContainer} from './container';
 
 const NUMBER = createToken<number>('number');
@@ -108,5 +108,46 @@ describe('inject()', () => {
     );
 
     expect(decoratedFactory()).toBe('1value');
+  });
+});
+
+describe('bindMultiValue', () => {
+  const NUMBERS = createToken<Array<number>>('numbers');
+
+  it('should append a value to an array declared by a token', () => {
+    const container = createContainer();
+
+    bindMultiValue(container, NUMBERS, 1);
+    bindMultiValue(container, NUMBERS, 2);
+
+    const values: Array<number> = container.resolve(NUMBERS);
+    expect(values).toEqual([1, 2]);
+  });
+
+  it('should append new values to an array declared by a token', () => {
+    const container = createContainer();
+
+    bindMultiValue(container, NUMBERS, 1);
+    bindMultiValue(container, NUMBERS, 2);
+    expect(container.resolve(NUMBERS)).toEqual([1, 2]);
+
+    bindMultiValue(container, NUMBERS, 3);
+    bindMultiValue(container, NUMBERS, 4);
+    expect(container.resolve(NUMBERS)).toEqual([1, 2, 3, 4]);
+  });
+
+  it('should add new values to a copy of array from the parent container', () => {
+    const parent = createContainer();
+    parent.bindValue(NUMBERS, [1, 2]);
+    const container = createContainer(parent);
+
+    bindMultiValue(container, NUMBERS, 3);
+    bindMultiValue(container, NUMBERS, 4);
+    expect(parent.resolve(NUMBERS)).toEqual([1, 2]);
+    expect(container.resolve(NUMBERS)).toEqual([1, 2, 3, 4]);
+
+    container.unbind(NUMBERS);
+    expect(parent.resolve(NUMBERS)).toEqual([1, 2]);
+    expect(container.resolve(NUMBERS)).toEqual([1, 2]);
   });
 });
