@@ -1,5 +1,6 @@
 {
   "root": true,
+  "ignorePatterns": ["*.js.flow"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "extends": [

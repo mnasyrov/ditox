@@ -1,0 +1,91 @@
+// @flow strict
+
+export type RequiredToken<T> = {
+  symbol: symbol,
+  type?: T, // Anchor for Typescript type inference.
+};
+
+export type OptionalToken<T> = {
+  symbol: symbol,
+  type?: T, // Anchor for Typescript type inference.
+  isOptional: true,
+  optionalValue: T,
+};
+
+export type Token<T> = RequiredToken<T> | OptionalToken<T>;
+
+declare export function token<T>(description: string): Token<T>;
+
+declare export function optional<T>(
+  token: Token<T>,
+  optionalValue: T,
+): OptionalToken<T>;
+declare export function optional<T>(token: Token<T>): OptionalToken<T | void>;
+declare export function optional<T>(
+  token: Token<T>,
+  optionalValue?: T,
+): OptionalToken<T | void>;
+
+declare export class ResolverError extends Error {
+  constructor(message: string): ResolverError;
+}
+
+export type FactoryOptions<T> =
+  | {
+      scope?: 'singleton',
+      onUnbind?: (value: T) => void,
+    }
+  | {
+      scope: 'transient',
+    };
+
+export type Container = {
+  bindValue<T>(token: Token<T>, value: T): void,
+  bindFactory<T>(
+    token: Token<T>,
+    factory: () => T,
+    options?: FactoryOptions<T>,
+  ): void,
+  unbind<T>(token: Token<T>): void,
+  unbindAll(): void,
+
+  get<T>(token: Token<T>): T | void,
+  resolve<T>(token: Token<T>): T,
+};
+
+declare export var CONTAINER: Token<Container>;
+declare export var PARENT_CONTAINER: Token<Container>;
+
+declare export function createContainer(parentContainer?: Container): Container;
+
+declare export function getValues<
+  Values: *[],
+  Tokens: $TupleMap<Values, <V>() => Token<V>>,
+>(
+  container: Container,
+  ...tokens: Tokens
+): Values;
+
+declare export function resolveValues<
+  Values: *[],
+  Tokens: $TupleMap<Values, <V>() => Token<V>>,
+>(
+  container: Container,
+  ...tokens: Tokens
+): Values;
+
+declare export function inject<
+  Values: *[],
+  Tokens: $TupleMap<Values, <V>() => Token<V>>,
+  Result,
+>(
+  container: Container,
+  factory: (...params: Values) => Result,
+  ...tokens: Tokens
+): () => Result;
+
+declare export function bindMultiValue<T>(
+  container: Container,
+  token: Token<Array<T>>,
+  value: T,
+): void;

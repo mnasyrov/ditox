@@ -32,6 +32,14 @@ export function optional<T>(
   };
 }
 
+export class ResolverError extends Error {
+  constructor(message: string) {
+    super(message);
+    Object.setPrototypeOf(this, new.target.prototype);
+    this.name = 'ResolverError';
+  }
+}
+
 export type FactoryOptions<T> =
   | {
       scope?: 'singleton';
@@ -54,11 +62,3 @@ export type Container = {
   get<T>(token: Token<T>): T | undefined;
   resolve<T>(token: Token<T>): T;
 };
-
-export class ResolverError extends Error {
-  constructor(message: string) {
-    super(message);
-    Object.setPrototypeOf(this, new.target.prototype);
-    this.name = 'ResolverError';
-  }
-}
