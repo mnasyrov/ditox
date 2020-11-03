@@ -48,10 +48,8 @@
     "build": "npm-run-all build:*",
     "build:compile": "microbundle build --name ditox --format cjs,es,umd",
     "build:flow": "copyfiles -V -f src/index.js.flow dist",
-    "preversion": "npm-run-all -s lint test",
-    "postversion": "npm run release",
-    "prerelease": "npm run clean",
-    "release": "npm publish --access public",
+    "preversion": "npm-run-all -s build lint test",
+    "prepublish": "npm run clean && npm run build",
     "prepare": "npm run build"
   },
   "devDependencies": {
