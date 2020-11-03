@@ -1,7 +1,6 @@
 name: Publish
 
-on:
-  release
+on: release
 
 jobs:
   test:
@@ -60,7 +59,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 'Github: publish stable'
-          if: github.event.prerelease == false
-          run: npm publish
-          env:
-            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: github.event.prerelease == false
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
