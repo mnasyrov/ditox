@@ -5,6 +5,7 @@
 
 [include]
 ./src/*.js.flow
+./test/*.js
 
 [libs]
 

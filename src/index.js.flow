@@ -58,8 +58,17 @@ declare export var PARENT_CONTAINER: Token<Container>;
 
 declare export function createContainer(parentContainer?: Container): Container;
 
+type ValuesTuple =
+  | [*]
+  | [*, *]
+  | [*, *, *]
+  | [*, *, *, *]
+  | [*, *, *, *, *]
+  | [*, *, *, *, *, *]
+  | [*, *, *, *, *, *, *];
+
 declare export function getValues<
-  Values: *[],
+  Values: ValuesTuple,
   Tokens: $TupleMap<Values, <V>() => Token<V>>,
 >(
   container: Container,
@@ -67,7 +76,7 @@ declare export function getValues<
 ): Values;
 
 declare export function resolveValues<
-  Values: *[],
+  Values: ValuesTuple,
   Tokens: $TupleMap<Values, <V>() => Token<V>>,
 >(
   container: Container,
@@ -75,7 +84,7 @@ declare export function resolveValues<
 ): Values;
 
 declare export function inject<
-  Values: *[],
+  Values: ValuesTuple,
   Tokens: $TupleMap<Values, <V>() => Token<V>>,
   Result,
 >(

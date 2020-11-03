@@ -2,14 +2,31 @@
 // * https://jestjs.io/docs/en/configuration.html
 // * https://kulshekhar.github.io/ts-jest/user/config/
 
-export default {
-  preset: 'ts-jest/presets/default',
+const typescript = {
+  displayName: 'Typescript',
+  roots: ['src'],
+  preset: 'ts-jest',
   globals: {
     'ts-jest': {
       tsConfig: {
-        allowJs: true,
         module: 'commonjs',
       },
     },
   },
+};
+
+const flow = {
+  displayName: 'Flow',
+  roots: ['test'],
+  clearMocks: true,
+  transform: {
+    '^.+\\.jsx?$': 'babel-jest',
+  },
+  moduleNameMapper: {
+    'ditox$': '../dist',
+  },
+};
+
+export default {
+  projects: [typescript, flow],
 };

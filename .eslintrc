@@ -2,7 +2,7 @@
   "root": true,
   "ignorePatterns": ["*.js.flow"],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "jest"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -10,5 +10,8 @@
   ],
   "rules": {
     "@typescript-eslint/no-explicit-any": "off"
+  },
+  "env": {
+    "jest/globals": true
   }
 }
