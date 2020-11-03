@@ -1,0 +1,66 @@
+name: Publish
+
+on:
+  release
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm run test
+
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+          registry-url: 'https://registry.npmjs.org'
+      - name: 'Install dependencies'
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm run test
+
+      - name: 'NPM: publish beta'
+        if: github.event.prerelease == true
+        run: npm publish --tag beta
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: 'NPM: publish stable'
+        if: github.event.prerelease == false
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - uses: actions/setup-node@v2-beta
+        with:
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: 'Github: publish beta'
+        if: github.event.prerelease == true
+        run: npm publish --tag beta
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Github: publish stable'
+          if: github.event.prerelease == false
+          run: npm publish
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
