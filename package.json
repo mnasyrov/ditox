@@ -46,7 +46,7 @@
     "lint:flow": "flow check",
     "test": "jest",
     "build": "npm-run-all build:*",
-    "build:compile": "microbundle build --name ditox --format cjs,es,umd",
+    "build:compile": "microbundle build --name Ditox --format cjs,es,umd",
     "build:flow": "copyfiles -V -f src/index.js.flow dist",
     "preversion": "npm-run-all -s build lint test",
     "prepublish": "npm run clean && npm run build",
