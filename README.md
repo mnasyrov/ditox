@@ -131,7 +131,7 @@ container.resolve(V1); // 10
 container.resolve(V2); // 21
 ```
 
-# Factory lifetime management
+# Factory lifetimes
 
 Ditox supports managing the lifetime of values which are produced by factories.
 There are the following types:

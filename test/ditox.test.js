@@ -1,16 +1,14 @@
-// @flow strict
-
 import {
-  CONTAINER,
   createContainer,
+  injectable,
   optional,
-  PARENT_CONTAINER,
   ResolverError,
   token,
+  Token,
 } from '../dist';
 
-const NUMBER = token<number>('number');
-const STRING = token<string>('string');
+const NUMBER: Token<number> = token('number');
+const STRING: Token<string> = token('string');
 
 describe('Container', () => {
   describe('bindValue()', () => {
@@ -37,29 +35,22 @@ describe('Container', () => {
       expect(container.get(NUMBER)).toBe(2);
       expect(factory).toBeCalledTimes(0);
     });
-
-    it('should not rebind CONTAINER and PARENT_CONTAINER tokens', () => {
-      const parent = createContainer();
-      const container = createContainer(parent);
-
-      const custom = createContainer();
-      container.bindValue(CONTAINER, custom);
-      container.bindValue(PARENT_CONTAINER, custom);
-
-      expect(container.get(CONTAINER)).toBe(container);
-      expect(container.get(PARENT_CONTAINER)).toBe(parent);
-    });
   });
 
   describe('bindFactory()', () => {
     it('should bind a factory to the container', () => {
       const container = createContainer();
 
-      const factory = jest.fn(() => 1);
+      let containerArg;
+      const factory = jest.fn((arg) => {
+        containerArg = arg;
+        return 1;
+      });
       container.bindFactory(NUMBER, factory);
 
       expect(container.get(NUMBER)).toBe(1);
       expect(factory).toBeCalledTimes(1);
+      expect(containerArg).toBe(container);
     });
 
     it('should rebind a factory in case it was bound', () => {
@@ -75,40 +66,90 @@ describe('Container', () => {
       expect(factory2).toBeCalledTimes(1);
     });
 
-    it('should bind a factory with "singleton" scope by default', () => {
-      const container = createContainer();
+    it('should bind a factory with "singleton" scope', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const START: Token<number> = token();
+      parent.bindValue(START, 10);
+      container.bindValue(START, 20);
 
       let counter = 0;
-      const factory = jest.fn(() => ++counter);
-      container.bindFactory(NUMBER, factory);
+      const factory = jest.fn((start) => start + ++counter);
+      parent.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'singleton',
+      });
 
-      expect(container.get(NUMBER)).toBe(1);
-      expect(container.get(NUMBER)).toBe(1);
+      expect(container.get(NUMBER)).toBe(11);
+      expect(container.get(NUMBER)).toBe(11);
+      expect(parent.get(NUMBER)).toBe(11);
+      expect(container.get(NUMBER)).toBe(11);
+
       expect(factory).toBeCalledTimes(1);
     });
 
-    it('should bind a factory with "singleton" scope', () => {
-      const container = createContainer();
+    it('should bind a factory with "scoped" scope', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const START: Token<number> = token();
+      parent.bindValue(START, 10);
+      container.bindValue(START, 20);
 
       let counter = 0;
-      const factory = jest.fn(() => ++counter);
-      container.bindFactory(NUMBER, factory, {scope: 'singleton'});
+      const factory = jest.fn((start) => start + ++counter);
+      parent.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'scoped',
+      });
 
-      expect(container.get(NUMBER)).toBe(1);
-      expect(container.get(NUMBER)).toBe(1);
-      expect(factory).toBeCalledTimes(1);
+      expect(container.get(NUMBER)).toBe(21);
+      expect(container.get(NUMBER)).toBe(21);
+      expect(parent.get(NUMBER)).toBe(12);
+      expect(container.get(NUMBER)).toBe(21);
+
+      expect(factory).toBeCalledTimes(2);
+    });
+
+    it('should bind a factory with "scoped" scope by default', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const START: Token<number> = token();
+      parent.bindValue(START, 10);
+      container.bindValue(START, 20);
+
+      let counter = 0;
+      const factory = jest.fn((start) => start + ++counter);
+      parent.bindFactory(NUMBER, injectable(factory, START));
+
+      expect(container.get(NUMBER)).toBe(21);
+      expect(container.get(NUMBER)).toBe(21);
+      expect(parent.get(NUMBER)).toBe(12);
+      expect(container.get(NUMBER)).toBe(21);
+
+      expect(factory).toBeCalledTimes(2);
     });
 
     it('should bind a factory with "transient" scope', () => {
-      const container = createContainer();
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const START: Token<number> = token();
+      parent.bindValue(START, 10);
+      container.bindValue(START, 20);
 
       let counter = 0;
-      const factory = jest.fn(() => ++counter);
-      container.bindFactory(NUMBER, factory, {scope: 'transient'});
+      const factory = jest.fn((start) => start + ++counter);
+      parent.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'transient',
+      });
 
-      expect(container.get(NUMBER)).toBe(1);
-      expect(container.get(NUMBER)).toBe(2);
-      expect(factory).toBeCalledTimes(2);
+      expect(container.get(NUMBER)).toBe(21);
+      expect(container.get(NUMBER)).toBe(22);
+      expect(parent.get(NUMBER)).toBe(13);
+      expect(container.get(NUMBER)).toBe(24);
+
+      expect(factory).toBeCalledTimes(4);
     });
 
     it('should bind a factory with "onRemoved" callback', () => {
@@ -122,18 +163,6 @@ describe('Container', () => {
       container.remove(NUMBER);
       expect(factory).toBeCalledTimes(1);
       expect(callback).toBeCalledTimes(1);
-    });
-
-    it('should not rebind CONTAINER and PARENT_CONTAINER tokens', () => {
-      const parent = createContainer();
-      const container = createContainer(parent);
-
-      const factory = () => createContainer();
-      container.bindFactory(CONTAINER, factory);
-      container.bindFactory(PARENT_CONTAINER, factory);
-
-      expect(container.get(CONTAINER)).toBe(container);
-      expect(container.get(PARENT_CONTAINER)).toBe(parent);
     });
   });
 
@@ -196,17 +225,6 @@ describe('Container', () => {
       expect(container.get(NUMBER)).toBeUndefined();
       expect(factory).toHaveBeenCalledTimes(1);
     });
-
-    it('should not remove CONTAINER and PARENT_CONTAINER tokens', () => {
-      const parent = createContainer();
-      const container = createContainer(parent);
-
-      container.remove(CONTAINER);
-      container.remove(PARENT_CONTAINER);
-
-      expect(container.get(CONTAINER)).toBe(container);
-      expect(container.get(PARENT_CONTAINER)).toBe(parent);
-    });
   });
 
   describe('removeAll()', () => {
@@ -249,16 +267,6 @@ describe('Container', () => {
       expect(unbind1).toHaveBeenCalledTimes(0);
       expect(unbind2).toHaveBeenCalledTimes(1);
       expect(unbind2).toHaveBeenCalledWith(20);
-    });
-
-    it('should remain CONTAINER and PARENT_CONTAINER tokens', () => {
-      const parent = createContainer();
-      const container = createContainer(parent);
-
-      container.removeAll();
-
-      expect(container.get(CONTAINER)).toBe(container);
-      expect(container.get(PARENT_CONTAINER)).toBe(parent);
     });
   });
 
@@ -306,25 +314,6 @@ describe('Container', () => {
       container.remove(NUMBER);
 
       expect(container.get(NUMBER)).toBe(1);
-    });
-
-    it('should return the container for CONTAINER token', () => {
-      const container = createContainer();
-      const result = container.get(CONTAINER);
-      expect(result).toBe(container);
-    });
-
-    it('should return the parent container for PARENT_CONTAINER token', () => {
-      const parent = createContainer();
-      const container = createContainer(parent);
-      const result = container.get(PARENT_CONTAINER);
-      expect(result).toBe(parent);
-    });
-
-    it('should return "undefined" for PARENT_CONTAINER token in case there is no parent container', () => {
-      const container = createContainer();
-      const result = container.get(PARENT_CONTAINER);
-      expect(result).toBeUndefined();
     });
 
     it('should return optional value in case optional token is not provided', () => {
@@ -382,28 +371,6 @@ describe('Container', () => {
       container.remove(NUMBER);
 
       expect(container.resolve(NUMBER)).toBe(1);
-    });
-
-    it('should resolve CONTAINER token as the container', () => {
-      const container = createContainer();
-      const result = container.resolve(CONTAINER);
-      expect(result).toBe(container);
-    });
-
-    it('should resolve PARENT_CONTAINER as the parent container', () => {
-      const parent = createContainer();
-      const container = createContainer(parent);
-      const result = container.get(PARENT_CONTAINER);
-      expect(result).toBe(parent);
-    });
-
-    it('should throw ResolverError for PARENT_CONTAINER token in case there is no parent container', () => {
-      const container = createContainer();
-      expect(() => container.resolve(PARENT_CONTAINER)).toThrowError(
-        new ResolverError(
-          `Token "${String(PARENT_CONTAINER.symbol.description)}" is not provided`,
-        ),
-      );
     });
 
     it('should resolve an optional value in case the optional token is not provided', () => {
