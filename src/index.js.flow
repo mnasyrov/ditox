@@ -1,5 +1,7 @@
 // @flow strict
 
+// ditox.js
+
 export type RequiredToken<T> = {
   symbol: symbol,
   type?: T, // Anchor for Typescript type inference.
@@ -14,7 +16,7 @@ export type OptionalToken<T> = {
 
 export type Token<T> = RequiredToken<T> | OptionalToken<T>;
 
-declare export function token<T>(description: string): Token<T>;
+declare export function token<T>(description?: string): Token<T>;
 
 declare export function optional<T>(
   token: Token<T>,
@@ -33,7 +35,7 @@ declare export class ResolverError extends Error {
 export type FactoryOptions<T> =
   | {
       scope?: 'singleton',
-      onUnbind?: (value: T) => void,
+      onRemoved?: (value: T) => void,
     }
   | {
       scope: 'transient',
@@ -46,17 +48,16 @@ export type Container = {
     factory: () => T,
     options?: FactoryOptions<T>,
   ): void,
-  unbind<T>(token: Token<T>): void,
-  unbindAll(): void,
+  remove<T>(token: Token<T>): void,
+  removeAll(): void,
 
   get<T>(token: Token<T>): T | void,
   resolve<T>(token: Token<T>): T,
 };
 
-declare export var CONTAINER: Token<Container>;
-declare export var PARENT_CONTAINER: Token<Container>;
-
 declare export function createContainer(parentContainer?: Container): Container;
+
+// utils.js
 
 type ValuesTuple =
   | [*]
@@ -83,15 +84,14 @@ declare export function resolveValues<
   ...tokens: Tokens
 ): Values;
 
-declare export function inject<
+declare export function injectable<
   Values: ValuesTuple,
   Tokens: $TupleMap<Values, <V>() => Token<V>>,
   Result,
 >(
-  container: Container,
   factory: (...params: Values) => Result,
   ...tokens: Tokens
-): () => Result;
+): (container: Container) => Result;
 
 declare export function bindMultiValue<T>(
   container: Container,

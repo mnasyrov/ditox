@@ -1,5 +1,12 @@
-import {CONTAINER, createContainer, PARENT_CONTAINER} from './container';
-import {token, optional, ResolverError} from './common';
+import {
+  CONTAINER,
+  createContainer,
+  optional,
+  PARENT_CONTAINER,
+  ResolverError,
+  token,
+} from './ditox';
+import {injectable} from './utils';
 
 const NUMBER = token<number>('number');
 const STRING = token<string>('string');
@@ -47,11 +54,16 @@ describe('Container', () => {
     it('should bind a factory to the container', () => {
       const container = createContainer();
 
-      const factory = jest.fn(() => 1);
+      let containerArg;
+      const factory = jest.fn((arg) => {
+        containerArg = arg;
+        return 1;
+      });
       container.bindFactory(NUMBER, factory);
 
       expect(container.get(NUMBER)).toBe(1);
       expect(factory).toBeCalledTimes(1);
+      expect(containerArg).toBe(container);
     });
 
     it('should rebind a factory in case it was bound', () => {
@@ -67,51 +79,101 @@ describe('Container', () => {
       expect(factory2).toBeCalledTimes(1);
     });
 
-    it('should bind a factory with "singleton" scope by default', () => {
-      const container = createContainer();
-
-      let counter = 0;
-      const factory = jest.fn(() => ++counter);
-      container.bindFactory(NUMBER, factory);
-
-      expect(container.get(NUMBER)).toBe(1);
-      expect(container.get(NUMBER)).toBe(1);
-      expect(factory).toBeCalledTimes(1);
-    });
-
     it('should bind a factory with "singleton" scope', () => {
-      const container = createContainer();
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const START = token<number>();
+      parent.bindValue(START, 10);
+      container.bindValue(START, 20);
 
       let counter = 0;
-      const factory = jest.fn(() => ++counter);
-      container.bindFactory(NUMBER, factory, {scope: 'singleton'});
+      const factory = jest.fn((start) => start + ++counter);
+      parent.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'singleton',
+      });
 
-      expect(container.get(NUMBER)).toBe(1);
-      expect(container.get(NUMBER)).toBe(1);
+      expect(container.get(NUMBER)).toBe(11);
+      expect(container.get(NUMBER)).toBe(11);
+      expect(parent.get(NUMBER)).toBe(11);
+      expect(container.get(NUMBER)).toBe(11);
+
       expect(factory).toBeCalledTimes(1);
     });
 
-    it('should bind a factory with "transient" scope', () => {
-      const container = createContainer();
+    it('should bind a factory with "scoped" scope', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const START = token<number>();
+      parent.bindValue(START, 10);
+      container.bindValue(START, 20);
 
       let counter = 0;
-      const factory = jest.fn(() => ++counter);
-      container.bindFactory(NUMBER, factory, {scope: 'transient'});
+      const factory = jest.fn((start) => start + ++counter);
+      parent.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'scoped',
+      });
 
-      expect(container.get(NUMBER)).toBe(1);
-      expect(container.get(NUMBER)).toBe(2);
+      expect(container.get(NUMBER)).toBe(21);
+      expect(container.get(NUMBER)).toBe(21);
+      expect(parent.get(NUMBER)).toBe(12);
+      expect(container.get(NUMBER)).toBe(21);
+
       expect(factory).toBeCalledTimes(2);
     });
 
-    it('should bind a factory with "onUnbind" callback', () => {
+    it('should bind a factory with "scoped" scope by default', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const START = token<number>();
+      parent.bindValue(START, 10);
+      container.bindValue(START, 20);
+
+      let counter = 0;
+      const factory = jest.fn((start) => start + ++counter);
+      parent.bindFactory(NUMBER, injectable(factory, START));
+
+      expect(container.get(NUMBER)).toBe(21);
+      expect(container.get(NUMBER)).toBe(21);
+      expect(parent.get(NUMBER)).toBe(12);
+      expect(container.get(NUMBER)).toBe(21);
+
+      expect(factory).toBeCalledTimes(2);
+    });
+
+    it('should bind a factory with "transient" scope', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const START = token<number>();
+      parent.bindValue(START, 10);
+      container.bindValue(START, 20);
+
+      let counter = 0;
+      const factory = jest.fn((start) => start + ++counter);
+      parent.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'transient',
+      });
+
+      expect(container.get(NUMBER)).toBe(21);
+      expect(container.get(NUMBER)).toBe(22);
+      expect(parent.get(NUMBER)).toBe(13);
+      expect(container.get(NUMBER)).toBe(24);
+
+      expect(factory).toBeCalledTimes(4);
+    });
+
+    it('should bind a factory with "onRemoved" callback', () => {
       const container = createContainer();
 
       const factory = jest.fn(() => 1);
       const callback = jest.fn();
-      container.bindFactory(NUMBER, factory, {onUnbind: callback});
+      container.bindFactory(NUMBER, factory, {onRemoved: callback});
 
       expect(container.get(NUMBER)).toBe(1);
-      container.unbind(NUMBER);
+      container.remove(NUMBER);
       expect(factory).toBeCalledTimes(1);
       expect(callback).toBeCalledTimes(1);
     });
@@ -129,80 +191,80 @@ describe('Container', () => {
     });
   });
 
-  describe('unbind()', () => {
-    it('should unbind a value', () => {
+  describe('remove()', () => {
+    it('should remove a value', () => {
       const container = createContainer();
       container.bindValue(NUMBER, 1);
-      container.unbind(NUMBER);
+      container.remove(NUMBER);
       expect(container.get(NUMBER)).toBeUndefined();
     });
 
-    it('should unbind "singleton" factory silently in case its value has never been resolved', () => {
+    it('should remove "singleton" factory silently in case its value has never been resolved', () => {
       const container = createContainer();
 
       const factory = jest.fn(() => 1);
-      const onUnbind = jest.fn();
-      container.bindFactory(NUMBER, factory, {scope: 'singleton', onUnbind});
-      container.unbind(NUMBER);
+      const onRemoved = jest.fn();
+      container.bindFactory(NUMBER, factory, {scope: 'singleton', onRemoved});
+      container.remove(NUMBER);
 
       expect(container.get(NUMBER)).toBeUndefined();
       expect(factory).toHaveBeenCalledTimes(0);
-      expect(onUnbind).toHaveBeenCalledTimes(0);
+      expect(onRemoved).toHaveBeenCalledTimes(0);
     });
 
-    it('should unbind "singleton" factory with calling "onUnbind" in case its value has  been resolved', () => {
+    it('should remove "singleton" factory with calling "onRemoved" in case its value has  been resolved', () => {
       const container = createContainer();
 
       const factory = jest.fn(() => 100);
-      const onUnbind = jest.fn();
-      container.bindFactory(NUMBER, factory, {scope: 'singleton', onUnbind});
+      const onRemoved = jest.fn();
+      container.bindFactory(NUMBER, factory, {scope: 'singleton', onRemoved});
 
       expect(container.get(NUMBER)).toBe(100);
-      container.unbind(NUMBER);
+      container.remove(NUMBER);
 
       expect(container.get(NUMBER)).toBeUndefined();
       expect(factory).toHaveBeenCalledTimes(1);
-      expect(onUnbind).toHaveBeenCalledTimes(1);
-      expect(onUnbind).toHaveBeenCalledWith(100);
+      expect(onRemoved).toHaveBeenCalledTimes(1);
+      expect(onRemoved).toHaveBeenCalledWith(100);
     });
 
-    it('should unbind "transient" factory in case its value has never been resolved', () => {
+    it('should remove "transient" factory in case its value has never been resolved', () => {
       const container = createContainer();
 
       const factory = jest.fn(() => 1);
       container.bindFactory(NUMBER, factory, {scope: 'transient'});
-      container.unbind(NUMBER);
+      container.remove(NUMBER);
 
       expect(container.get(NUMBER)).toBeUndefined();
       expect(factory).toHaveBeenCalledTimes(0);
     });
 
-    it('should unbind "transient" factory in case its value has been resolved', () => {
+    it('should remove "transient" factory in case its value has been resolved', () => {
       const container = createContainer();
 
       const factory = jest.fn(() => 1);
       container.bindFactory(NUMBER, factory, {scope: 'transient'});
       expect(container.get(NUMBER)).toBe(1);
 
-      container.unbind(NUMBER);
+      container.remove(NUMBER);
       expect(container.get(NUMBER)).toBeUndefined();
       expect(factory).toHaveBeenCalledTimes(1);
     });
 
-    it('should not unbind CONTAINER and PARENT_CONTAINER tokens', () => {
+    it('should not remove CONTAINER and PARENT_CONTAINER tokens', () => {
       const parent = createContainer();
       const container = createContainer(parent);
 
-      container.unbind(CONTAINER);
-      container.unbind(PARENT_CONTAINER);
+      container.remove(CONTAINER);
+      container.remove(PARENT_CONTAINER);
 
       expect(container.get(CONTAINER)).toBe(container);
       expect(container.get(PARENT_CONTAINER)).toBe(parent);
     });
   });
 
-  describe('unbindAll()', () => {
-    it('should unbind all values and factories', () => {
+  describe('removeAll()', () => {
+    it('should remove all values and factories', () => {
       const container = createContainer();
 
       container.bindValue(NUMBER, 1);
@@ -210,12 +272,12 @@ describe('Container', () => {
       expect(container.get(NUMBER)).toBe(1);
       expect(container.get(STRING)).toBe('2');
 
-      container.unbindAll();
+      container.removeAll();
       expect(container.get(NUMBER)).toBeUndefined();
       expect(container.get(STRING)).toBeUndefined();
     });
 
-    it('should call "onUnbind" callbacks for factories with resolved singleton values', () => {
+    it('should call "onRemoved" callbacks for factories with resolved singleton values', () => {
       const F1 = token('f1');
       const F2 = token('f2');
 
@@ -225,16 +287,16 @@ describe('Container', () => {
       const container = createContainer();
       container.bindFactory(F1, () => 10, {
         scope: 'singleton',
-        onUnbind: unbind1,
+        onRemoved: unbind1,
       });
       container.bindFactory(F2, () => 20, {
         scope: 'singleton',
-        onUnbind: unbind2,
+        onRemoved: unbind2,
       });
 
       expect(container.get(F2)).toBe(20);
 
-      container.unbindAll();
+      container.removeAll();
       expect(container.get(F1)).toBeUndefined();
       expect(container.get(F2)).toBeUndefined();
 
@@ -247,7 +309,7 @@ describe('Container', () => {
       const parent = createContainer();
       const container = createContainer(parent);
 
-      container.unbindAll();
+      container.removeAll();
 
       expect(container.get(CONTAINER)).toBe(container);
       expect(container.get(PARENT_CONTAINER)).toBe(parent);
@@ -295,7 +357,7 @@ describe('Container', () => {
 
       const container = createContainer(parent);
       container.bindValue(NUMBER, 2);
-      container.unbind(NUMBER);
+      container.remove(NUMBER);
 
       expect(container.get(NUMBER)).toBe(1);
     });
@@ -371,7 +433,7 @@ describe('Container', () => {
 
       const container = createContainer(parent);
       container.bindValue(NUMBER, 2);
-      container.unbind(NUMBER);
+      container.remove(NUMBER);
 
       expect(container.resolve(NUMBER)).toBe(1);
     });

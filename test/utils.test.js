@@ -4,7 +4,7 @@ import {
   bindMultiValue,
   createContainer,
   getValues,
-  inject,
+  injectable,
   optional,
   ResolverError,
   resolveValues,
@@ -81,28 +81,26 @@ describe('inject()', () => {
     container.bindValue(NUMBER, 1);
     container.bindValue(STRING, '2');
 
-    const decoratedFactory = inject(
-      container,
+    const decoratedFactory = injectable(
       (a: number, b: string) => a + b,
       NUMBER,
       STRING,
     );
 
-    expect(decoratedFactory()).toBe('12');
+    expect(decoratedFactory(container)).toBe('12');
   });
 
   it('should throw ResolverError error in case a value is not provided', () => {
     const container = createContainer();
     container.bindValue(NUMBER, 1);
 
-    const decoratedFactory = inject(
-      container,
+    const decoratedFactory = injectable(
       (a: number, b: string) => a + b,
       NUMBER,
       STRING,
     );
 
-    expect(() => decoratedFactory()).toThrowError(
+    expect(() => decoratedFactory(container)).toThrowError(
       new ResolverError(
         `Token "${String(STRING.symbol.description)}" is not provided`,
       ),
@@ -113,14 +111,13 @@ describe('inject()', () => {
     const container = createContainer();
     container.bindValue(NUMBER, 1);
 
-    const decoratedFactory = inject(
-      container,
+    const decoratedFactory = injectable(
       (a, b) => a + b,
       NUMBER,
       optional(STRING, 'value'),
     );
 
-    expect(decoratedFactory()).toBe('1value');
+    expect(decoratedFactory(container)).toBe('1value');
   });
 });
 
@@ -159,7 +156,7 @@ describe('bindMultiValue', () => {
     expect(parent.resolve(NUMBERS)).toEqual([1, 2]);
     expect(container.resolve(NUMBERS)).toEqual([1, 2, 3, 4]);
 
-    container.unbind(NUMBERS);
+    container.remove(NUMBERS);
     expect(parent.resolve(NUMBERS)).toEqual([1, 2]);
     expect(container.resolve(NUMBERS)).toEqual([1, 2]);
   });

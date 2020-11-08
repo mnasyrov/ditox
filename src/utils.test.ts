@@ -1,6 +1,5 @@
-import {token, optional, ResolverError} from './common';
-import {bindMultiValue, getValues, inject, resolveValues} from './utils';
-import {createContainer} from './container';
+import {createContainer, optional, ResolverError, token} from './ditox';
+import {bindMultiValue, getValues, injectable, resolveValues} from './utils';
 
 const NUMBER = token<number>('number');
 const STRING = token<string>('string');
@@ -64,34 +63,32 @@ describe('resolveValues', () => {
   });
 });
 
-describe('inject()', () => {
+describe('injectable()', () => {
   it('should inject values from Container as arguments of the factory', () => {
     const container = createContainer();
     container.bindValue(NUMBER, 1);
     container.bindValue(STRING, '2');
 
-    const decoratedFactory = inject(
-      container,
+    const decoratedFactory = injectable(
       (a: number, b: string) => a + b,
       NUMBER,
       STRING,
     );
 
-    expect(decoratedFactory()).toBe('12');
+    expect(decoratedFactory(container)).toBe('12');
   });
 
   it('should throw ResolverError error in case a value is not provided', () => {
     const container = createContainer();
     container.bindValue(NUMBER, 1);
 
-    const decoratedFactory = inject(
-      container,
+    const decoratedFactory = injectable(
       (a: number, b: string) => a + b,
       NUMBER,
       STRING,
     );
 
-    expect(() => decoratedFactory()).toThrowError(
+    expect(() => decoratedFactory(container)).toThrowError(
       new ResolverError(`Token "${STRING.symbol.description}" is not provided`),
     );
   });
@@ -100,14 +97,13 @@ describe('inject()', () => {
     const container = createContainer();
     container.bindValue(NUMBER, 1);
 
-    const decoratedFactory = inject(
-      container,
+    const decoratedFactory = injectable(
       (a, b) => a + b,
       NUMBER,
       optional(STRING, 'value'),
     );
 
-    expect(decoratedFactory()).toBe('1value');
+    expect(decoratedFactory(container)).toBe('1value');
   });
 });
 
@@ -146,7 +142,7 @@ describe('bindMultiValue', () => {
     expect(parent.resolve(NUMBERS)).toEqual([1, 2]);
     expect(container.resolve(NUMBERS)).toEqual([1, 2, 3, 4]);
 
-    container.unbind(NUMBERS);
+    container.remove(NUMBERS);
     expect(parent.resolve(NUMBERS)).toEqual([1, 2]);
     expect(container.resolve(NUMBERS)).toEqual([1, 2]);
   });
