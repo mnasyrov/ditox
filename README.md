@@ -110,7 +110,7 @@ container.remove(TOKENS.Logger);
 container.removeAll();
 ```
 
-# Container hierarchy
+# Container Hierarchy
 
 Ditox supports "parent-child" hierarchy. If the child container cannot to resolve a token it asks the parent container to resolve it:
 
@@ -131,7 +131,7 @@ container.resolve(V1); // 10
 container.resolve(V2); // 21
 ```
 
-# Factory lifetimes
+# Factory Lifetimes
 
 Ditox supports managing the lifetime of values which are produced by factories.
 There are the following types:
