@@ -50,7 +50,8 @@
     "build:flow": "copyfiles -V -f src/index.js.flow dist",
     "preversion": "npm-run-all -s build lint test",
     "prepublish": "npm run clean && npm run build",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "markdown-toc": "npx markdown-toc -i README.md"
   },
   "devDependencies": {
     "@babel/cli": "7.12.1",

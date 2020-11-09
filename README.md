@@ -7,6 +7,21 @@
 
 Detoxed dependency injection (DI) container for JavaScript. Supports Typescript and Flow.
 
+# Table of Contents
+
+<!-- toc -->
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Container Hierarchy](#container-hierarchy)
+- [Factory Lifetimes](#factory-lifetimes)
+  - [`scoped`](#scoped)
+  - [`singleton`](#singleton)
+  - [`transient`](#transient)
+- [API](#api)
+
+<!-- tocstop -->
+
 # Installation
 
 Install with `npm`
@@ -32,12 +47,14 @@ You can also use the [UMD](https://github.com/umdjs/umd) build from `unpkg`
 
 # Usage
 
-Ditox has a very simple API which can be mixed to get custom functionality.
+Ditox has a very simple API which works with containers, tokens, values and value factories.
+There are no class decorators, field injectors and other magic stuff. Only explicit binding and resolving.
 
-The common workflow is the following:
+In general, all you need is to do the following:
 
 - Create binding tokens.
-- Bind values or factories to a container.
+- Create a container.
+- Bind some values or factories with the container.
 - Resolve and use values.
 
 ```js
@@ -112,7 +129,7 @@ container.removeAll();
 
 # Container Hierarchy
 
-Ditox supports "parent-child" hierarchy. If the child container cannot to resolve a token it asks the parent container to resolve it:
+Ditox supports "parent-child" hierarchy. If the child container cannot to resolve a token, it asks the parent container to resolve it:
 
 ```js
 import {creatContainer, token} from 'ditox';
