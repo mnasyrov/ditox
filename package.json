@@ -23,9 +23,9 @@
   "engines": {
     "node": ">=12"
   },
-  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.module.js",
+  "jsnext:main": "dist/index.module.js",
   "unpkg": "dist/index.umd.js",
   "umd:main": "dist/index.umd.js",
   "types": "dist/index.d.ts",
@@ -49,8 +49,7 @@
     "build:compile": "microbundle build --name Ditox --format cjs,es,umd",
     "build:flow": "copyfiles -V -f src/index.js.flow dist",
     "preversion": "npm-run-all -s build lint test",
-    "prepublish": "npm run clean && npm run build",
-    "prepare": "npm run build",
+    "prepare": "npm run clean && npm run build",
     "markdown-toc": "npx markdown-toc -i README.md"
   },
   "devDependencies": {
