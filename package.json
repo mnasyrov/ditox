@@ -29,7 +29,7 @@
   "jsnext:main": "dist/ditox.module.js",
   "unpkg": "dist/ditox.umd.js",
   "umd:main": "dist/ditoc.umd.js",
-  "types": "dist/ditox.d.ts",
+  "types": "dist/index.d.ts",
   "source": "src/index.ts",
   "sideEffects": false,
   "files": [
@@ -40,7 +40,7 @@
   ],
   "scripts": {
     "start": "microbundle watch",
-    "clean": "shx rm -r dist",
+    "clean": "shx rm -rf dist",
     "lint": "npm-run-all lint:*",
     "lint:eslint": "eslint src",
     "lint:tsc": "tsc --noEmit",
@@ -65,7 +65,6 @@
     "@typescript-eslint/parser": "4.3.0",
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "babel-jest": "26.6.2",
-    "cz-conventional-changelog": "3.3.0",
     "eslint": "7.10.0",
     "eslint-plugin-jest": "24.1.0",
     "flow-bin": "0.137.0",
