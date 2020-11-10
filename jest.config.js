@@ -17,13 +17,10 @@ const typescript = {
 
 const flow = {
   displayName: 'Flow',
-  roots: ['test'],
+  roots: ['test-flow'],
   clearMocks: true,
   transform: {
     '^.+\\.jsx?$': 'babel-jest',
-  },
-  moduleNameMapper: {
-    'ditox$': '../dist',
   },
 };
 

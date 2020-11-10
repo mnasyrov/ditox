@@ -5,7 +5,7 @@ import {
   ResolverError,
   token,
   Token,
-} from '../dist';
+} from '../dist/ditox';
 
 const NUMBER: Token<number> = token('number');
 const STRING: Token<string> = token('string');

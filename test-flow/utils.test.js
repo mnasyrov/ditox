@@ -9,7 +9,7 @@ import {
   ResolverError,
   resolveValues,
   token,
-} from '../dist';
+} from '../dist/ditox';
 
 const NUMBER = token<number>('number');
 const STRING = token<string>('string');
