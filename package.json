@@ -35,6 +35,7 @@
   "source": "src/index.ts",
   "sideEffects": false,
   "files": [
+    "docs",
     "dist",
     "src",
     "LICENSE",
@@ -56,7 +57,9 @@
     "watch": "rollup -c --watch",
     "preversion": "npm-run-all -s build lint test",
     "prepare": "npm run clean && npm run build",
-    "markdown-toc": "npx markdown-toc -i README.md"
+    "docs": "npm-run-all docs:*",
+    "docs:typedoc": "typedoc",
+    "docs:markdown-toc": "markdown-toc -i README.md"
   },
   "devDependencies": {
     "@babel/cli": "7.12.1",
@@ -77,6 +80,7 @@
     "husky": "4.3.0",
     "jest": "26.4.2",
     "lint-staged": "10.4.0",
+    "markdown-toc": "1.2.0",
     "npm-run-all": "4.1.5",
     "prettier": "2.1.2",
     "rollup": "2.33.1",
@@ -84,6 +88,8 @@
     "shx": "0.3.3",
     "tslib": "2.0.3",
     "ts-jest": "26.4.1",
+    "typedoc": "0.19.2",
+    "typedoc-plugin-markdown": "3.0.11",
     "typescript": "4.0.5"
   },
   "husky": {

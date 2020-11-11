@@ -1,0 +1,10 @@
+{
+  "inputFiles": ["./src/index.ts"],
+  "mode": "file",
+  "out": "docs/api",
+  "readme": "none",
+  "exclude": ["**/*+(.test|.js.flow).ts"],
+  "excludeNotExported": true,
+  "stripInternal": true,
+  "theme": "markdown"
+}

@@ -18,7 +18,7 @@ Detoxed dependency injection (DI) container for JavaScript. Supports Typescript 
   - [`scoped`](#scoped)
   - [`singleton`](#singleton)
   - [`transient`](#transient)
-- [API](#api)
+- [API Reference](#api-reference)
 
 <!-- tocstop -->
 
@@ -244,6 +244,10 @@ parent.bindValue(TAG, 'parent-rebind');
 parent.resolve(LOGGER)('xyz'); // [parent-rebind] xyz
 ```
 
-# API
+# API Reference
 
-TODO
+See API reference [here](./docs/api/README.md)
+
+---
+
+&copy; 2020 [Mikhail Nasyrov](https://github.com/mnasyrov)

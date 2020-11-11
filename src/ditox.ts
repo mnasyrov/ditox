@@ -1,9 +1,17 @@
+/**
+ * @ignore
+ * Binding token for mandatory value
+ */
 export type RequiredToken<T> = {
   symbol: symbol;
   type?: T; // Anchor for Typescript type inference.
   isOptional?: false;
 };
 
+/**
+ * @ignore
+ * Binding token for optional value
+ */
 export type OptionalToken<T> = {
   symbol: symbol;
   type?: T; // Anchor for Typescript type inference.
@@ -11,12 +19,25 @@ export type OptionalToken<T> = {
   optionalValue: T;
 };
 
+/**
+ * Binding token.
+ */
 export type Token<T> = RequiredToken<T> | OptionalToken<T>;
 
+/**
+ * Creates a new binding token.
+ * @param description - Token description for better error messages.
+ */
 export function token<T>(description?: string): Token<T> {
   return {symbol: Symbol(description)};
 }
 
+/**
+ * Decorate a token with an optional value.
+ * This value is be used as default value in case a container does not have registered token.
+ * @param token - Existed token.
+ * @param optionalValue - Default value for the resolver.
+ */
 export function optional<T>(
   token: Token<T>,
   optionalValue: T,
@@ -33,6 +54,9 @@ export function optional<T>(
   };
 }
 
+/**
+ * ResolverError is thrown by the resolver when a token is not found in a container.
+ */
 export class ResolverError extends Error {
   constructor(message: string) {
     super(message);
@@ -41,8 +65,21 @@ export class ResolverError extends Error {
   }
 }
 
+/**
+ * @see https://github.com/mnasyrov/ditox#factory-lifetimes
+ */
 export type FactoryScope = 'scoped' | 'singleton' | 'transient';
 
+/**
+ * Options for factory binding.
+ *
+ * `scope` types:
+ *   - `scoped` - **This is the default**. The value is created and cached by the container which starts resolving.
+ *   - `singleton` - The value is created and cached by the container which registered the factory.
+ *   - `transient` - The value is created every time it is resolved.
+ *
+ * `scoped` and `singleton` scopes can have `onRemoved` callback. It is called when a token is removed from the container.
+ */
 export type FactoryOptions<T> =
   | {
       scope?: 'scoped' | 'singleton';
@@ -52,47 +89,86 @@ export type FactoryOptions<T> =
       scope: 'transient';
     };
 
+/**
+ * Dependency container.
+ */
 export type Container = {
+  /**
+   * Binds a value for the token
+   */
   bindValue<T>(token: Token<T>, value: T): void;
+
+  /**
+   * Binds a factory for the token.
+   */
   bindFactory<T>(
     token: Token<T>,
     factory: (container: Container) => T,
     options?: FactoryOptions<T>,
   ): void;
 
+  /**
+   * Returns a resolved value by the token, or returns `undefined` in case the token is not found.
+   */
   get<T>(token: Token<T>): T | undefined;
+
+  /**
+   * Returns a resolved value by the token, or throws `ResolverError` in case the token is not found.
+   */
   resolve<T>(token: Token<T>): T;
 
+  /**
+   * Removes a binding for the token.
+   */
   remove<T>(token: Token<T>): void;
+
+  /**
+   * Removes all bindings in the container.
+   */
   removeAll(): void;
 };
 
+/** @internal */
 export const CONTAINER: Token<Container> = token('ditox.Container');
+/** @internal */
 export const PARENT_CONTAINER: Token<Container> = token(
   'ditox.ParentContainer',
 );
+/** @internal */
 export const RESOLVER: Token<Resolver> = token('ditox.Resolver');
 
+/** @internal */
 const NOT_FOUND = Symbol();
+
+/** @internal */
 const DEFAULT_SCOPE: FactoryScope = 'scoped';
 
+/** @internal */
 type FactoryContext<T> = {
   factory: (container: Container) => T;
   options?: FactoryOptions<T>;
 };
 
+/** @internal */
 type ValuesMap = Map<symbol, any>;
+
+/** @internal */
 type FactoriesMap = Map<symbol, FactoryContext<any>>;
 
+/** @internal */
 type ResolverResult<T> =
   | {type: 'value'; value: T}
   | {type: 'factory'; factoryContext: FactoryContext<T>};
+
+/** @internal */
 type Resolver = <T>(token: Token<T>) => ResolverResult<T> | void;
 
+/** @internal */
 function getScope<T>(options?: FactoryOptions<T>): FactoryScope {
   return options?.scope ?? DEFAULT_SCOPE;
 }
 
+/** @internal */
 function getOnRemoved<T>(options: FactoryOptions<T>) {
   return options.scope === undefined ||
     options.scope === 'scoped' ||
@@ -101,6 +177,7 @@ function getOnRemoved<T>(options: FactoryOptions<T>) {
     : undefined;
 }
 
+/** @internal */
 function isInternalToken<T>(token: Token<T>): boolean {
   return (
     token.symbol === CONTAINER.symbol ||
@@ -109,6 +186,13 @@ function isInternalToken<T>(token: Token<T>): boolean {
   );
 }
 
+/**
+ * Creates a new dependency container.
+ *
+ * Container can have an optional parent to chain token resolution. The parent is used in case the current container does not have a registered token.
+ *
+ * @param parentContainer - Optional parent container.
+ */
 export function createContainer(parentContainer?: Container): Container {
   const values: ValuesMap = new Map<symbol, any>();
   const factories: FactoriesMap = new Map<symbol, FactoryContext<any>>();
