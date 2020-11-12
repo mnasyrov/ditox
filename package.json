@@ -1,7 +1,7 @@
 {
   "name": "ditox",
   "description": "Detoxed dependency injection for JS, Typescript and Flow.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "license": "MIT",
   "author": {
     "name": "Mikhail Nasyrov",
