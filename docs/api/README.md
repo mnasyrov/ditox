@@ -33,7 +33,7 @@
 
 Ƭ **Container**: { bindFactory: \<T>(token: [Token](README.md#token)\<T>, factory: (container: [Container](README.md#container)) => T, options?: [FactoryOptions](README.md#factoryoptions)\<T>) => void ; bindValue: \<T>(token: [Token](README.md#token)\<T>, value: T) => void ; get: \<T>(token: [Token](README.md#token)\<T>) => T \| undefined ; remove: \<T>(token: [Token](README.md#token)\<T>) => void ; removeAll: () => void ; resolve: \<T>(token: [Token](README.md#token)\<T>) => T }
 
-_Defined in [src/ditox.ts:95](https://github.com/mnasyrov/ditox/blob/366486d/src/ditox.ts#L95)_
+_Defined in [src/ditox.ts:95](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/ditox.ts#L95)_
 
 Dependency container.
 
@@ -54,7 +54,7 @@ Dependency container.
 
 Ƭ **FactoryOptions**\<T>: { onRemoved?: undefined \| (value: T) => void ; scope?: \"scoped\" \| \"singleton\" } \| { scope: \"transient\" }
 
-_Defined in [src/ditox.ts:83](https://github.com/mnasyrov/ditox/blob/366486d/src/ditox.ts#L83)_
+_Defined in [src/ditox.ts:83](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/ditox.ts#L83)_
 
 Options for factory binding.
 
@@ -78,7 +78,7 @@ Options for factory binding.
 
 Ƭ **FactoryScope**: \"scoped\" \| \"singleton\" \| \"transient\"
 
-_Defined in [src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/366486d/src/ditox.ts#L71)_
+_Defined in [src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/ditox.ts#L71)_
 
 **`see`** https://github.com/mnasyrov/ditox#factory-lifetimes
 
@@ -88,7 +88,7 @@ _Defined in [src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/366486d/src
 
 Ƭ **Token**\<T>: RequiredToken\<T> \| OptionalToken\<T>
 
-_Defined in [src/ditox.ts:25](https://github.com/mnasyrov/ditox/blob/366486d/src/ditox.ts#L25)_
+_Defined in [src/ditox.ts:25](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/ditox.ts#L25)_
 
 Binding token.
 
@@ -104,7 +104,7 @@ Binding token.
 
 ▸ **bindMultiValue**\<T>(`container`: [Container](README.md#container), `token`: [Token](README.md#token)\<Array\<T>>, `value`: T): void
 
-_Defined in [src/utils.ts:31](https://github.com/mnasyrov/ditox/blob/366486d/src/utils.ts#L31)_
+_Defined in [src/utils.ts:31](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/utils.ts#L31)_
 
 Rebinds the array by the token with added new value.
 
@@ -130,7 +130,7 @@ Rebinds the array by the token with added new value.
 
 ▸ **createContainer**(`parentContainer?`: [Container](README.md#container)): [Container](README.md#container)
 
-_Defined in [src/ditox.ts:196](https://github.com/mnasyrov/ditox/blob/366486d/src/ditox.ts#L196)_
+_Defined in [src/ditox.ts:196](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/ditox.ts#L196)_
 
 Creates a new dependency container.
 
@@ -150,7 +150,7 @@ Container can have an optional parent to chain token resolution. The parent is u
 
 ▸ **getValues**\<Tokens, Values>(`container`: [Container](README.md#container), ...`tokens`: Tokens): Values
 
-_Defined in [src/utils.ts:45](https://github.com/mnasyrov/ditox/blob/366486d/src/utils.ts#L45)_
+_Defined in [src/utils.ts:45](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/utils.ts#L45)_
 
 Returns an array of resolved values by the specified token.
 If a token is not found, then `undefined` value is used.
@@ -177,7 +177,7 @@ If a token is not found, then `undefined` value is used.
 
 ▸ **injectable**\<Tokens, Values, Result>(`factory`: (...params: Values) => Result, ...`tokens`: Tokens): function
 
-_Defined in [src/utils.ts:9](https://github.com/mnasyrov/ditox/blob/366486d/src/utils.ts#L9)_
+_Defined in [src/utils.ts:9](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/utils.ts#L9)_
 
 Decorates a factory by passing resolved tokens as factory arguments.
 
@@ -206,7 +206,7 @@ Decorated factory which takes a dependency container as a single argument.
 
 ▸ **optional**\<T>(`token`: [Token](README.md#token)\<T>, `optionalValue`: T): OptionalToken\<T>
 
-_Defined in [src/ditox.ts:41](https://github.com/mnasyrov/ditox/blob/366486d/src/ditox.ts#L41)_
+_Defined in [src/ditox.ts:41](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/ditox.ts#L41)_
 
 Decorate a token with an optional value.
 This value is be used as default value in case a container does not have registered token.
@@ -228,7 +228,7 @@ This value is be used as default value in case a container does not have registe
 
 ▸ **optional**\<T>(`token`: [Token](README.md#token)\<T>): OptionalToken\<T \| void>
 
-_Defined in [src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/366486d/src/ditox.ts#L45)_
+_Defined in [src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/ditox.ts#L45)_
 
 #### Type parameters:
 
@@ -250,7 +250,7 @@ _Defined in [src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/366486d/src
 
 ▸ **resolveValues**\<Tokens, Values>(`container`: [Container](README.md#container), ...`tokens`: Tokens): Values
 
-_Defined in [src/utils.ts:58](https://github.com/mnasyrov/ditox/blob/366486d/src/utils.ts#L58)_
+_Defined in [src/utils.ts:58](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/utils.ts#L58)_
 
 Returns an array of resolved values by the specified token.
 If a token is not found, then `ResolverError` is thrown.
@@ -277,7 +277,7 @@ If a token is not found, then `ResolverError` is thrown.
 
 ▸ **token**\<T>(`description?`: undefined \| string): [Token](README.md#token)\<T>
 
-_Defined in [src/ditox.ts:31](https://github.com/mnasyrov/ditox/blob/366486d/src/ditox.ts#L31)_
+_Defined in [src/ditox.ts:31](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/ditox.ts#L31)_
 
 Creates a new binding token.
 

@@ -7,7 +7,7 @@
 
 Detoxed dependency injection (DI) container for JavaScript. Supports Typescript and Flow.
 
-# Table of Contents
+## Table of Contents
 
 <!-- toc -->
 
@@ -22,7 +22,16 @@ Detoxed dependency injection (DI) container for JavaScript. Supports Typescript 
 
 <!-- tocstop -->
 
-# Installation
+## Features
+
+- Functional design
+- No class decorators
+- Small API
+- Container hierarchy
+- Supports "scoped" containers
+- Supports multi-value tokens
+
+## Installation
 
 Install with `npm`
 
@@ -45,7 +54,7 @@ You can also use the [UMD](https://github.com/umdjs/umd) build from `unpkg`
 </script>
 ```
 
-# Usage
+## Usage
 
 Ditox has a very simple API which works with containers, tokens, values and value factories.
 There are no class decorators, field injectors and other magic stuff. Only explicit binding and resolving.
@@ -127,7 +136,7 @@ container.remove(TOKENS.Logger);
 container.removeAll();
 ```
 
-# Container Hierarchy
+## Container Hierarchy
 
 Ditox supports "parent-child" hierarchy. If the child container cannot to resolve a token, it asks the parent container to resolve it:
 
@@ -148,7 +157,7 @@ container.resolve(V1); // 10
 container.resolve(V2); // 21
 ```
 
-# Factory Lifetimes
+## Factory Lifetimes
 
 Ditox supports managing the lifetime of values which are produced by factories.
 There are the following types:
@@ -157,7 +166,7 @@ There are the following types:
 - `singleton` - The value is created and cached by the container which registered the factory.
 - `transient` - The value is created every time it is resolved.
 
-## `scoped`
+### `scoped`
 
 **This is the default scope**. "Scoped" lifetime allows to have sub-containers with own instances of some services which can be disposed. For example, a context during HTTP request handling, or other unit of work:
 
@@ -187,7 +196,7 @@ container2.resolve(LOGGER)('bar'); // [container2] bar
 container1.removeAll();
 ```
 
-## `singleton`
+### `singleton`
 
 "Singleton" allows to cache a produced value by a parent container which registered the factory:
 
@@ -214,7 +223,7 @@ container1.resolve(LOGGER)('foo'); // [parent] foo
 container2.resolve(LOGGER)('bar'); // [parent] bar
 ```
 
-## `transient`
+### `transient`
 
 "Transient" makes to a produce values by the factory for each resolving:
 
@@ -244,10 +253,10 @@ parent.bindValue(TAG, 'parent-rebind');
 parent.resolve(LOGGER)('xyz'); // [parent-rebind] xyz
 ```
 
-# API Reference
+## API Reference
 
 See API reference [here](./docs/api/README.md)
 
 ---
 
-&copy; 2020 [Mikhail Nasyrov](https://github.com/mnasyrov)
+&copy; 2020 [Mikhail Nasyrov](https://github.com/mnasyrov), [MIT license](./LICENSE)

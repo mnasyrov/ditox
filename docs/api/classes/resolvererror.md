@@ -31,7 +31,7 @@ ResolverError is thrown by the resolver when a token is not found in a container
 
 \+ **new ResolverError**(`message`: string): [ResolverError](resolvererror.md)
 
-_Defined in [src/ditox.ts:60](https://github.com/mnasyrov/ditox/blob/366486d/src/ditox.ts#L60)_
+_Defined in [src/ditox.ts:60](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/ditox.ts#L60)_
 
 #### Parameters:
 
