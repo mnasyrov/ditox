@@ -48,7 +48,7 @@ yarn add ditox
 You can also use the [UMD](https://github.com/umdjs/umd) build from `unpkg`
 
 ```html
-<script src="https://unpkg.com/ditox/dist/ditox.umd.js" />
+<script src="https://unpkg.com/ditox/dist/index.browser.js" />
 <script>
   const container = Ditox.createContainer();
 </script>

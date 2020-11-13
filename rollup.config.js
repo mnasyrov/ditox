@@ -1,15 +1,16 @@
 import typescript from '@wessberg/rollup-plugin-ts';
 import {terser} from 'rollup-plugin-terser';
+import pkg from './package.json';
 
 export default [
   {
     input: 'src/index.ts',
-    output: [{file: 'dist/ditox.js', format: 'cjs', sourcemap: true}],
+    output: [{file: pkg.main, format: 'cjs', sourcemap: true}],
     plugins: [typescript()],
   },
   {
     input: 'src/index.ts',
-    output: [{file: 'dist/ditox.module.js', format: 'es', sourcemap: true}],
+    output: [{file: pkg.module, format: 'es', sourcemap: true}],
     plugins: [typescript()],
   },
   {
@@ -17,13 +18,13 @@ export default [
     output: [
       {
         name: 'Ditox',
-        file: 'dist/ditox.browser.js',
+        file: pkg.browser,
         format: 'es',
         sourcemap: true,
       },
       {
         name: 'Ditox',
-        file: 'dist/ditox.umd.js',
+        file: pkg['umd:main'],
         format: 'umd',
         sourcemap: true,
       },
