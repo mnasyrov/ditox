@@ -18,10 +18,6 @@ const typescript = {
 const flow = {
   displayName: 'Flow',
   roots: ['test-flow'],
-  clearMocks: true,
-  transform: {
-    '^.+\\.jsx?$': 'babel-jest',
-  },
 };
 
 export default {

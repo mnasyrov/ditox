@@ -4,12 +4,12 @@ import {terser} from 'rollup-plugin-terser';
 export default [
   {
     input: 'src/index.ts',
-    output: [{file: 'dist/ditox.js', format: 'es', sourcemap: true}],
+    output: [{file: 'dist/ditox.js', format: 'cjs', sourcemap: true}],
     plugins: [typescript()],
   },
   {
     input: 'src/index.ts',
-    output: [{file: 'dist/ditox.cjs', format: 'cjs', sourcemap: true}],
+    output: [{file: 'dist/ditox.module.js', format: 'es', sourcemap: true}],
     plugins: [typescript()],
   },
   {

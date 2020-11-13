@@ -1,13 +1,9 @@
 {
   "name": "ditox",
-  "description": "Detoxed dependency injection for JS, Typescript and Flow.",
   "version": "0.3.2",
+  "description": "Detoxed dependency injection for JS, Typescript and Flow.",
   "license": "MIT",
-  "author": {
-    "name": "Mikhail Nasyrov",
-    "email": "mikhail@mnasyrov.com",
-    "url": "https://github.com/mnasyrov"
-  },
+  "author": "Mikhail Nasyrov <mikhail@mnasyrov.com> (https://github.com/mnasyrov)",
   "homepage": "https://github.com/mnasyrov/ditox",
   "bugs": "https://github.com/mnasyrov/ditox/issues",
   "repository": {
@@ -24,9 +20,9 @@
     "node": ">=12"
   },
   "type": "module",
-  "main": "dist/ditox.cjs",
-  "module": "dist/ditox.js",
-  "jsnext:main": "dist/ditox.js",
+  "main": "dist/ditox.js",
+  "module": "dist/ditox.module.js",
+  "jsnext:main": "dist/ditox.module.js",
   "unpkg": "dist/ditox.umd.js",
   "umd:main": "dist/ditox.umd.js",
   "browser": "dist/ditox.browser.js",
