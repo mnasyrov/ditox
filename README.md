@@ -24,9 +24,8 @@ Detoxed dependency injection (DI) container for JavaScript. Supports Typescript 
 
 ## Features
 
-- Functional design
+- Simple, functional API
 - No class decorators
-- Small API
 - Container hierarchy
 - Supports "scoped" containers
 - Supports multi-value tokens
