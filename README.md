@@ -1,4 +1,4 @@
-# Ditox
+# Ditox.js
 
 [![npm](https://img.shields.io/npm/v/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![downloads](https://img.shields.io/npm/dt/ditox.svg)](https://www.npmjs.com/package/ditox)
