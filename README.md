@@ -5,7 +5,7 @@
 [![types](https://img.shields.io/npm/types/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![licence](https://img.shields.io/github/license/mnasyrov/ditox.svg)](https://github.com/mnasyrov/ditox/blob/master/LICENSE)
 
-Detoxed dependency injection (DI) container for JavaScript. Supports Typescript and Flow.
+Detoxed dependency injection container for JavaScript, Typescript and Flow.
 
 ## Table of Contents
 
