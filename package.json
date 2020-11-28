@@ -35,6 +35,7 @@
     "dist",
     "src",
     "LICENSE",
+    "mod.ts",
     "README.md"
   ],
   "scripts": {
@@ -44,6 +45,7 @@
     "lint:tsc": "tsc --noEmit",
     "lint:flow": "flow check",
     "test": "jest",
+    "test-deno": "deno test test-deno",
     "build": "npm-run-all build:*",
     "build:rollup": "rollup -c",
     "build:flow-js": "shx cp src/index.js.flow dist/index.js.flow",

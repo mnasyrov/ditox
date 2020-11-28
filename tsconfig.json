@@ -1,4 +1,5 @@
 {
+  "exclude": ["test-deno"],
   "compilerOptions": {
     "rootDir": "./src",
     "noEmit": true,

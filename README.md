@@ -5,7 +5,7 @@
 [![types](https://img.shields.io/npm/types/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![licence](https://img.shields.io/github/license/mnasyrov/ditox.svg)](https://github.com/mnasyrov/ditox/blob/master/LICENSE)
 
-Detoxed dependency injection container for JavaScript, Typescript and Flow.
+Detoxed dependency injection container for JavaScript.
 
 ## Table of Contents
 
@@ -25,10 +25,11 @@ Detoxed dependency injection container for JavaScript, Typescript and Flow.
 ## Features
 
 - Simple, functional API
-- No class decorators
 - Container hierarchy
 - Supports "scoped" containers
 - Supports multi-value tokens
+- Typescript and Flow typings
+- Available for Node.js, Deno and browsers.
 
 ## Installation
 
@@ -68,7 +69,7 @@ In general, all you need is to do the following:
 ```js
 import {createContainer, injectable, optional, token} from 'ditox';
 
-// This is app code, some factory fanctions and classes:
+// This is app code, some factory functions and classes:
 function createStorage(config) {}
 
 function createLogger(config) {}
