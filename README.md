@@ -1,16 +1,17 @@
 # Ditox.js
 
-<div style="text-align: center">
-<img alt="lemon" src="lemon.svg" width="120" />
-
-Detoxed dependency injection container
-
+<p align="center">
+  <img alt="lemon" src="lemon.svg" width="120" />
+</p>
+<p align="center">
+  Detoxed dependency injection container
+</p
+<p align="center">
 [![npm](https://img.shields.io/npm/v/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![downloads](https://img.shields.io/npm/dt/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![types](https://img.shields.io/npm/types/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![licence](https://img.shields.io/github/license/mnasyrov/ditox.svg)](https://github.com/mnasyrov/ditox/blob/master/LICENSE)
-
-</div>
+</p>
 
 ## Table of Contents
 
