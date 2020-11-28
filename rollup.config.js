@@ -10,7 +10,10 @@ export default [
   },
   {
     input: 'src/index.ts',
-    output: [{file: pkg.module, format: 'es', sourcemap: true}],
+    output: [
+      {file: pkg.module, format: 'es', sourcemap: true},
+      {file: 'lib/index.js', format: 'es', sourcemap: true},
+    ],
     plugins: [typescript()],
   },
   {

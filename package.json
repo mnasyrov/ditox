@@ -33,6 +33,7 @@
   "files": [
     "docs",
     "dist",
+    "lib",
     "src",
     "LICENSE",
     "mod.ts",

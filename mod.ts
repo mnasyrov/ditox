@@ -1,2 +1,2 @@
-// @deno-types="./dist/index.module.d.ts"
-export * from './dist/index.module.js';
+// @deno-types="./lib/index.d.ts"
+export * from './lib/index.js';
