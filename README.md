@@ -54,6 +54,14 @@ You can also use the [UMD](https://github.com/umdjs/umd) build from `unpkg`
 </script>
 ```
 
+Usage with Deno:
+
+```ts
+import { createContainer } from 'https://deno.land/x/ditox/mod.ts';
+
+const container = createContainer();
+```
+
 ## Usage
 
 Ditox has a very simple API which works with containers, tokens, values and value factories.
