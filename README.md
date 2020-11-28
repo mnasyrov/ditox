@@ -1,11 +1,16 @@
 # Ditox.js
 
+<div style="text-align: center">
+<img alt="lemon" src="lemon.svg" width="120" />
+
+Detoxed dependency injection container
+
 [![npm](https://img.shields.io/npm/v/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![downloads](https://img.shields.io/npm/dt/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![types](https://img.shields.io/npm/types/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![licence](https://img.shields.io/github/license/mnasyrov/ditox.svg)](https://github.com/mnasyrov/ditox/blob/master/LICENSE)
 
-Detoxed dependency injection container for JavaScript.
+</div>
 
 ## Table of Contents
 
@@ -26,10 +31,10 @@ Detoxed dependency injection container for JavaScript.
 
 - Simple, functional API
 - Container hierarchy
-- Supports "scoped" containers
-- Supports multi-value tokens
+- Scoped containers
+- Multi-value tokens
 - Typescript and Flow typings
-- Available for Node.js, Deno and browsers.
+- Supports Node.js, Deno and browsers
 
 ## Installation
 
@@ -57,14 +62,14 @@ You can also use the [UMD](https://github.com/umdjs/umd) build from `unpkg`
 Usage with Deno:
 
 ```ts
-import { createContainer } from 'https://deno.land/x/ditox/mod.ts';
+import {createContainer} from 'https://deno.land/x/ditox/mod.ts';
 
 const container = createContainer();
 ```
 
 ## Usage
 
-Ditox has a very simple API which works with containers, tokens, values and value factories.
+Ditox.js has a very simple API which works with containers, tokens, values and value factories.
 There are no class decorators, field injectors and other magic stuff. Only explicit binding and resolving.
 
 In general, all you need is to do the following:
@@ -146,7 +151,7 @@ container.removeAll();
 
 ## Container Hierarchy
 
-Ditox supports "parent-child" hierarchy. If the child container cannot to resolve a token, it asks the parent container to resolve it:
+Ditox.js supports "parent-child" hierarchy. If the child container cannot to resolve a token, it asks the parent container to resolve it:
 
 ```js
 import {creatContainer, token} from 'ditox';
@@ -167,7 +172,7 @@ container.resolve(V2); // 21
 
 ## Factory Lifetimes
 
-Ditox supports managing the lifetime of values which are produced by factories.
+Ditox.js supports managing the lifetime of values which are produced by factories.
 There are the following types:
 
 - `scoped` - **This is the default**. The value is created and cached by the container which starts resolving.

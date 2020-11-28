@@ -106,5 +106,13 @@
       "prettier --write",
       "git add"
     ]
-  }
+  },
+  "attributions": [
+    {
+      "lemon.svg": [
+        "Vincent Le Moign, CC BY 4.0 <https://creativecommons.org/licenses/by/4.0>, via Wikimedia Commons",
+        "https://upload.wikimedia.org/wikipedia/commons/0/0b/526-lemon.svg"
+      ]
+    }
+  ]
 }
