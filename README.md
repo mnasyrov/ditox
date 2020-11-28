@@ -1,17 +1,13 @@
 # Ditox.js
 
-<p align="center">
-  <img alt="lemon" src="lemon.svg" width="120" />
-</p>
-<p align="center">
-  Detoxed dependency injection container
-</p
-<p align="center">
-  <a href="https://www.npmjs.com/package/ditox"><img alt="npm" src="https://img.shields.io/npm/v/ditox.svg" /></a>
-  <a href="https://www.npmjs.com/package/ditox"><img alt="downloads" src="https://img.shields.io/npm/dt/ditox.svg" /></a>
-  <a href="https://www.npmjs.com/package/ditox"><img alt="types" src="https://img.shields.io/npm/types/ditox.svg" /></a>
-  <a href="https://github.com/mnasyrov/ditox/blob/master/LICENSE"><img alt="types" src="https://img.shields.io/github/license/mnasyrov/ditox.svg" /></a>
-</p>
+<img alt="lemon" src="lemon.svg" width="120" />
+
+Detoxed dependency injection container
+
+[![npm](https://img.shields.io/npm/v/ditox.svg)](https://www.npmjs.com/package/ditox)
+[![downloads](https://img.shields.io/npm/dt/ditox.svg)](https://www.npmjs.com/package/ditox)
+[![types](https://img.shields.io/npm/types/ditox.svg)](https://www.npmjs.com/package/ditox)
+[![licence](https://img.shields.io/github/license/mnasyrov/ditox.svg)](https://github.com/mnasyrov/ditox/blob/master/LICENSE)
 
 ## Table of Contents
 
