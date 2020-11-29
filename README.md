@@ -1,8 +1,8 @@
 # Ditox.js
 
-Detoxed dependency injection container.
-
 <img alt="lemon" src="lemon.svg" width="120" />
+
+Detoxed dependency injection container.
 
 [![npm](https://img.shields.io/npm/v/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![downloads](https://img.shields.io/npm/dt/ditox.svg)](https://www.npmjs.com/package/ditox)
