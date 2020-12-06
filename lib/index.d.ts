@@ -33,7 +33,7 @@ declare function token<T>(description?: string): Token<T>;
  * @param optionalValue - Default value for the resolver.
  */
 declare function optional<T>(token: Token<T>, optionalValue: T): OptionalToken<T>;
-declare function optional<T>(token: Token<T>): OptionalToken<T | void>;
+declare function optional<T>(token: Token<T>): OptionalToken<T | undefined>;
 /**
  * ResolverError is thrown by the resolver when a token is not found in a container.
  */

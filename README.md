@@ -13,13 +13,14 @@ Detoxed dependency injection container.
 
 <!-- toc -->
 
+- [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Container Hierarchy](#container-hierarchy)
 - [Factory Lifetimes](#factory-lifetimes)
-  - [`scoped`](#scoped)
-  - [`singleton`](#singleton)
-  - [`transient`](#transient)
+  * [`scoped`](#scoped)
+  * [`singleton`](#singleton)
+  * [`transient`](#transient)
 - [API Reference](#api-reference)
 
 <!-- tocstop -->

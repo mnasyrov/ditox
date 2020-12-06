@@ -42,11 +42,11 @@ export function optional<T>(
   token: Token<T>,
   optionalValue: T,
 ): OptionalToken<T>;
-export function optional<T>(token: Token<T>): OptionalToken<T | void>;
+export function optional<T>(token: Token<T>): OptionalToken<T | undefined>;
 export function optional<T>(
   token: Token<T>,
   optionalValue?: T,
-): OptionalToken<T | void> {
+): OptionalToken<T | undefined> {
   return {
     symbol: token.symbol,
     isOptional: true,
@@ -161,7 +161,7 @@ type ResolverResult<T> =
   | {type: 'factory'; factoryContext: FactoryContext<T>};
 
 /** @internal */
-type Resolver = <T>(token: Token<T>) => ResolverResult<T> | void;
+type Resolver = <T>(token: Token<T>) => ResolverResult<T> | undefined;
 
 /** @internal */
 function getScope<T>(options?: FactoryOptions<T>): FactoryScope {
@@ -298,7 +298,7 @@ export function createContainer(parentContainer?: Container): Container {
     return NOT_FOUND;
   }
 
-  function resolver<T>(token: Token<T>): ResolverResult<T> | void {
+  function resolver<T>(token: Token<T>): ResolverResult<T> | undefined {
     const value = values.get(token.symbol);
     if (value !== undefined || values.has(token.symbol)) {
       return {type: 'value', value};

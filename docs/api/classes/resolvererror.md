@@ -8,7 +8,7 @@ ResolverError is thrown by the resolver when a token is not found in a container
 
 ## Hierarchy
 
-- [Error](resolvererror.md#error)
+* [Error](resolvererror.md#error)
 
   ↳ **ResolverError**
 
@@ -16,14 +16,14 @@ ResolverError is thrown by the resolver when a token is not found in a container
 
 ### Constructors
 
-- [constructor](resolvererror.md#constructor)
+* [constructor](resolvererror.md#constructor)
 
 ### Properties
 
-- [message](resolvererror.md#message)
-- [name](resolvererror.md#name)
-- [stack](resolvererror.md#stack)
-- [Error](resolvererror.md#error)
+* [message](resolvererror.md#message)
+* [name](resolvererror.md#name)
+* [stack](resolvererror.md#stack)
+* [Error](resolvererror.md#error)
 
 ## Constructors
 
@@ -31,13 +31,13 @@ ResolverError is thrown by the resolver when a token is not found in a container
 
 \+ **new ResolverError**(`message`: string): [ResolverError](resolvererror.md)
 
-_Defined in [src/ditox.ts:60](https://github.com/mnasyrov/ditox/blob/cf49b4a/src/ditox.ts#L60)_
+*Defined in [src/ditox.ts:60](https://github.com/mnasyrov/ditox/blob/4b8f0f8/src/ditox.ts#L60)*
 
 #### Parameters:
 
-| Name      | Type   |
-| --------- | ------ |
-| `message` | string |
+Name | Type |
+------ | ------ |
+`message` | string |
 
 **Returns:** [ResolverError](resolvererror.md)
 
@@ -45,36 +45,36 @@ _Defined in [src/ditox.ts:60](https://github.com/mnasyrov/ditox/blob/cf49b4a/src
 
 ### message
 
-• **message**: string
+•  **message**: string
 
-_Inherited from [ResolverError](resolvererror.md).[message](resolvererror.md#message)_
+*Inherited from [ResolverError](resolvererror.md).[message](resolvererror.md#message)*
 
-_Defined in node_modules/typescript/lib/lib.es5.d.ts:974_
+*Defined in node_modules/typescript/lib/lib.es5.d.ts:974*
 
----
+___
 
 ### name
 
-• **name**: string
+•  **name**: string
 
-_Inherited from [ResolverError](resolvererror.md).[name](resolvererror.md#name)_
+*Inherited from [ResolverError](resolvererror.md).[name](resolvererror.md#name)*
 
-_Defined in node_modules/typescript/lib/lib.es5.d.ts:973_
+*Defined in node_modules/typescript/lib/lib.es5.d.ts:973*
 
----
+___
 
 ### stack
 
 • `Optional` **stack**: undefined \| string
 
-_Inherited from [ResolverError](resolvererror.md).[stack](resolvererror.md#stack)_
+*Inherited from [ResolverError](resolvererror.md).[stack](resolvererror.md#stack)*
 
-_Defined in node_modules/typescript/lib/lib.es5.d.ts:975_
+*Defined in node_modules/typescript/lib/lib.es5.d.ts:975*
 
----
+___
 
 ### Error
 
 ▪ `Static` **Error**: ErrorConstructor
 
-_Defined in node_modules/typescript/lib/lib.es5.d.ts:984_
+*Defined in node_modules/typescript/lib/lib.es5.d.ts:984*
