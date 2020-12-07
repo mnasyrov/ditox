@@ -156,12 +156,7 @@ type ValuesMap = Map<symbol, any>;
 type FactoriesMap = Map<symbol, FactoryContext<any>>;
 
 /** @internal */
-type ResolverResult<T> =
-  | {type: 'value'; value: T}
-  | {type: 'factory'; factoryContext: FactoryContext<T>};
-
-/** @internal */
-type Resolver = <T>(token: Token<T>) => ResolverResult<T> | undefined;
+type Resolver = <T>(token: Token<T>, origin: Container) => T | typeof NOT_FOUND;
 
 /** @internal */
 function getScope<T>(options?: FactoryOptions<T>): FactoryScope {
@@ -245,7 +240,7 @@ export function createContainer(parentContainer?: Container): Container {
     },
 
     get<T>(token: Token<T>): T | undefined {
-      const value = localResolver(token);
+      const value = resolver(token, container);
       if (value !== NOT_FOUND) {
         return value;
       }
@@ -258,7 +253,7 @@ export function createContainer(parentContainer?: Container): Container {
     },
 
     resolve<T>(token: Token<T>): T {
-      const value = localResolver(token);
+      const value = resolver(token, container);
       if (value !== NOT_FOUND) {
         return value;
       }
@@ -273,57 +268,57 @@ export function createContainer(parentContainer?: Container): Container {
     },
   };
 
-  function localResolver<T>(token: Token<T>): T | typeof NOT_FOUND {
-    const result = resolver(token);
-
-    if (result) {
-      if (result.type === 'value') {
-        return result.value;
-      }
-
-      if (result.type === 'factory') {
-        const context = result.factoryContext;
-        const value = context.factory(container);
-
-        const scope = getScope(context.options);
-        if (scope === 'singleton' || scope === 'scoped') {
-          // Cache the value in the local container.
-          values.set(token.symbol, value);
-        }
-
-        return value;
-      }
-    }
-
-    return NOT_FOUND;
-  }
-
-  function resolver<T>(token: Token<T>): ResolverResult<T> | undefined {
+  function resolver<T>(
+    token: Token<T>,
+    origin: Container,
+  ): T | typeof NOT_FOUND {
     const value = values.get(token.symbol);
-    if (value !== undefined || values.has(token.symbol)) {
-      return {type: 'value', value};
+    const hasValue = value !== undefined || values.has(token.symbol);
+
+    if (hasValue && origin === container) {
+      return value;
     }
 
     const factoryContext = factories.get(token.symbol);
     if (factoryContext) {
       const scope = getScope(factoryContext.options);
 
-      if (scope === 'singleton') {
-        // Cache the value in the same container where the factory is registered.
-        const value = factoryContext.factory(container);
-        values.set(token.symbol, value);
-        return {type: 'value', value};
-      }
+      switch (scope) {
+        case 'singleton': {
+          if (hasValue) {
+            return value;
+          } else {
+            // Cache the value in the same container where the factory is registered.
+            const value = factoryContext.factory(container);
+            container.bindValue(token, value);
+            return value;
+          }
+        }
 
-      return {type: 'factory', factoryContext};
+        case 'scoped': {
+          // Create a value within the origin container and cache it.
+          const value = factoryContext.factory(origin);
+          origin.bindValue(token, value);
+          return value;
+        }
+
+        case 'transient': {
+          // Create a value within the origin container and don't cache it.
+          return factoryContext.factory(origin);
+        }
+      }
+    }
+
+    if (hasValue) {
+      return value;
     }
 
     const parentResolver = parentContainer?.get(RESOLVER);
     if (parentResolver) {
-      return parentResolver(token);
+      return parentResolver(token, origin);
     }
 
-    return undefined;
+    return NOT_FOUND;
   }
 
   function executeOnRemoved<T>(

@@ -143,6 +143,35 @@ describe('Container', () => {
       expect(factory).toBeCalledTimes(2);
     });
 
+    test('order of scoped containers', () => {
+      const parent = createContainer();
+      const container1 = createContainer(parent);
+      const container2 = createContainer(parent);
+      const container3 = createContainer(parent);
+
+      const START = token<number>();
+      parent.bindValue(START, 0);
+      container1.bindValue(START, 10);
+      container2.bindValue(START, 20);
+      container3.bindValue(START, 30);
+
+      let counter = 0;
+      const factory = jest.fn((start) => start + ++counter);
+      parent.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'scoped',
+      });
+
+      expect(container1.get(NUMBER)).toBe(11);
+      expect(container1.get(NUMBER)).toBe(11);
+      expect(container2.get(NUMBER)).toBe(22);
+      expect(parent.get(NUMBER)).toBe(3);
+      expect(container1.get(NUMBER)).toBe(11);
+      expect(container2.get(NUMBER)).toBe(22);
+      expect(container3.get(NUMBER)).toBe(34);
+
+      expect(factory).toBeCalledTimes(4);
+    });
+
     it('should bind a factory with "transient" scope', () => {
       const parent = createContainer();
       const container = createContainer(parent);
