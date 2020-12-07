@@ -18,8 +18,8 @@ Detoxed dependency injection container.
 - [Usage](#usage)
 - [Container Hierarchy](#container-hierarchy)
 - [Factory Lifetimes](#factory-lifetimes)
-  * [`scoped`](#scoped)
   * [`singleton`](#singleton)
+  * [`scoped`](#scoped)
   * [`transient`](#transient)
 - [API Reference](#api-reference)
 
@@ -107,7 +107,7 @@ container.bindValue(TOKENS.StorageConfig, {name: 'custom storage'});
 // Dynamic values are provided by factories.
 
 // A factory can be decorated with `injectable()` to resolve its arguments.
-// By default, a factory has `scoped` lifetime.
+// By default, a factory has `singleton` lifetime.
 container.bindFactory(
   TOKENS.Storage,
   injectable(createStorage, TOKENS.StorageConfig),
@@ -129,7 +129,7 @@ container.bindFactory(
   {
     // `scoped` and `singleton` scopes can have `onRemoved` callback.
     // It is called when a token is removed from the container.
-    scope: 'singleton',
+    scope: 'scoped',
     onRemoved: (userService) => userService.destroy(),
   },
 );
@@ -173,13 +173,40 @@ container.resolve(V2); // 21
 Ditox.js supports managing the lifetime of values which are produced by factories.
 There are the following types:
 
-- `scoped` - **This is the default**. The value is created and cached by the container which starts resolving.
-- `singleton` - The value is created and cached by the container which registered the factory.
+- `singleton` - **This is the default**. The value is created and cached by the container which registered the factory.
+- `scoped` - The value is created and cached by the container which starts resolving.
 - `transient` - The value is created every time it is resolved.
+
+### `singleton`
+
+**This is the default scope**. "Singleton" allows to cache a produced value by a parent container which registered the factory:
+
+```js
+import {creatContainer, token} from 'ditox';
+
+const TAG = token();
+const LOGGER = token();
+
+const createLogger = (tag) => (message) => console.log(`[${tag}] ${message}`);
+
+const parent = createContainer();
+parent.bindValue(TAG, 'parent');
+parent.bindFactory(LOGGER, injectable(createLogger, TAG, {scope: 'singleton'}));
+
+const container1 = createContainer(parent);
+container1.bindValue(TAG, 'container1');
+
+const container2 = createContainer(parent);
+container2.bindValue(TAG, 'container2');
+
+parent.resolve(LOGGER)('xyz'); // [parent] xyz
+container1.resolve(LOGGER)('foo'); // [parent] foo
+container2.resolve(LOGGER)('bar'); // [parent] bar
+```
 
 ### `scoped`
 
-**This is the default scope**. "Scoped" lifetime allows to have sub-containers with own instances of some services which can be disposed. For example, a context during HTTP request handling, or other unit of work:
+"Scoped" lifetime allows to have sub-containers with own instances of some services which can be disposed. For example, a context during HTTP request handling, or other unit of work:
 
 ```js
 import {creatContainer, token} from 'ditox';
@@ -205,33 +232,6 @@ container2.resolve(LOGGER)('bar'); // [container2] bar
 
 // Dispose a container.
 container1.removeAll();
-```
-
-### `singleton`
-
-"Singleton" allows to cache a produced value by a parent container which registered the factory:
-
-```js
-import {creatContainer, token} from 'ditox';
-
-const TAG = token();
-const LOGGER = token();
-
-const createLogger = (tag) => (message) => console.log(`[${tag}] ${message}`);
-
-const parent = createContainer();
-parent.bindValue(TAG, 'parent');
-parent.bindFactory(LOGGER, injectable(createLogger, TAG, {scope: 'singleton'}));
-
-const container1 = createContainer(parent);
-container1.bindValue(TAG, 'container1');
-
-const container2 = createContainer(parent);
-container2.bindValue(TAG, 'container2');
-
-parent.resolve(LOGGER)('xyz'); // [parent] xyz
-container1.resolve(LOGGER)('foo'); // [parent] foo
-container2.resolve(LOGGER)('bar'); // [parent] bar
 ```
 
 ### `transient`

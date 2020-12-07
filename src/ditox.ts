@@ -141,7 +141,7 @@ export const RESOLVER: Token<Resolver> = token('ditox.Resolver');
 const NOT_FOUND = Symbol();
 
 /** @internal */
-const DEFAULT_SCOPE: FactoryScope = 'scoped';
+const DEFAULT_SCOPE: FactoryScope = 'singleton';
 
 /** @internal */
 type FactoryContext<T> = {

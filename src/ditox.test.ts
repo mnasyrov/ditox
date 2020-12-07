@@ -123,7 +123,7 @@ describe('Container', () => {
       expect(factory).toBeCalledTimes(2);
     });
 
-    it('should bind a factory with "scoped" scope by default', () => {
+    it('should bind a factory with "singleton" scope by default', () => {
       const parent = createContainer();
       const container = createContainer(parent);
 
@@ -135,12 +135,12 @@ describe('Container', () => {
       const factory = jest.fn((start) => start + ++counter);
       parent.bindFactory(NUMBER, injectable(factory, START));
 
-      expect(container.get(NUMBER)).toBe(21);
-      expect(container.get(NUMBER)).toBe(21);
-      expect(parent.get(NUMBER)).toBe(12);
-      expect(container.get(NUMBER)).toBe(21);
+      expect(container.get(NUMBER)).toBe(11);
+      expect(container.get(NUMBER)).toBe(11);
+      expect(parent.get(NUMBER)).toBe(11);
+      expect(container.get(NUMBER)).toBe(11);
 
-      expect(factory).toBeCalledTimes(2);
+      expect(factory).toBeCalledTimes(1);
     });
 
     test('order of scoped containers', () => {
