@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.1](https://github.com/mnasyrov/ditox/compare/v0.4.0...v0.4.1) (2020-12-09)
+
+
+### Bug Fixes
+
+* Fixed "onRemoved" callback for scoped factories. ([8b9cba7](https://github.com/mnasyrov/ditox/commit/8b9cba79ec211c328dafdd7c77ba760cc324855a))
+
 ## [0.4.0](https://github.com/mnasyrov/ditox/compare/v0.3.9...v0.4.0) (2020-12-07)
 
 
@@ -104,6 +111,3 @@ All notable changes to this project will be documented in this file. See [standa
 * Dependency injection ([7d9c754](https://github.com/mnasyrov/ditox/commit/7d9c7549355878d792141a2eef9fb857f0402e46))
 * Flow typings ([992123e](https://github.com/mnasyrov/ditox/commit/992123ead2f0e7860a6193e3d04252523c5d3c10))
 * Optional token ([e31fa45](https://github.com/mnasyrov/ditox/commit/e31fa452a971df82c3ea8a645156235955300e8a))
-
-
-
