@@ -241,7 +241,7 @@ describe('Container', () => {
       expect(onRemoved).toHaveBeenCalledTimes(0);
     });
 
-    it('should remove "singleton" factory with calling "onRemoved" in case its value has  been resolved', () => {
+    it('should remove "singleton" factory with calling "onRemoved" in case its value has been resolved', () => {
       const container = createContainer();
 
       const factory = jest.fn(() => 100);
@@ -255,6 +255,24 @@ describe('Container', () => {
       expect(factory).toHaveBeenCalledTimes(1);
       expect(onRemoved).toHaveBeenCalledTimes(1);
       expect(onRemoved).toHaveBeenCalledWith(100);
+    });
+
+    it('should remove "scoped" factory with different values in case of parent-child hierarchy', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      let count = 1;
+      const factory = jest.fn(() => count++);
+      const onRemoved = jest.fn();
+      parent.bindFactory(NUMBER, factory, {scope: 'scoped', onRemoved});
+
+      expect(parent.get(NUMBER)).toBe(1);
+      expect(container.get(NUMBER)).toBe(2);
+
+      parent.remove(NUMBER);
+      container.remove(NUMBER);
+      expect(onRemoved).toHaveBeenNthCalledWith(1, 1);
+      expect(onRemoved).toHaveBeenNthCalledWith(2, 2);
     });
 
     it('should remove "transient" factory in case its value has never been resolved', () => {

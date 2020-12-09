@@ -141,6 +141,11 @@ export const RESOLVER: Token<Resolver> = token('ditox.Resolver');
 const NOT_FOUND = Symbol();
 
 /** @internal */
+const FAKE_FACTORY = () => {
+  throw new Error('FAKE_FACTORY');
+};
+
+/** @internal */
 const DEFAULT_SCOPE: FactoryScope = 'singleton';
 
 /** @internal */
@@ -280,7 +285,7 @@ export function createContainer(parentContainer?: Container): Container {
     }
 
     const factoryContext = factories.get(token.symbol);
-    if (factoryContext) {
+    if (factoryContext && factoryContext.factory !== FAKE_FACTORY) {
       const scope = getScope(factoryContext.options);
 
       switch (scope) {
@@ -299,6 +304,12 @@ export function createContainer(parentContainer?: Container): Container {
           // Create a value within the origin container and cache it.
           const value = factoryContext.factory(origin);
           origin.bindValue(token, value);
+
+          if (origin !== container) {
+            // Bind a fake factory with actual options to make onRemoved() works.
+            origin.bindFactory(token, FAKE_FACTORY, factoryContext.options);
+          }
+
           return value;
         }
 
