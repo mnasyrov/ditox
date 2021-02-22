@@ -1,6 +1,6 @@
 # Ditox.js
 
-<img alt="lemon" src="lemon.svg" width="120" />
+<img alt="lemon" src="https://raw.githubusercontent.com/mnasyrov/ditox/master/lemon.svg" width="120" />
 
 Detoxed dependency injection container.
 
@@ -14,7 +14,6 @@ Detoxed dependency injection container.
 <!-- toc -->
 
 - [Features](#features)
-- [Packages](#packages)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Container Hierarchy](#container-hierarchy)
@@ -34,11 +33,6 @@ Detoxed dependency injection container.
 - Multi-value tokens
 - Typescript and Flow typings
 - Supports Node.js, Deno and browsers
-
-## Packages
-
-- [`ditox`](packages/ditox/README.md) - core DI container and tools
-- [`@ditox/react`](packages/ditox-react/README.md) - tooling for React.js
 
 ## Installation
 
@@ -272,8 +266,8 @@ parent.resolve(LOGGER)('xyz'); // [parent-rebind] xyz
 
 ## API References
 
-- [`ditox`](packages/ditox/docs)
-- [`@ditox/react`](packages/ditox-react/docs)
+* [`ditox`](./docs)
+* [`@ditox/react`](https://github.com/mnasyrov/ditox/tree/master/packages/ditox-react#readme)
 
 ---
 

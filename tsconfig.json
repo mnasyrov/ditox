@@ -1,7 +1,5 @@
 {
-  "exclude": ["test-deno"],
   "compilerOptions": {
-    "rootDir": "./src",
     "noEmit": true,
     "target": "ES2019",
     "module": "ES2015",

@@ -1,0 +1,51 @@
+{
+  "name": "ditox",
+  "version": "0.4.1",
+  "description": "Detoxed dependency injection for JS, Typescript and Flow.",
+  "license": "MIT",
+  "author": "Mikhail Nasyrov <mikhail@mnasyrov.com> (https://github.com/mnasyrov)",
+  "homepage": "https://github.com/mnasyrov/ditox",
+  "bugs": "https://github.com/mnasyrov/ditox/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mnasyrov/ditox.git"
+  },
+  "keywords": [
+    "detox",
+    "dependency-injection",
+    "dependency",
+    "injection",
+    "container",
+    "ioc",
+    "di"
+  ],
+  "engines": {
+    "node": ">=12"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.module.js",
+  "jsnext:main": "dist/index.module.js",
+  "unpkg": "dist/index.umd.js",
+  "umd:main": "dist/index.umd.js",
+  "browser": "dist/index.browser.js",
+  "react-native": "dist/index.browser.js",
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "docs",
+    "lib",
+    "src",
+    "LICENSE",
+    "mod.ts",
+    "README.md"
+  ],
+  "scripts": {
+    "clean": "shx rm -rf dist lib",
+    "test-deno": "deno test test-deno",
+    "build": "rollup -c",
+    "watch": "rollup -c --watch"
+  }
+}

@@ -1,0 +1,12 @@
+// @flow strict
+
+import type {Container, Token} from 'ditox';
+
+declare export function useDependencyContainer(mode: 'strict'): Container;
+declare export function useDependencyContainer(
+  mode?: 'optional',
+): Container | void;
+
+declare export function useDependency<T>(token: Token<T>): T;
+
+declare export function useOptionalDependency<T>(token: Token<T>): T | void;

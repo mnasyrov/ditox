@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
+declare const Deno: any;
+
 import {
   assertEquals,
   assertStrictEquals,
@@ -109,6 +113,7 @@ Deno.test('should bind a factory with "onRemoved" callback', () => {
 
   assertStrictEquals(container.get(NUMBER), 1);
   container.remove(NUMBER);
+  assertStrictEquals(flag, true);
 });
 
 Deno.test('should return a provided value', () => {

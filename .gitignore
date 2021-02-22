@@ -1,7 +1,7 @@
 /.idea
 /.vscode
-/.parcel-cache
-/dist
+/packages/ditox/dist
+/packages/ditox-react/dist
 .DS_Store
 node_modules
 npm-debug.log
