@@ -1,6 +1,6 @@
 {
   "name": "@ditox/react",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Ditox.js tooling for React.js",
   "license": "MIT",
   "author": "Mikhail Nasyrov <mikhail@mnasyrov.com> (https://github.com/mnasyrov)",
@@ -49,7 +49,7 @@
     "watch": "rollup -c --watch"
   },
   "dependencies": {
-    "ditox": "0.4.1"
+    "ditox": "^0.5.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0"
