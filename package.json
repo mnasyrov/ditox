@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@ditox/monorepo-root",
-  "version": "0.4.1",
+  "version": "0.0.0",
   "description": "Ditox.js root package",
   "license": "MIT",
   "author": "Mikhail Nasyrov <mikhail@mnasyrov.com> (https://github.com/mnasyrov)",
@@ -27,7 +27,8 @@
     "build": "lerna run build",
     "watch": "lerna run --parallel watch",
     "docs": "node scripts/docs.js",
-    "preversion": "npm run build && npm run lint && npm run test && npm run docs",
+    "docs-commit": "git commit -a -m 'docs: Updated docs'",
+    "preversion": "npm run build && npm run lint && npm run test && npm run docs && npm run docs-commit",
     "prepare": "npm run clean && npm run build",
     "release": "lerna version"
   },

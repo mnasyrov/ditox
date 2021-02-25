@@ -2,6 +2,9 @@
   "name": "@ditox/react",
   "version": "0.5.1",
   "description": "Ditox.js tooling for React.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "author": "Mikhail Nasyrov <mikhail@mnasyrov.com> (https://github.com/mnasyrov)",
   "homepage": "https://github.com/mnasyrov/ditox",
