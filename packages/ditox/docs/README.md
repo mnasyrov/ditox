@@ -44,7 +44,7 @@ Name | Type |
 `removeAll` | () => *void* |
 `resolve` | <T\>(`token`: [*Token*](README.md#token)<T\>) => T |
 
-Defined in: [packages/ditox/src/ditox.ts:95](https://github.com/mnasyrov/ditox/blob/1d8abd0/packages/ditox/src/ditox.ts#L95)
+Defined in: [packages/ditox/src/ditox.ts:95](https://github.com/mnasyrov/ditox/blob/eb6e864/packages/ditox/src/ditox.ts#L95)
 
 ___
 
@@ -67,7 +67,7 @@ Name |
 :------ |
 `T` |
 
-Defined in: [packages/ditox/src/ditox.ts:83](https://github.com/mnasyrov/ditox/blob/1d8abd0/packages/ditox/src/ditox.ts#L83)
+Defined in: [packages/ditox/src/ditox.ts:83](https://github.com/mnasyrov/ditox/blob/eb6e864/packages/ditox/src/ditox.ts#L83)
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 **`see`** https://github.com/mnasyrov/ditox#factory-lifetimes
 
-Defined in: [packages/ditox/src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/1d8abd0/packages/ditox/src/ditox.ts#L71)
+Defined in: [packages/ditox/src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/eb6e864/packages/ditox/src/ditox.ts#L71)
 
 ___
 
@@ -93,7 +93,7 @@ Name |
 :------ |
 `T` |
 
-Defined in: [packages/ditox/src/ditox.ts:25](https://github.com/mnasyrov/ditox/blob/1d8abd0/packages/ditox/src/ditox.ts#L25)
+Defined in: [packages/ditox/src/ditox.ts:25](https://github.com/mnasyrov/ditox/blob/eb6e864/packages/ditox/src/ditox.ts#L25)
 
 ## Functions
 
@@ -119,7 +119,7 @@ Name | Type | Description |
 
 **Returns:** *void*
 
-Defined in: [packages/ditox/src/utils.ts:31](https://github.com/mnasyrov/ditox/blob/1d8abd0/packages/ditox/src/utils.ts#L31)
+Defined in: [packages/ditox/src/utils.ts:31](https://github.com/mnasyrov/ditox/blob/eb6e864/packages/ditox/src/utils.ts#L31)
 
 ___
 
@@ -139,7 +139,7 @@ Name | Type | Description |
 
 **Returns:** [*Container*](README.md#container)
 
-Defined in: [packages/ditox/src/ditox.ts:196](https://github.com/mnasyrov/ditox/blob/1d8abd0/packages/ditox/src/ditox.ts#L196)
+Defined in: [packages/ditox/src/ditox.ts:196](https://github.com/mnasyrov/ditox/blob/eb6e864/packages/ditox/src/ditox.ts#L196)
 
 ___
 
@@ -166,7 +166,7 @@ Name | Type |
 
 **Returns:** Values
 
-Defined in: [packages/ditox/src/utils.ts:45](https://github.com/mnasyrov/ditox/blob/1d8abd0/packages/ditox/src/utils.ts#L45)
+Defined in: [packages/ditox/src/utils.ts:45](https://github.com/mnasyrov/ditox/blob/eb6e864/packages/ditox/src/utils.ts#L45)
 
 ___
 
@@ -195,7 +195,7 @@ Name | Type | Description |
 
 Decorated factory which takes a dependency container as a single argument.
 
-Defined in: [packages/ditox/src/utils.ts:9](https://github.com/mnasyrov/ditox/blob/1d8abd0/packages/ditox/src/utils.ts#L9)
+Defined in: [packages/ditox/src/utils.ts:9](https://github.com/mnasyrov/ditox/blob/eb6e864/packages/ditox/src/utils.ts#L9)
 
 ___
 
@@ -221,7 +221,7 @@ Name | Type | Description |
 
 **Returns:** *OptionalToken*<T\>
 
-Defined in: [packages/ditox/src/ditox.ts:41](https://github.com/mnasyrov/ditox/blob/1d8abd0/packages/ditox/src/ditox.ts#L41)
+Defined in: [packages/ditox/src/ditox.ts:41](https://github.com/mnasyrov/ditox/blob/eb6e864/packages/ditox/src/ditox.ts#L41)
 
 ▸ **optional**<T\>(`token`: [*Token*](README.md#token)<T\>): *OptionalToken*<T \| undefined\>
 
@@ -239,7 +239,7 @@ Name | Type |
 
 **Returns:** *OptionalToken*<T \| undefined\>
 
-Defined in: [packages/ditox/src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/1d8abd0/packages/ditox/src/ditox.ts#L45)
+Defined in: [packages/ditox/src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/eb6e864/packages/ditox/src/ditox.ts#L45)
 
 ___
 
@@ -266,7 +266,7 @@ Name | Type |
 
 **Returns:** Values
 
-Defined in: [packages/ditox/src/utils.ts:58](https://github.com/mnasyrov/ditox/blob/1d8abd0/packages/ditox/src/utils.ts#L58)
+Defined in: [packages/ditox/src/utils.ts:58](https://github.com/mnasyrov/ditox/blob/eb6e864/packages/ditox/src/utils.ts#L58)
 
 ___
 
@@ -290,4 +290,4 @@ Name | Type | Description |
 
 **Returns:** [*Token*](README.md#token)<T\>
 
-Defined in: [packages/ditox/src/ditox.ts:31](https://github.com/mnasyrov/ditox/blob/1d8abd0/packages/ditox/src/ditox.ts#L31)
+Defined in: [packages/ditox/src/ditox.ts:31](https://github.com/mnasyrov/ditox/blob/eb6e864/packages/ditox/src/ditox.ts#L31)
