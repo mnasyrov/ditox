@@ -4,16 +4,17 @@
   "forceLocal": true,
   "command": {
     "bootstrap": {
-      "npmClientArgs": [
-        "--save-exact"
-      ]
+      "npmClientArgs": ["--save-exact"]
     },
     "run": {
       "stream": true
     },
     "version": {
-      "message": "chore(release): publish",
-      "conventionalCommits": true
+      "allowBranch": "master",
+      "conventionalCommits": true,
+      "createRelease": "github",
+      "exact": true,
+      "message": "chore(release): publish"
     }
   }
 }
