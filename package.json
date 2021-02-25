@@ -27,8 +27,7 @@
     "build": "lerna run build",
     "watch": "lerna run --parallel watch",
     "docs": "node scripts/docs.js",
-    "docs-commit": "git commit -a -m 'docs: Updated docs'",
-    "preversion": "npm run build && npm run lint && npm run test && npm run docs && npm run docs-commit",
+    "preversion": "npm run build && npm run lint && npm run test && npm run docs && git add --all",
     "prepare": "npm run clean && npm run build",
     "release": "lerna version"
   },
