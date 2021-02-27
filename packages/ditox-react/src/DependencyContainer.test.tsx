@@ -214,9 +214,41 @@ describe('DependencyContainer', () => {
     expect(removeHandler2).toBeCalledTimes(1);
   });
 
-  it.todo(
-    'should remove all bindings from a previous container in case "root" is changed',
-  );
+  it('should remove all bindings from a previous container in case "root" is changed', () => {
+    const FOO = token('FOO');
+
+    const removeHandler1 = jest.fn();
+    const binder1 = (container: Container) =>
+      container.bindFactory(FOO, () => 'foo1', {onRemoved: removeHandler1});
+
+    const [Monitor, monitorCallback] = createMonitor(FOO);
+
+    const {rerender} = render(
+      <DependencyContainer binder={binder1} root={false}>
+        <Monitor />
+      </DependencyContainer>,
+    );
+    expect(monitorCallback).toBeCalledTimes(1);
+    expect(monitorCallback).lastCalledWith('foo1');
+    expect(removeHandler1).toBeCalledTimes(0);
+    monitorCallback.mockClear();
+    removeHandler1.mockClear();
+
+    rerender(
+      <DependencyContainer binder={binder1} root={true}>
+        <Monitor />
+      </DependencyContainer>,
+    );
+    expect(monitorCallback).toBeCalledTimes(1);
+    expect(monitorCallback).lastCalledWith('foo1');
+    expect(removeHandler1).toBeCalledTimes(1);
+    monitorCallback.mockClear();
+    removeHandler1.mockClear();
+
+    rerender(<></>);
+    expect(monitorCallback).toBeCalledTimes(0);
+    expect(removeHandler1).toBeCalledTimes(1);
+  });
 });
 
 describe('CustomDependencyContainer', () => {

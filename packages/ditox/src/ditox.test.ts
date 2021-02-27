@@ -1,6 +1,8 @@
 import {
   CONTAINER,
   createContainer,
+  FACTORIES_MAP,
+  FAKE_FACTORY,
   optional,
   PARENT_CONTAINER,
   ResolverError,
@@ -121,6 +123,18 @@ describe('Container', () => {
       expect(container.get(NUMBER)).toBe(21);
 
       expect(factory).toBeCalledTimes(2);
+
+      // Check for using the internal FAKE_FACTORY
+      const internalFactories = container.resolve(FACTORIES_MAP);
+      const fakeContext = internalFactories.get(NUMBER.symbol);
+      expect(fakeContext?.factory).toBe(FAKE_FACTORY);
+      expect(() => fakeContext?.factory?.(container)).toThrowError(
+        'FAKE_FACTORY',
+      );
+      const internalOnRemoved =
+        fakeContext?.options?.scope === 'scoped' &&
+        fakeContext?.options?.onRemoved;
+      expect(internalOnRemoved).toBeUndefined();
     });
 
     it('should bind a factory with "singleton" scope by default', () => {
@@ -269,6 +283,19 @@ describe('Container', () => {
       expect(parent.get(NUMBER)).toBe(1);
       expect(container.get(NUMBER)).toBe(2);
 
+      // Check for using the internal FAKE_FACTORY
+      const internalFactories = container.resolve(FACTORIES_MAP);
+      const fakeContext = internalFactories.get(NUMBER.symbol);
+      expect(fakeContext?.factory).toBe(FAKE_FACTORY);
+      expect(() => fakeContext?.factory?.(container)).toThrowError(
+        'FAKE_FACTORY',
+      );
+      const internalOnRemoved =
+        fakeContext?.options?.scope === 'scoped' &&
+        fakeContext?.options?.onRemoved;
+      expect(internalOnRemoved).toBe(onRemoved);
+
+      // Continue the main test
       parent.remove(NUMBER);
       container.remove(NUMBER);
       expect(onRemoved).toHaveBeenNthCalledWith(1, 1);

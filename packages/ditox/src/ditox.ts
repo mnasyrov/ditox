@@ -141,7 +141,7 @@ export const RESOLVER: Token<Resolver> = token('ditox.Resolver');
 const NOT_FOUND = Symbol();
 
 /** @internal */
-const FAKE_FACTORY = () => {
+export const FAKE_FACTORY = (): never => {
   throw new Error('FAKE_FACTORY');
 };
 
@@ -158,7 +158,10 @@ type FactoryContext<T> = {
 type ValuesMap = Map<symbol, any>;
 
 /** @internal */
-type FactoriesMap = Map<symbol, FactoryContext<any>>;
+export type FactoriesMap = Map<symbol, FactoryContext<any>>;
+
+/** @internal */
+export const FACTORIES_MAP: Token<FactoriesMap> = token('ditox.FactoriesMap');
 
 /** @internal */
 type Resolver = <T>(token: Token<T>, origin: Container) => T | typeof NOT_FOUND;
@@ -348,6 +351,7 @@ export function createContainer(parentContainer?: Container): Container {
   function bindInternalTokens() {
     values.set(CONTAINER.symbol, container);
     values.set(RESOLVER.symbol, resolver);
+    values.set(FACTORIES_MAP.symbol, factories);
 
     if (parentContainer) {
       values.set(PARENT_CONTAINER.symbol, parentContainer);

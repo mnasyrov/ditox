@@ -8,7 +8,7 @@ Detoxed dependency injection container.
 [![downloads](https://img.shields.io/npm/dt/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![types](https://img.shields.io/npm/types/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![licence](https://img.shields.io/github/license/mnasyrov/ditox.svg)](https://github.com/mnasyrov/ditox/blob/master/LICENSE)
-[![Coverage Status](https://coveralls.io/repos/github/mnasyrov/ditox/badge.svg?branch=master)](https://coveralls.io/github/mnasyrov/ditox?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/mnasyrov/ditox/badge.svg)](https://coveralls.io/github/mnasyrov/ditox)
 
 ## Table of Contents
 
