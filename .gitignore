@@ -1,5 +1,6 @@
 /.idea
 /.vscode
+/coverage
 /packages/ditox/dist
 /packages/ditox-react/dist
 .DS_Store
