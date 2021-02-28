@@ -1,8 +1,7 @@
 /.idea
 /.vscode
 /coverage
-/packages/ditox/dist
-/packages/ditox-react/dist
+/packages/*/dist
 .DS_Store
 node_modules
 npm-debug.log
