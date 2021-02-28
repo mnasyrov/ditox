@@ -1,10 +1,12 @@
 {
-  "version": "0.5.3",
+  "version": "0.5.4",
   "hoist": "**",
   "forceLocal": true,
   "command": {
     "bootstrap": {
-      "npmClientArgs": ["--save-exact"]
+      "npmClientArgs": [
+        "--save-exact"
+      ]
     },
     "run": {
       "stream": true

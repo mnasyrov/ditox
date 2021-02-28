@@ -37,6 +37,8 @@ const FAKE_FACTORY = () => {
 /** @internal */
 const DEFAULT_SCOPE = 'singleton';
 /** @internal */
+const FACTORIES_MAP = token('ditox.FactoriesMap');
+/** @internal */
 function getScope(options) {
     var _a;
     return (_a = options === null || options === void 0 ? void 0 : options.scope) !== null && _a !== void 0 ? _a : DEFAULT_SCOPE;
@@ -180,6 +182,7 @@ function createContainer(parentContainer) {
     function bindInternalTokens() {
         values.set(CONTAINER.symbol, container);
         values.set(RESOLVER.symbol, resolver);
+        values.set(FACTORIES_MAP.symbol, factories);
         if (parentContainer) {
             values.set(PARENT_CONTAINER.symbol, parentContainer);
         }
