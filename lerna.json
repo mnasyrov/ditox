@@ -14,7 +14,6 @@
     "version": {
       "allowBranch": "master",
       "conventionalCommits": true,
-      "createRelease": "github",
       "exact": true,
       "message": "chore(release): publish"
     }
