@@ -42,7 +42,7 @@ Name | Type |
 
 **Returns:** [*ResolverError*](resolvererror.md)
 
-Defined in: [packages/ditox/src/ditox.ts:60](https://github.com/mnasyrov/ditox/blob/879016f/packages/ditox/src/ditox.ts#L60)
+Defined in: [packages/ditox/src/ditox.ts:60](https://github.com/mnasyrov/ditox/blob/7f115fb/packages/ditox/src/ditox.ts#L60)
 
 ## Properties
 

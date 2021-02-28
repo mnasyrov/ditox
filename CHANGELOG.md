@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/mnasyrov/ditox/compare/v0.5.4...v1.0.0) (2021-02-28)
+
+**Note:** Version bump only for package @ditox/monorepo-root
+
+
+
+
+
 ## [0.5.4](https://github.com/mnasyrov/ditox/compare/v0.5.3...v0.5.4) (2021-02-28)
 
 **Note:** Version bump only for package @ditox/monorepo-root
