@@ -24,6 +24,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
   test-compatibility:
+    needs: test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -43,6 +44,7 @@ jobs:
         run: npm run test
 
   test-deno:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
