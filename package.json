@@ -29,7 +29,8 @@
     "docs": "node scripts/docs.js",
     "preversion": "npm run build && npm run lint && npm run test && npm run docs && git add --all",
     "prepare": "npm run clean && npm run build",
-    "release": "lerna version && lerna publish from-git"
+    "release-version": "lerna version",
+    "release-publish": "lerna publish from-git"
   },
   "devDependencies": {
     "@babel/cli": "7.12.17",
