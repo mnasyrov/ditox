@@ -33,7 +33,7 @@
     "release-publish": "lerna publish from-git"
   },
   "devDependencies": {
-    "@babel/cli": "7.12.17",
+    "@babel/cli": "7.13.0",
     "@babel/core": "7.12.17",
     "@babel/plugin-proposal-nullish-coalescing-operator": "7.13.8",
     "@babel/plugin-proposal-optional-chaining": "7.12.17",
