@@ -1,6 +1,6 @@
 {
   "name": "@ditox/react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Ditox.js tooling for React.js",
   "publishConfig": {
     "access": "public"
