@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/mnasyrov/ditox/compare/v1.0.0...v1.0.1) (2021-03-04)
+
+
+### Bug Fixes
+
+* Fixed bundled typings for Typescript ([7b1499e](https://github.com/mnasyrov/ditox/commit/7b1499e7cf1506f24f72387d83a055e6a4d3c336))
+
+
+
+
+
 # [1.0.0](https://github.com/mnasyrov/ditox/compare/v0.5.4...v1.0.0) (2021-02-28)
 
 **Note:** Version bump only for package ditox
