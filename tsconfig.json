@@ -5,7 +5,6 @@
     "module": "ES2015",
     "lib": ["ES2019"],
     "importHelpers": false,
-    "declaration": true,
     "sourceMap": true,
     "strict": true,
     "noImplicitReturns": true,

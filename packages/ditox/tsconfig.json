@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "exclude": ["test-deno"],
+  "exclude": ["test-deno", "./mod.ts"],
   "compilerOptions": {
     "rootDir": "./src"
   }

@@ -1,6 +1,7 @@
-import typescript from '@wessberg/rollup-plugin-ts';
+import typescript from '@rollup/plugin-typescript';
 import flowEntryPlugin from 'rollup-plugin-flow-entry';
 import {terser} from 'rollup-plugin-terser';
+import dts from 'rollup-plugin-dts';
 import pkg from './package.json';
 
 const flowEntry = flowEntryPlugin({mode: 'strict', types: 'src/index.js.flow'});
@@ -14,6 +15,16 @@ const UMD_GLOBALS = {
 };
 
 export default [
+  {
+    input: 'src/index.ts',
+    output: [
+      {file: 'lib/index.d.ts'},
+      {file: 'dist/index.d.ts'},
+      {file: 'dist/index.module.d.ts'},
+      {file: 'dist/index.umd.d.ts'},
+    ],
+    plugins: [dts()],
+  },
   {
     external: EXTERNALS,
     input: 'src/index.ts',

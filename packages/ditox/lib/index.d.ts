@@ -2,25 +2,25 @@
  * @ignore
  * Binding token for mandatory value
  */
-type RequiredToken<T> = {
+declare type RequiredToken<T> = {
     symbol: symbol;
-    type?: T; // Anchor for Typescript type inference.
+    type?: T;
     isOptional?: false;
 };
 /**
  * @ignore
  * Binding token for optional value
  */
-type OptionalToken<T> = {
+declare type OptionalToken<T> = {
     symbol: symbol;
-    type?: T; // Anchor for Typescript type inference.
+    type?: T;
     isOptional: true;
     optionalValue: T;
 };
 /**
  * Binding token.
  */
-type Token<T> = RequiredToken<T> | OptionalToken<T>;
+declare type Token<T> = RequiredToken<T> | OptionalToken<T>;
 /**
  * Creates a new binding token.
  * @param description - Token description for better error messages.
@@ -43,7 +43,7 @@ declare class ResolverError extends Error {
 /**
  * @see https://github.com/mnasyrov/ditox#factory-lifetimes
  */
-type FactoryScope = "scoped" | "singleton" | "transient";
+declare type FactoryScope = 'scoped' | 'singleton' | 'transient';
 /**
  * Options for factory binding.
  *
@@ -54,16 +54,16 @@ type FactoryScope = "scoped" | "singleton" | "transient";
  *
  * `scoped` and `singleton` scopes can have `onRemoved` callback. It is called when a token is removed from the container.
  */
-type FactoryOptions<T> = {
-    scope?: "scoped" | "singleton";
+declare type FactoryOptions<T> = {
+    scope?: 'scoped' | 'singleton';
     onRemoved?: (value: T) => void;
 } | {
-    scope: "transient";
+    scope: 'transient';
 };
 /**
  * Dependency container.
  */
-type Container = {
+declare type Container = {
     /**
      * Binds a value for the token
      */
@@ -97,6 +97,7 @@ type Container = {
  * @param parentContainer - Optional parent container.
  */
 declare function createContainer(parentContainer?: Container): Container;
+
 /**
  * Decorates a factory by passing resolved tokens as factory arguments.
  * @param factory - A factory.
@@ -127,4 +128,5 @@ declare function getValues<Tokens extends Token<unknown>[], Values extends {
 declare function resolveValues<Tokens extends Token<unknown>[], Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : never;
 }>(container: Container, ...tokens: Tokens): Values;
-export { RequiredToken, OptionalToken, Token, token, optional, ResolverError, FactoryScope, FactoryOptions, Container, createContainer, getValues, resolveValues, injectable, bindMultiValue };
+
+export { Container, FactoryOptions, FactoryScope, OptionalToken, RequiredToken, ResolverError, Token, bindMultiValue, createContainer, getValues, injectable, optional, resolveValues, token };

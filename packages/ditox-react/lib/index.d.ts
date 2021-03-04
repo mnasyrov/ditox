@@ -1,15 +1,16 @@
-import { Container, Token } from "ditox";
-import { ReactElement, ReactNode } from "react";
+import { Container, Token } from 'ditox';
+import { ReactNode, ReactElement } from 'react';
+
 /**
  * A callback for binding dependencies to a container
  */
-type DependencyContainerBinder = (container: Container) => unknown;
+declare type DependencyContainerBinder = (container: Container) => unknown;
 /**
  * Specifies an existed container or options for a new container:
  * @property root - If `true` then a new container does not depend on any parent containers
  * @property binder - A callback which can bind dependencies to the new container
  */
-type DependencyContainerParams = {
+declare type DependencyContainerParams = {
     children: ReactNode;
     root?: boolean;
     binder?: DependencyContainerBinder;
@@ -55,18 +56,19 @@ declare function DependencyContainer(params: {
     root?: boolean;
     binder?: DependencyContainerBinder;
 }): ReactElement;
+
 /**
  * @category Hook
  *
  * Returns a dependency container. Throws an error in case the container is not provided.
  */
-declare function useDependencyContainer(mode: "strict"): Container;
+declare function useDependencyContainer(mode: 'strict'): Container;
 /**
  * @category Hook
  *
  * Returns a dependency container, or `undefined` in case the container is not provided.
  */
-declare function useDependencyContainer(mode?: "optional"): Container | undefined;
+declare function useDependencyContainer(mode?: 'optional'): Container | undefined;
 /**
  * @category Hook
  *
@@ -79,4 +81,5 @@ declare function useDependency<T>(token: Token<T>): T;
  * Returns a dependency by token, or `undefined` in case the dependency is not provided.
  */
 declare function useOptionalDependency<T>(token: Token<T>): T | undefined;
-export type { DependencyContainerBinder, DependencyContainerParams, DependencyContainer, useDependencyContainer, useDependency, useOptionalDependency };
+
+export { DependencyContainer, DependencyContainerBinder, DependencyContainerParams, useDependency, useDependencyContainer, useOptionalDependency };
