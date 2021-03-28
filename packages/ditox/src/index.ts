@@ -10,4 +10,13 @@ export {
   Container,
   createContainer,
 } from './ditox';
-export {getValues, resolveValues, injectable, bindMultiValue} from './utils';
+
+export {
+  bindMultiValue,
+  getValues,
+  resolveValues,
+  injectable,
+  getProps,
+  resolveProps,
+  injectableProps,
+} from './utils';

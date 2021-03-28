@@ -192,18 +192,6 @@ function createContainer(parentContainer) {
 }
 
 /**
- * Decorates a factory by passing resolved tokens as factory arguments.
- * @param factory - A factory.
- * @param tokens - Tokens which correspond to factory arguments.
- * @return Decorated factory which takes a dependency container as a single argument.
- */
-function injectable(factory, ...tokens) {
-    return (container) => {
-        const values = tokens.map(container.resolve);
-        return factory(...values);
-    };
-}
-/**
  * Rebinds the array by the token with added new value.
  * @param container - Dependency container.
  * @param token - Token for an array of values.
@@ -229,6 +217,67 @@ function getValues(container, ...tokens) {
 function resolveValues(container, ...tokens) {
     return tokens.map(container.resolve);
 }
+/**
+ * Decorates a factory by passing resolved tokens as factory arguments.
+ * @param factory - A factory.
+ * @param tokens - Tokens which correspond to factory arguments.
+ * @return Decorated factory which takes a dependency container as a single argument.
+ */
+function injectable(factory, ...tokens) {
+    return (container) => {
+        const values = resolveValues(container, ...tokens);
+        return factory.apply(this, values);
+    };
+}
+/**
+ * Returns an object with resolved properties which are specified by token properties.
+ * If a token is not found, then `undefined` value is used.
+ *
+ * @example
+ * ```ts
+ * const props = getProps(container, {a: tokenA, b: tokenB});
+ * console.log(props); // {a: 1, b: 2}
+ * ```
+ */
+function getProps(container, tokens) {
+    const obj = { ...tokens };
+    Object.keys(obj).forEach((key) => (obj[key] = container.get(obj[key])));
+    return obj;
+}
+/**
+ * Returns an object with resolved properties which are specified by token properties.
+ * If a token is not found, then `ResolverError` is thrown.
+ *
+ * @example
+ * ```ts
+ * const props = resolveProps(container, {a: tokenA, b: tokenB});
+ * console.log(props); // {a: 1, b: 2}
+ * ```
+ */
+function resolveProps(container, tokens) {
+    const obj = { ...tokens };
+    Object.keys(obj).forEach((key) => (obj[key] = container.resolve(obj[key])));
+    return obj;
+}
+/**
+ * Decorates a factory by passing a resolved object with tokens as the first argument.
+ * @param factory - A factory.
+ * @param tokens - Object with tokens.
+ * @return Decorated factory which takes a dependency container as a single argument.
+ *
+ * @example
+ * ```ts
+ * const factory = ({a, b}: {a: number, b: number}) => a + b;
+ * const decoratedFactory = injectableProps(factory, {a: tokenA, b: tokenB});
+ * const result = decoratedFactory(container);
+ * ```
+ */
+function injectableProps(factory, tokens) {
+    return (container) => {
+        const values = resolveProps(container, tokens);
+        return factory(values);
+    };
+}
 
-export { ResolverError, bindMultiValue, createContainer, getValues, injectable, optional, resolveValues, token };
+export { ResolverError, bindMultiValue, createContainer, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };
 //# sourceMappingURL=index.js.map

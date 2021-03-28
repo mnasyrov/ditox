@@ -98,15 +98,12 @@ declare type Container = {
  */
 declare function createContainer(parentContainer?: Container): Container;
 
-/**
- * Decorates a factory by passing resolved tokens as factory arguments.
- * @param factory - A factory.
- * @param tokens - Tokens which correspond to factory arguments.
- * @return Decorated factory which takes a dependency container as a single argument.
- */
-declare function injectable<Tokens extends Token<unknown>[], Values extends {
-    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : never;
-}, Result>(factory: (...params: Values) => Result, ...tokens: Tokens): (container: Container) => Result;
+declare type ValuesProps = {
+    [key: string]: unknown;
+};
+declare type TokenProps<Props extends ValuesProps> = {
+    [K in keyof Props]: Token<Props[K]>;
+};
 /**
  * Rebinds the array by the token with added new value.
  * @param container - Dependency container.
@@ -128,5 +125,50 @@ declare function getValues<Tokens extends Token<unknown>[], Values extends {
 declare function resolveValues<Tokens extends Token<unknown>[], Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : never;
 }>(container: Container, ...tokens: Tokens): Values;
+/**
+ * Decorates a factory by passing resolved tokens as factory arguments.
+ * @param factory - A factory.
+ * @param tokens - Tokens which correspond to factory arguments.
+ * @return Decorated factory which takes a dependency container as a single argument.
+ */
+declare function injectable<Tokens extends Token<unknown>[], Values extends {
+    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : never;
+}, Result>(this: unknown, factory: (...params: Values) => Result, ...tokens: Tokens): (container: Container) => Result;
+/**
+ * Returns an object with resolved properties which are specified by token properties.
+ * If a token is not found, then `undefined` value is used.
+ *
+ * @example
+ * ```ts
+ * const props = getProps(container, {a: tokenA, b: tokenB});
+ * console.log(props); // {a: 1, b: 2}
+ * ```
+ */
+declare function getProps<Props extends ValuesProps>(container: Container, tokens: TokenProps<Props>): Partial<Props>;
+/**
+ * Returns an object with resolved properties which are specified by token properties.
+ * If a token is not found, then `ResolverError` is thrown.
+ *
+ * @example
+ * ```ts
+ * const props = resolveProps(container, {a: tokenA, b: tokenB});
+ * console.log(props); // {a: 1, b: 2}
+ * ```
+ */
+declare function resolveProps<Props extends ValuesProps>(container: Container, tokens: TokenProps<Props>): Props;
+/**
+ * Decorates a factory by passing a resolved object with tokens as the first argument.
+ * @param factory - A factory.
+ * @param tokens - Object with tokens.
+ * @return Decorated factory which takes a dependency container as a single argument.
+ *
+ * @example
+ * ```ts
+ * const factory = ({a, b}: {a: number, b: number}) => a + b;
+ * const decoratedFactory = injectableProps(factory, {a: tokenA, b: tokenB});
+ * const result = decoratedFactory(container);
+ * ```
+ */
+declare function injectableProps<Props extends ValuesProps, Result>(factory: (props: Props) => Result, tokens: TokenProps<Props>): (container: Container) => Result;
 
-export { Container, FactoryOptions, FactoryScope, OptionalToken, RequiredToken, ResolverError, Token, bindMultiValue, createContainer, getValues, injectable, optional, resolveValues, token };
+export { Container, FactoryOptions, FactoryScope, OptionalToken, RequiredToken, ResolverError, Token, bindMultiValue, createContainer, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };
