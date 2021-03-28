@@ -74,15 +74,15 @@ const container = createContainer();
 
 ## Usage
 
-Ditox.js has a very simple API which works with containers, tokens, values and value factories.
+Ditox.js works with containers, tokens, values and value factories.
 There are no class decorators, field injectors and other magic stuff. Only explicit binding and resolving.
 
 In general, all you need is to do the following:
 
 - Create binding tokens.
 - Create a container.
-- Bind some values or factories with the container.
-- Resolve and use values.
+- Register values and factories in the container using the tokens.
+- Resolve the tokens and use the provided values.
 
 ```js
 import {createContainer, injectable, optional, token} from 'ditox';
