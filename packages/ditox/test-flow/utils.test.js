@@ -85,6 +85,26 @@ describe('getValues', () => {
     const values = getValues(container, NUMBER, STRING, OPTIONAL_STRING);
     expect(values).toEqual([1, undefined, 'value']);
   });
+
+  it('should works with a big arity', () => {
+    const container = createContainer();
+    container.bindValue(NUMBER, 1);
+
+    const values = getValues(
+      container,
+      NUMBER,
+      NUMBER,
+      NUMBER,
+      NUMBER,
+      NUMBER,
+      NUMBER,
+      NUMBER,
+      NUMBER,
+      NUMBER,
+      NUMBER,
+    );
+    expect(values).toEqual([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+  });
 });
 
 describe('resolveValues', () => {
