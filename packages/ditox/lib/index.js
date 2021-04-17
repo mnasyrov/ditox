@@ -102,6 +102,12 @@ function createContainer(parentContainer) {
             factories.clear();
             bindInternalTokens();
         },
+        hasToken(token) {
+            var _a;
+            return (values.has(token.symbol) ||
+                factories.has(token.symbol) ||
+                ((_a = parentContainer === null || parentContainer === void 0 ? void 0 : parentContainer.hasToken(token)) !== null && _a !== void 0 ? _a : false));
+        },
         get(token) {
             const value = resolver(token, container);
             if (value !== NOT_FOUND) {

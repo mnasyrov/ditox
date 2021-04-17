@@ -390,6 +390,35 @@ describe('Container', () => {
     });
   });
 
+  describe('hasToken()', () => {
+    it('should check if a container hierarchy has the token', () => {
+      const factory = jest.fn();
+
+      const token1 = token();
+      const token2 = token();
+      const token3 = token();
+
+      const parent = createContainer();
+      parent.bindValue(token1, 1);
+      parent.bindFactory(token2, factory);
+
+      expect(parent.hasToken(token1)).toBe(true);
+      expect(parent.hasToken(token2)).toBe(true);
+      expect(parent.hasToken(token3)).toBe(false);
+
+      const child = createContainer(parent);
+      expect(child.hasToken(token1)).toBe(true);
+      expect(child.hasToken(token2)).toBe(true);
+      expect(child.hasToken(token3)).toBe(false);
+
+      child.bindValue(token3, 2);
+      expect(parent.hasToken(token3)).toBe(false);
+      expect(child.hasToken(token3)).toBe(true);
+
+      expect(factory).toHaveBeenCalledTimes(0);
+    });
+  });
+
   describe('get()', () => {
     it('should return a provided value', () => {
       const container = createContainer();
