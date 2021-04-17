@@ -9,7 +9,15 @@ type ValuesTuple =
   | [*, *, *, *]
   | [*, *, *, *, *]
   | [*, *, *, *, *, *]
-  | [*, *, *, *, *, *, *];
+  | [*, *, *, *, *, *, *]
+  | [*, *, *, *, *, *, *, *]
+  | [*, *, *, *, *, *, *, *, *]
+  | [*, *, *, *, *, *, *, *, *, *]
+  | [*, *, *, *, *, *, *, *, *, *, *]
+  | [*, *, *, *, *, *, *, *, *, *, *, *];
+
+type Tokens<Values: ValuesTuple> = $TupleMap<Values, <V>() => Token<V>>;
+type OptionalValues<Values: ValuesTuple> = $TupleMap<Values, <V>() => V | void>;
 
 type mapPropToToken = <K, V>(key: K, value: V) => Token<V>;
 type ValueProps = {[key: string]: *};
@@ -31,24 +39,18 @@ declare export function bindMultiValue<T>(
  * Returns an array of resolved values by the specified token.
  * If a token is not found, then `undefined` value is used.
  */
-declare export function getValues<
-  Values: ValuesTuple,
-  Tokens: $TupleMap<Values, <V>() => Token<V>>,
->(
+declare export function getValues<Values: ValuesTuple>(
   container: Container,
-  ...tokens: Tokens
-): Values;
+  ...tokens: Tokens<Values>
+): OptionalValues<Values>;
 
 /**
  * Returns an array of resolved values by the specified token.
  * If a token is not found, then `ResolverError` is thrown.
  */
-declare export function resolveValues<
-  Values: ValuesTuple,
-  Tokens: $TupleMap<Values, <V>() => Token<V>>,
->(
+declare export function resolveValues<Values: ValuesTuple>(
   container: Container,
-  ...tokens: Tokens
+  ...tokens: Tokens<Values>
 ): Values;
 
 /**
@@ -57,13 +59,9 @@ declare export function resolveValues<
  * @param tokens - Tokens which correspond to factory arguments.
  * @return Decorated factory which takes a dependency container as a single argument.
  */
-declare export function injectable<
-  Values: ValuesTuple,
-  Tokens: $TupleMap<Values, <V>() => Token<V>>,
-  Result,
->(
+declare export function injectable<Values: ValuesTuple, Result>(
   factory: (...params: Values) => Result,
-  ...tokens: Tokens
+  ...tokens: Tokens<Values>
 ): (container: Container) => Result;
 
 /**
