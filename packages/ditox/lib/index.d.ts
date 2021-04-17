@@ -73,6 +73,10 @@ declare type Container = {
      */
     bindFactory<T>(token: Token<T>, factory: (container: Container) => T, options?: FactoryOptions<T>): void;
     /**
+     * Checks if the token is registered in the container hierarchy.
+     */
+    hasToken(token: Token<unknown>): boolean;
+    /**
      * Returns a resolved value by the token, or returns `undefined` in case the token is not found.
      */
     get<T>(token: Token<T>): T | undefined;
