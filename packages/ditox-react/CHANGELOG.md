@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/mnasyrov/ditox/compare/v1.0.2...v1.1.0) (2021-04-17)
+
+
+### Features
+
+* Utilities for resolving object properties by tokens ([d4a41e8](https://github.com/mnasyrov/ditox/commit/d4a41e8d777540905a4bc15fc22bcb06a85cf90a))
+
+
+
+
+
 ## [1.0.2](https://github.com/mnasyrov/ditox/compare/v1.0.1...v1.0.2) (2021-03-04)
 
 

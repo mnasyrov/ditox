@@ -40,14 +40,15 @@ Dependency container.
 
 Name | Type |
 :------ | :------ |
-`bindFactory` | <T\>(`token`: [*Token*](README.md#token)<T\>, `factory`: (`container`: [*Container*](README.md#container)) => T, `options?`: { `scope`: *transient*  } \| { `onRemoved?`: (`value`: T) => *void* ; `scope?`: *scoped* \| *singleton*  }) => *void* |
+`bindFactory` | <T\>(`token`: [*Token*](README.md#token)<T\>, `factory`: (`container`: [*Container*](README.md#container)) => T, `options?`: [*FactoryOptions*](README.md#factoryoptions)<T\>) => *void* |
 `bindValue` | <T\>(`token`: [*Token*](README.md#token)<T\>, `value`: T) => *void* |
 `get` | <T\>(`token`: [*Token*](README.md#token)<T\>) => *undefined* \| T |
+`hasToken` | (`token`: [*Token*](README.md#token)<unknown\>) => *boolean* |
 `remove` | <T\>(`token`: [*Token*](README.md#token)<T\>) => *void* |
 `removeAll` | () => *void* |
 `resolve` | <T\>(`token`: [*Token*](README.md#token)<T\>) => T |
 
-Defined in: [packages/ditox/src/ditox.ts:95](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/ditox.ts#L95)
+Defined in: [packages/ditox/src/ditox.ts:95](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/ditox.ts#L95)
 
 ___
 
@@ -70,7 +71,7 @@ Name |
 :------ |
 `T` |
 
-Defined in: [packages/ditox/src/ditox.ts:83](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/ditox.ts#L83)
+Defined in: [packages/ditox/src/ditox.ts:83](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/ditox.ts#L83)
 
 ___
 
@@ -80,7 +81,7 @@ ___
 
 **`see`** https://github.com/mnasyrov/ditox#factory-lifetimes
 
-Defined in: [packages/ditox/src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/ditox.ts#L71)
+Defined in: [packages/ditox/src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/ditox.ts#L71)
 
 ___
 
@@ -96,7 +97,7 @@ Name |
 :------ |
 `T` |
 
-Defined in: [packages/ditox/src/ditox.ts:25](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/ditox.ts#L25)
+Defined in: [packages/ditox/src/ditox.ts:25](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/ditox.ts#L25)
 
 ## Functions
 
@@ -122,7 +123,7 @@ Name | Type | Description |
 
 **Returns:** *void*
 
-Defined in: [packages/ditox/src/utils.ts:14](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/utils.ts#L14)
+Defined in: [packages/ditox/src/utils.ts:14](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/utils.ts#L14)
 
 ___
 
@@ -142,7 +143,7 @@ Name | Type | Description |
 
 **Returns:** [*Container*](README.md#container)
 
-Defined in: [packages/ditox/src/ditox.ts:199](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/ditox.ts#L199)
+Defined in: [packages/ditox/src/ditox.ts:204](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/ditox.ts#L204)
 
 ___
 
@@ -174,7 +175,7 @@ Name | Type |
 
 **Returns:** *Partial*<Props\>
 
-Defined in: [packages/ditox/src/utils.ts:83](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/utils.ts#L83)
+Defined in: [packages/ditox/src/utils.ts:83](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/utils.ts#L83)
 
 ___
 
@@ -201,13 +202,13 @@ Name | Type |
 
 **Returns:** Values
 
-Defined in: [packages/ditox/src/utils.ts:28](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/utils.ts#L28)
+Defined in: [packages/ditox/src/utils.ts:28](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/utils.ts#L28)
 
 ___
 
 ### injectable
 
-▸ **injectable**<Tokens, Values, Result\>(`factory`: (...`params`: Values) => Result, ...`tokens`: Tokens): (`container`: [*Container*](README.md#container)) => Result
+▸ **injectable**<Tokens, Values, Result\>(`factory`: (...`params`: Values) => Result, ...`tokens`: Tokens): *function*
 
 Decorates a factory by passing resolved tokens as factory arguments.
 
@@ -226,17 +227,17 @@ Name | Type | Description |
 `factory` | (...`params`: Values) => Result | A factory.   |
 `...tokens` | Tokens | Tokens which correspond to factory arguments.   |
 
-**Returns:** *function*
+**Returns:** (`container`: [*Container*](README.md#container)) => Result
 
 Decorated factory which takes a dependency container as a single argument.
 
-Defined in: [packages/ditox/src/utils.ts:56](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/utils.ts#L56)
+Defined in: [packages/ditox/src/utils.ts:56](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/utils.ts#L56)
 
 ___
 
 ### injectableProps
 
-▸ **injectableProps**<Props, Result\>(`factory`: (`props`: Props) => Result, `tokens`: *TokenProps*<Props\>): (`container`: [*Container*](README.md#container)) => Result
+▸ **injectableProps**<Props, Result\>(`factory`: (`props`: Props) => Result, `tokens`: *TokenProps*<Props\>): *function*
 
 Decorates a factory by passing a resolved object with tokens as the first argument.
 
@@ -261,11 +262,11 @@ Name | Type | Description |
 `factory` | (`props`: Props) => Result | A factory.   |
 `tokens` | *TokenProps*<Props\> | Object with tokens.   |
 
-**Returns:** *function*
+**Returns:** (`container`: [*Container*](README.md#container)) => Result
 
 Decorated factory which takes a dependency container as a single argument.
 
-Defined in: [packages/ditox/src/utils.ts:124](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/utils.ts#L124)
+Defined in: [packages/ditox/src/utils.ts:124](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/utils.ts#L124)
 
 ___
 
@@ -291,7 +292,7 @@ Name | Type | Description |
 
 **Returns:** *OptionalToken*<T\>
 
-Defined in: [packages/ditox/src/ditox.ts:41](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/ditox.ts#L41)
+Defined in: [packages/ditox/src/ditox.ts:41](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/ditox.ts#L41)
 
 ▸ **optional**<T\>(`token`: [*Token*](README.md#token)<T\>): *OptionalToken*<T \| undefined\>
 
@@ -309,7 +310,7 @@ Name | Type |
 
 **Returns:** *OptionalToken*<T \| undefined\>
 
-Defined in: [packages/ditox/src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/ditox.ts#L45)
+Defined in: [packages/ditox/src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/ditox.ts#L45)
 
 ___
 
@@ -341,7 +342,7 @@ Name | Type |
 
 **Returns:** Props
 
-Defined in: [packages/ditox/src/utils.ts:102](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/utils.ts#L102)
+Defined in: [packages/ditox/src/utils.ts:102](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/utils.ts#L102)
 
 ___
 
@@ -368,7 +369,7 @@ Name | Type |
 
 **Returns:** Values
 
-Defined in: [packages/ditox/src/utils.ts:41](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/utils.ts#L41)
+Defined in: [packages/ditox/src/utils.ts:41](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/utils.ts#L41)
 
 ___
 
@@ -392,4 +393,4 @@ Name | Type | Description |
 
 **Returns:** [*Token*](README.md#token)<T\>
 
-Defined in: [packages/ditox/src/ditox.ts:31](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox/src/ditox.ts#L31)
+Defined in: [packages/ditox/src/ditox.ts:31](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/ditox.ts#L31)

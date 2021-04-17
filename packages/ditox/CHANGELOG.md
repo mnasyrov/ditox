@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/mnasyrov/ditox/compare/v1.0.2...v1.1.0) (2021-04-17)
+
+
+### Bug Fixes
+
+* Fixed typings and arity for `getValues()`, `resolveValues()` and `injectable()`. ([92f57dc](https://github.com/mnasyrov/ditox/commit/92f57dcc1777c4c622d61c68196db3d48f3fa186))
+
+
+### Features
+
+* `Container.hasToken()` for checking token presence. ([56043ae](https://github.com/mnasyrov/ditox/commit/56043aec494481cc624b30d81e33df33a8273e63))
+* Utilities for resolving object properties by tokens ([d4a41e8](https://github.com/mnasyrov/ditox/commit/d4a41e8d777540905a4bc15fc22bcb06a85cf90a))
+
+
+
+
+
 ## [1.0.1](https://github.com/mnasyrov/ditox/compare/v1.0.0...v1.0.1) (2021-03-04)
 
 

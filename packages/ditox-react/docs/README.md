@@ -68,7 +68,7 @@ Name | Type |
 
 **Returns:** *unknown*
 
-Defined in: [DependencyContainer.tsx:19](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox-react/src/DependencyContainer.tsx#L19)
+Defined in: [DependencyContainer.tsx:19](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/DependencyContainer.tsx#L19)
 
 ___
 
@@ -90,7 +90,7 @@ Name | Type |
 `children` | ReactNode |
 `root`? | *boolean* |
 
-Defined in: [DependencyContainer.tsx:26](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox-react/src/DependencyContainer.tsx#L26)
+Defined in: [DependencyContainer.tsx:26](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/DependencyContainer.tsx#L26)
 
 ## Component
 
@@ -138,7 +138,7 @@ Name | Type | Description |
 
 **Returns:** ReactElement
 
-Defined in: [DependencyContainer.tsx:68](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox-react/src/DependencyContainer.tsx#L68)
+Defined in: [DependencyContainer.tsx:68](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/DependencyContainer.tsx#L68)
 
 ___
 
@@ -164,7 +164,7 @@ Name | Type |
 
 **Returns:** T \| *undefined*
 
-Defined in: [hooks.ts:52](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox-react/src/hooks.ts#L52)
+Defined in: [hooks.ts:52](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/hooks.ts#L52)
 
 ___
 
@@ -190,7 +190,7 @@ Name | Type |
 
 **Returns:** T
 
-Defined in: [hooks.ts:41](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox-react/src/hooks.ts#L41)
+Defined in: [hooks.ts:41](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/hooks.ts#L41)
 
 ___
 
@@ -210,7 +210,7 @@ Name | Type |
 
 **Returns:** Container
 
-Defined in: [hooks.ts:10](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox-react/src/hooks.ts#L10)
+Defined in: [hooks.ts:10](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/hooks.ts#L10)
 
 ▸ **useDependencyContainer**(`mode?`: *optional*): Container \| *undefined*
 
@@ -222,7 +222,7 @@ Name | Type |
 
 **Returns:** Container \| *undefined*
 
-Defined in: [hooks.ts:16](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox-react/src/hooks.ts#L16)
+Defined in: [hooks.ts:16](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/hooks.ts#L16)
 
 ___
 
@@ -242,7 +242,7 @@ Name | Type |
 
 **Returns:** Container
 
-Defined in: [hooks.ts:10](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox-react/src/hooks.ts#L10)
+Defined in: [hooks.ts:10](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/hooks.ts#L10)
 
 ▸ **useDependencyContainer**(`mode?`: *optional*): Container \| *undefined*
 
@@ -254,4 +254,4 @@ Name | Type |
 
 **Returns:** Container \| *undefined*
 
-Defined in: [hooks.ts:16](https://github.com/mnasyrov/ditox/blob/27e58cd/packages/ditox-react/src/hooks.ts#L16)
+Defined in: [hooks.ts:16](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/hooks.ts#L16)

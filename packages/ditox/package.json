@@ -1,6 +1,6 @@
 {
   "name": "ditox",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Detoxed dependency injection for JS, Typescript and Flow.",
   "license": "MIT",
   "author": "Mikhail Nasyrov <mikhail@mnasyrov.com> (https://github.com/mnasyrov)",
