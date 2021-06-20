@@ -11,6 +11,14 @@
 
 ### Component
 
+Binds the module to a new dependency container.
+
+If a parent container is exist, it is connected to the current one by default. Functions
+
+- [DependencyModule](README.md#dependencymodule)
+
+### Component
+
 Provides a new dependency container to React app
 
 This component creates a new container and provides it down to React children.
@@ -52,45 +60,94 @@ Returns a dependency container. Throws an error in case the container is not pro
 
 ### DependencyContainerBinder
 
-Ƭ **DependencyContainerBinder**: (`container`: Container) => *unknown*
+Ƭ **DependencyContainerBinder**: (`container`: `Container`) => `unknown`
+
+#### Type declaration
+
+▸ (`container`): `unknown`
 
 A callback for binding dependencies to a container
 
-#### Type declaration:
+##### Parameters
 
-▸ (`container`: Container): *unknown*
+| Name | Type |
+| :------ | :------ |
+| `container` | `Container` |
 
-#### Parameters:
+##### Returns
 
-Name | Type |
-:------ | :------ |
-`container` | Container |
+`unknown`
 
-**Returns:** *unknown*
+#### Defined in
 
-Defined in: [DependencyContainer.tsx:19](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/DependencyContainer.tsx#L19)
+[DependencyContainer.tsx:19](https://github.com/mnasyrov/ditox/blob/4d3317a/packages/ditox-react/src/DependencyContainer.tsx#L19)
 
 ___
 
 ### DependencyContainerParams
 
-Ƭ **DependencyContainerParams**: *object*
+Ƭ **DependencyContainerParams**: `Object`
 
 Specifies an existed container or options for a new container:
 
+**`property`** binder - A callback which setup bindings to the container.
+
 **`property`** root - If `true` then a new container does not depend on any parent containers
 
-**`property`** binder - A callback which can bind dependencies to the new container
+#### Type declaration
 
-#### Type declaration:
+| Name | Type |
+| :------ | :------ |
+| `binder?` | [DependencyContainerBinder](README.md#dependencycontainerbinder) |
+| `children` | `ReactNode` |
+| `root?` | `boolean` |
 
-Name | Type |
-:------ | :------ |
-`binder`? | [*DependencyContainerBinder*](README.md#dependencycontainerbinder) |
-`children` | ReactNode |
-`root`? | *boolean* |
+#### Defined in
 
-Defined in: [DependencyContainer.tsx:26](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/DependencyContainer.tsx#L26)
+[DependencyContainer.tsx:26](https://github.com/mnasyrov/ditox/blob/4d3317a/packages/ditox-react/src/DependencyContainer.tsx#L26)
+
+## Component
+
+Binds the module to a new dependency container.
+
+If a parent container is exist, it is connected to the current one by default. Functions
+
+### DependencyModule
+
+▸ **DependencyModule**(`params`): `ReactElement`
+
+**`example`**
+
+```tsx
+const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
+
+function App() {
+  return (
+    <DependencyModule module={LOGGER_MODULE}>
+      <NestedComponent />
+    </DependencyModule>
+  );
+}
+```
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `params` | `Object` | - |
+| `params.children` | `ReactNode` | - |
+| `params.module` | `ModuleDeclaration`<Module<Record<string, unknown\>\>\> | Module declaration for binding |
+| `params.scope?` | ``"scoped"`` \| ``"singleton"`` | Optional scope for binding: `singleton` (default) or `scoped`. |
+
+#### Returns
+
+`ReactElement`
+
+#### Defined in
+
+[DependencyModule.tsx:33](https://github.com/mnasyrov/ditox/blob/4d3317a/packages/ditox-react/src/DependencyModule.tsx#L33)
+
+___
 
 ## Component
 
@@ -107,9 +164,9 @@ and the container will not depend on any parent container. Functions
 
 ### DependencyContainer
 
-▸ **DependencyContainer**(`params`: { `binder?`: [*DependencyContainerBinder*](README.md#dependencycontainerbinder) ; `children`: ReactNode ; `root?`: *boolean*  }): ReactElement
+▸ **DependencyContainer**(`params`): `ReactElement`
 
-**`example`** 
+**`example`**
 
 ```tsx
 const TOKEN = token();
@@ -127,18 +184,19 @@ function App() {
 }
 ```
 
-#### Parameters:
+#### Parameters
 
-Name | Type | Description |
-:------ | :------ | :------ |
-`params` | *object* | - |
-`params.binder?` | [*DependencyContainerBinder*](README.md#dependencycontainerbinder) | A callback which initializes the container.   |
-`params.children` | ReactNode | - |
-`params.root?` | *boolean* | Makes the container to not depend on any parent containers.    |
+| Name | Type |
+| :------ | :------ |
+| `params` | [DependencyContainerParams](README.md#dependencycontainerparams) |
 
-**Returns:** ReactElement
+#### Returns
 
-Defined in: [DependencyContainer.tsx:68](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/DependencyContainer.tsx#L68)
+`ReactElement`
+
+#### Defined in
+
+[DependencyContainer.tsx:68](https://github.com/mnasyrov/ditox/blob/4d3317a/packages/ditox-react/src/DependencyContainer.tsx#L68)
 
 ___
 
@@ -148,23 +206,27 @@ Returns a dependency by token, or &#x60;undefined&#x60; in case the dependency i
 
 ### useOptionalDependency
 
-▸ **useOptionalDependency**<T\>(`token`: *Token*<T\>): T \| *undefined*
+▸ **useOptionalDependency**<T\>(`token`): `T` \| `undefined`
 
-#### Type parameters:
+#### Type parameters
 
-Name |
-:------ |
-`T` |
+| Name |
+| :------ |
+| `T` |
 
-#### Parameters:
+#### Parameters
 
-Name | Type |
-:------ | :------ |
-`token` | *Token*<T\> |
+| Name | Type |
+| :------ | :------ |
+| `token` | `Token`<T\> |
 
-**Returns:** T \| *undefined*
+#### Returns
 
-Defined in: [hooks.ts:52](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/hooks.ts#L52)
+`T` \| `undefined`
+
+#### Defined in
+
+[hooks.ts:52](https://github.com/mnasyrov/ditox/blob/4d3317a/packages/ditox-react/src/hooks.ts#L52)
 
 ___
 
@@ -174,23 +236,27 @@ Returns a dependency by token, or fails with an error. Functions
 
 ### useDependency
 
-▸ **useDependency**<T\>(`token`: *Token*<T\>): T
+▸ **useDependency**<T\>(`token`): `T`
 
-#### Type parameters:
+#### Type parameters
 
-Name |
-:------ |
-`T` |
+| Name |
+| :------ |
+| `T` |
 
-#### Parameters:
+#### Parameters
 
-Name | Type |
-:------ | :------ |
-`token` | *Token*<T\> |
+| Name | Type |
+| :------ | :------ |
+| `token` | `Token`<T\> |
 
-**Returns:** T
+#### Returns
 
-Defined in: [hooks.ts:41](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/hooks.ts#L41)
+`T`
+
+#### Defined in
+
+[hooks.ts:41](https://github.com/mnasyrov/ditox/blob/4d3317a/packages/ditox-react/src/hooks.ts#L41)
 
 ___
 
@@ -200,29 +266,37 @@ Returns a dependency container, or &#x60;undefined&#x60; in case the container i
 
 ### useDependencyContainer
 
-▸ **useDependencyContainer**(`mode`: *strict*): Container
+▸ **useDependencyContainer**(`mode`): `Container`
 
-#### Parameters:
+#### Parameters
 
-Name | Type |
-:------ | :------ |
-`mode` | *strict* |
+| Name | Type |
+| :------ | :------ |
+| `mode` | ``"strict"`` |
 
-**Returns:** Container
+#### Returns
 
-Defined in: [hooks.ts:10](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/hooks.ts#L10)
+`Container`
 
-▸ **useDependencyContainer**(`mode?`: *optional*): Container \| *undefined*
+#### Defined in
 
-#### Parameters:
+[hooks.ts:10](https://github.com/mnasyrov/ditox/blob/4d3317a/packages/ditox-react/src/hooks.ts#L10)
 
-Name | Type |
-:------ | :------ |
-`mode?` | *optional* |
+▸ **useDependencyContainer**(`mode?`): `Container` \| `undefined`
 
-**Returns:** Container \| *undefined*
+#### Parameters
 
-Defined in: [hooks.ts:16](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/hooks.ts#L16)
+| Name | Type |
+| :------ | :------ |
+| `mode?` | ``"optional"`` |
+
+#### Returns
+
+`Container` \| `undefined`
+
+#### Defined in
+
+[hooks.ts:16](https://github.com/mnasyrov/ditox/blob/4d3317a/packages/ditox-react/src/hooks.ts#L16)
 
 ___
 
@@ -232,26 +306,34 @@ Returns a dependency container. Throws an error in case the container is not pro
 
 ### useDependencyContainer
 
-▸ **useDependencyContainer**(`mode`: *strict*): Container
+▸ **useDependencyContainer**(`mode`): `Container`
 
-#### Parameters:
+#### Parameters
 
-Name | Type |
-:------ | :------ |
-`mode` | *strict* |
+| Name | Type |
+| :------ | :------ |
+| `mode` | ``"strict"`` |
 
-**Returns:** Container
+#### Returns
 
-Defined in: [hooks.ts:10](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/hooks.ts#L10)
+`Container`
 
-▸ **useDependencyContainer**(`mode?`: *optional*): Container \| *undefined*
+#### Defined in
 
-#### Parameters:
+[hooks.ts:10](https://github.com/mnasyrov/ditox/blob/4d3317a/packages/ditox-react/src/hooks.ts#L10)
 
-Name | Type |
-:------ | :------ |
-`mode?` | *optional* |
+▸ **useDependencyContainer**(`mode?`): `Container` \| `undefined`
 
-**Returns:** Container \| *undefined*
+#### Parameters
 
-Defined in: [hooks.ts:16](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox-react/src/hooks.ts#L16)
+| Name | Type |
+| :------ | :------ |
+| `mode?` | ``"optional"`` |
+
+#### Returns
+
+`Container` \| `undefined`
+
+#### Defined in
+
+[hooks.ts:16](https://github.com/mnasyrov/ditox/blob/4d3317a/packages/ditox-react/src/hooks.ts#L16)

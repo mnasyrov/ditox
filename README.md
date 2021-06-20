@@ -20,9 +20,10 @@ Detoxed dependency injection container.
 - [Usage](#usage)
 - [Container Hierarchy](#container-hierarchy)
 - [Factory Lifetimes](#factory-lifetimes)
-  - [`singleton`](#singleton)
-  - [`scoped`](#scoped)
-  - [`transient`](#transient)
+  * [`singleton`](#singleton)
+  * [`scoped`](#scoped)
+  * [`transient`](#transient)
+- [Dependency modules](#dependency-modules)
 - [API References](#api-references)
 
 <!-- tocstop -->

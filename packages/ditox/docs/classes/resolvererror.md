@@ -6,7 +6,7 @@ ResolverError is thrown by the resolver when a token is not found in a container
 
 ## Hierarchy
 
-* *Error*
+- `Error`
 
   ↳ **ResolverError**
 
@@ -32,106 +32,132 @@ ResolverError is thrown by the resolver when a token is not found in a container
 
 ### constructor
 
-\+ **new ResolverError**(`message`: *string*): [*ResolverError*](resolvererror.md)
+• **new ResolverError**(`message`)
 
-#### Parameters:
+#### Parameters
 
-Name | Type |
-:------ | :------ |
-`message` | *string* |
+| Name | Type |
+| :------ | :------ |
+| `message` | `string` |
 
-**Returns:** [*ResolverError*](resolvererror.md)
+#### Overrides
 
-Overrides: Error.constructor
+Error.constructor
 
-Defined in: [packages/ditox/src/ditox.ts:60](https://github.com/mnasyrov/ditox/blob/0b66cb0/packages/ditox/src/ditox.ts#L60)
+#### Defined in
+
+[packages/ditox/src/ditox.ts:60](https://github.com/mnasyrov/ditox/blob/4d3317a/packages/ditox/src/ditox.ts#L60)
 
 ## Properties
 
 ### message
 
-• **message**: *string*
+• **message**: `string`
 
-Inherited from: Error.message
+#### Inherited from
 
-Defined in: node_modules/typescript/lib/lib.es5.d.ts:974
+Error.message
+
+#### Defined in
+
+node_modules/typescript/lib/lib.es5.d.ts:974
 
 ___
 
 ### name
 
-• **name**: *string*
+• **name**: `string`
 
-Inherited from: Error.name
+#### Inherited from
 
-Defined in: node_modules/typescript/lib/lib.es5.d.ts:973
+Error.name
+
+#### Defined in
+
+node_modules/typescript/lib/lib.es5.d.ts:973
 
 ___
 
 ### stack
 
-• `Optional` **stack**: *string*
+• `Optional` **stack**: `string`
 
-Inherited from: Error.stack
+#### Inherited from
 
-Defined in: node_modules/typescript/lib/lib.es5.d.ts:975
+Error.stack
+
+#### Defined in
+
+node_modules/typescript/lib/lib.es5.d.ts:975
 
 ___
 
 ### prepareStackTrace
 
-▪ `Static` `Optional` **prepareStackTrace**: (`err`: Error, `stackTraces`: CallSite[]) => *any*
+▪ `Static` `Optional` **prepareStackTrace**: (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any`
+
+#### Type declaration
+
+▸ (`err`, `stackTraces`): `any`
 
 Optional override for formatting stack traces
 
-**`see`** https://v8.dev/docs/stack-trace-api#customizing-stack-traces
+##### Parameters
 
-#### Type declaration:
+| Name | Type |
+| :------ | :------ |
+| `err` | `Error` |
+| `stackTraces` | `CallSite`[] |
 
-▸ (`err`: Error, `stackTraces`: CallSite[]): *any*
+##### Returns
 
-#### Parameters:
+`any`
 
-Name | Type |
-:------ | :------ |
-`err` | Error |
-`stackTraces` | CallSite[] |
+#### Inherited from
 
-**Returns:** *any*
+Error.prepareStackTrace
 
-Defined in: node_modules/@types/node/globals.d.ts:11
+#### Defined in
 
-Inherited from: Error.prepareStackTrace
-
-Defined in: node_modules/@types/node/globals.d.ts:11
+node_modules/@types/node/globals.d.ts:11
 
 ___
 
 ### stackTraceLimit
 
-▪ `Static` **stackTraceLimit**: *number*
+▪ `Static` **stackTraceLimit**: `number`
 
-Inherited from: Error.stackTraceLimit
+#### Inherited from
 
-Defined in: node_modules/@types/node/globals.d.ts:13
+Error.stackTraceLimit
+
+#### Defined in
+
+node_modules/@types/node/globals.d.ts:13
 
 ## Methods
 
 ### captureStackTrace
 
-▸ `Static`**captureStackTrace**(`targetObject`: *object*, `constructorOpt?`: Function): *void*
+▸ `Static` **captureStackTrace**(`targetObject`, `constructorOpt?`): `void`
 
 Create .stack property on a target object
 
-#### Parameters:
+#### Parameters
 
-Name | Type |
-:------ | :------ |
-`targetObject` | *object* |
-`constructorOpt?` | Function |
+| Name | Type |
+| :------ | :------ |
+| `targetObject` | `object` |
+| `constructorOpt?` | `Function` |
 
-**Returns:** *void*
+#### Returns
 
-Inherited from: Error.captureStackTrace
+`void`
 
-Defined in: node_modules/@types/node/globals.d.ts:4
+#### Inherited from
+
+Error.captureStackTrace
+
+#### Defined in
+
+node_modules/@types/node/globals.d.ts:4

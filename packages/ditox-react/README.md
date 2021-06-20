@@ -17,6 +17,7 @@ React.js tooling for [Ditox.js](https://github.com/mnasyrov/ditox) DI container.
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Dependency modules](#dependency-modules)
 - [API References](#api-references)
 
 <!-- tocstop -->

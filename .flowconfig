@@ -11,8 +11,6 @@ implicit-inexact-object=error
 
 [options]
 exact_by_default=true
-esproposal.optional_chaining=enable
-esproposal.nullish_coalescing=enable
 
 [strict]
 nonstrict-import
