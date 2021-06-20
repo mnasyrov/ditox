@@ -139,3 +139,29 @@ export function bindModule<T extends Module<AnyObject>>(
     afterBinding(container);
   }
 }
+
+export type ModuleBindingEntry =
+  | ModuleDeclaration<AnyObject>
+  | {
+      module: ModuleDeclaration<AnyObject>;
+      options: BindModuleOptions;
+    };
+
+/**
+ * Binds dependency modules to the container
+ *
+ * @param container - Dependency container for binding
+ * @param modules - Array of module binding entries: module declaration or `{module: ModuleDeclaration, options: BindModuleOptions}` objects.
+ */
+export function bindModules(
+  container: Container,
+  modules: Array<ModuleBindingEntry>,
+): void {
+  modules.forEach((entry) => {
+    if ('module' in entry) {
+      bindModule(container, entry.module, entry.options);
+    } else {
+      bindModule(container, entry);
+    }
+  });
+}

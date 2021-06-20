@@ -330,6 +330,22 @@ function bindModule(container, moduleDeclaration, options) {
         afterBinding(container);
     }
 }
+/**
+ * Binds dependency modules to the container
+ *
+ * @param container - Dependency container for binding
+ * @param modules - Array of module binding entries: module declaration or `{module: ModuleDeclaration, options: BindModuleOptions}` objects.
+ */
+function bindModules(container, modules) {
+    modules.forEach((entry) => {
+        if ('module' in entry) {
+            bindModule(container, entry.module, entry.options);
+        }
+        else {
+            bindModule(container, entry);
+        }
+    });
+}
 
-export { ResolverError, bindModule, bindMultiValue, createContainer, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };
+export { ResolverError, bindModule, bindModules, bindMultiValue, createContainer, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };
 //# sourceMappingURL=index.js.map

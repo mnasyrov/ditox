@@ -20,5 +20,10 @@ export {
   injectableProps,
 } from './utils';
 
-export type {Module, ModuleDeclaration, BindModuleOptions} from './modules';
-export {bindModule} from './modules';
+export type {
+  Module,
+  ModuleDeclaration,
+  BindModuleOptions,
+  ModuleBindingEntry,
+} from './modules';
+export {bindModule, bindModules} from './modules';

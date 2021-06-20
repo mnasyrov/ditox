@@ -1,5 +1,5 @@
 import {createContainer, token} from './ditox';
-import {bindModule, Module, ModuleDeclaration} from './modules';
+import {bindModule, bindModules, Module, ModuleDeclaration} from './modules';
 
 describe('bindModule()', () => {
   type TestQueries = {getValue: () => number};
@@ -146,5 +146,44 @@ describe('bindModule()', () => {
     destroy.mockClear();
     container.removeAll();
     expect(destroy).toBeCalledTimes(1);
+  });
+});
+
+describe('bindModules()', () => {
+  type TestModule = Module<{value: number}>;
+
+  const MODULE1_TOKEN = token<TestModule>();
+  const MODULE1: ModuleDeclaration<TestModule> = {
+    token: MODULE1_TOKEN,
+    factory: () => ({value: 1}),
+  };
+
+  const MODULE2_TOKEN = token<TestModule>();
+  const MODULE2: ModuleDeclaration<TestModule> = {
+    token: MODULE2_TOKEN,
+    factory: () => ({value: 2}),
+  };
+
+  const MODULE2_ALTERED: ModuleDeclaration<TestModule> = {
+    token: MODULE2_TOKEN,
+    factory: () => ({value: 22}),
+  };
+
+  it('should bind modules and binding entries to the container', () => {
+    const parent = createContainer();
+    const container = createContainer(parent);
+
+    bindModules(parent, [MODULE2]);
+
+    bindModules(container, [
+      MODULE1,
+      {module: MODULE2_ALTERED, options: {scope: 'scoped'}},
+    ]);
+
+    expect(parent.get(MODULE1_TOKEN)).toBeUndefined();
+    expect(parent.get(MODULE2_TOKEN)?.value).toBe(2);
+
+    expect(container.get(MODULE1_TOKEN)?.value).toBe(1);
+    expect(container.get(MODULE2_TOKEN)?.value).toBe(22);
   });
 });

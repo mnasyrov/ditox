@@ -24,6 +24,8 @@ export {
 export {
   Module,
   ModuleDeclaration,
-  bindModule,
   BindModuleOptions,
+  ModuleBindingEntry,
+  bindModule,
+  bindModules,
 } from './modules';

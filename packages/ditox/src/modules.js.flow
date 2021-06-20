@@ -87,3 +87,21 @@ declare export function bindModule<T: Module<*>>(
   moduleDeclaration: ModuleDeclaration<T>,
   options?: BindModuleOptions,
 ): void;
+
+export type ModuleBindingEntry =
+  | ModuleDeclaration<*>
+  | {
+      module: ModuleDeclaration<*>,
+      options: BindModuleOptions,
+    };
+
+/**
+ * Binds dependency modules to the container
+ *
+ * @param container - Dependency container for binding
+ * @param modules - Array of module binding entries: module declaration or `{module: ModuleDeclaration, options: BindModuleOptions}` objects.
+ */
+declare export function bindModules(
+  container: Container,
+  modules: Array<ModuleBindingEntry>,
+): void;

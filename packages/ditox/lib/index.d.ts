@@ -249,5 +249,16 @@ declare type BindModuleOptions = {
  * ```
  */
 declare function bindModule<T extends Module<AnyObject>>(container: Container, moduleDeclaration: ModuleDeclaration<T>, options?: BindModuleOptions): void;
+declare type ModuleBindingEntry = ModuleDeclaration<AnyObject> | {
+    module: ModuleDeclaration<AnyObject>;
+    options: BindModuleOptions;
+};
+/**
+ * Binds dependency modules to the container
+ *
+ * @param container - Dependency container for binding
+ * @param modules - Array of module binding entries: module declaration or `{module: ModuleDeclaration, options: BindModuleOptions}` objects.
+ */
+declare function bindModules(container: Container, modules: Array<ModuleBindingEntry>): void;
 
-export { BindModuleOptions, Container, FactoryOptions, FactoryScope, Module, ModuleDeclaration, OptionalToken, RequiredToken, ResolverError, Token, bindModule, bindMultiValue, createContainer, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };
+export { BindModuleOptions, Container, FactoryOptions, FactoryScope, Module, ModuleBindingEntry, ModuleDeclaration, OptionalToken, RequiredToken, ResolverError, Token, bindModule, bindModules, bindMultiValue, createContainer, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };
