@@ -80,9 +80,7 @@ function appDependencyBinder(container) {
 function App() {
   return (
     <DependencyContainer binder={appDependencyBinder}>
-      <DependencyModule module={LOGGER_MODULE}>
-        <NestedComponent />
-      </DependencyModule>
+      <NestedComponent />
     </DependencyContainer>
   );
 }
@@ -102,6 +100,20 @@ function NestedComponent() {
   }, [foo, bar]);
 
   return null;
+}
+```
+
+## Dependency modules
+
+Dependency modules can be provided to the app with `<DependencyModule />` component:
+
+```tsx
+function App() {
+  return (
+    <DependencyModule module={LOGGER_MODULE}>
+      <NestedComponent />
+    </DependencyModule>
+  );
 }
 ```
 

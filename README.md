@@ -20,9 +20,9 @@ Detoxed dependency injection container.
 - [Usage](#usage)
 - [Container Hierarchy](#container-hierarchy)
 - [Factory Lifetimes](#factory-lifetimes)
-  * [`singleton`](#singleton)
-  * [`scoped`](#scoped)
-  * [`transient`](#transient)
+  - [`singleton`](#singleton)
+  - [`scoped`](#scoped)
+  - [`transient`](#transient)
 - [API References](#api-references)
 
 <!-- tocstop -->
@@ -32,6 +32,7 @@ Detoxed dependency injection container.
 - Simple, functional API
 - Container hierarchy
 - Scoped containers
+- Dependency modules
 - Multi-value tokens
 - Typescript and Flow typings
 - Supports Node.js, Deno and browsers
@@ -269,6 +270,42 @@ container2.resolve(LOGGER)('bar'); // [container2] bar
 
 parent.bindValue(TAG, 'parent-rebind');
 parent.resolve(LOGGER)('xyz'); // [parent-rebind] xyz
+```
+
+## Dependency modules
+
+Dependencies can be organized as modules in declarative way with `ModuleDeclaration`.
+It is useful for providing pieces of functionality from libraries to an app which depends on them.
+
+```ts
+type LoggerModule = Module<{logger: Logger}>;
+
+const LOGGER_MODULE_TOKEN = token<LoggerModule>;
+
+const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
+  token: LOGGER_MODULE_TOKEN,
+  factory: (container) => {
+    const transport = container.resolve(TRANSPORT_TOKEN).open();
+    return {
+      logger: {log: (message) => transport.write(message)},
+      destroy: () => transport.close(),
+    };
+  },
+  exportedProps: {
+    logger: LOGGER_TOKEN,
+  },
+};
+```
+
+Later such module declarations can be bound to a container:
+```ts
+const container = createContainer();
+
+// bind a single module
+bindModule(container, LOGGER_MODULE);
+
+// or bind multiple depenendency modules
+bindModules(container, [DATABASE_MODULE, CONFIG_MODULE, API_MODULE]);
 ```
 
 ## API References
