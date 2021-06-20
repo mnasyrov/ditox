@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/mnasyrov/ditox/compare/v1.1.0...v1.2.0) (2021-06-20)
+
+
+### Bug Fixes
+
+* Fixed resolving a singleton registered in the parent. ([224c595](https://github.com/mnasyrov/ditox/commit/224c59585e43c68cc23e6abf521ecad09aeb1c7a))
+
+
+### Features
+
+* `bindModules()` utility function. ([e62d6c3](https://github.com/mnasyrov/ditox/commit/e62d6c3332f991b8e3943ad269bd6e76cb6a266c))
+* Dependency modules ([d01d333](https://github.com/mnasyrov/ditox/commit/d01d33347788c7eeeaee014fa794684ffbd4b2e7))
+
+
+
+
+
 # [1.1.0](https://github.com/mnasyrov/ditox/compare/v1.0.2...v1.1.0) (2021-04-17)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/mnasyrov/ditox/compare/v1.1.0...v1.2.0) (2021-06-20)
+
+
+### Features
+
+* DependencyModule component ([e5836b8](https://github.com/mnasyrov/ditox/commit/e5836b89f4506cabe0303a91501c43f732455fe1))
+
+
+
+
+
 # [1.1.0](https://github.com/mnasyrov/ditox/compare/v1.0.2...v1.1.0) (2021-04-17)
 
 
