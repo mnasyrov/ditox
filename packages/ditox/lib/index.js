@@ -144,6 +144,9 @@ function createContainer(parentContainer) {
                     if (hasValue) {
                         return value;
                     }
+                    else if (parentContainer === null || parentContainer === void 0 ? void 0 : parentContainer.hasToken(token)) {
+                        break;
+                    }
                     else {
                         // Cache the value in the same container where the factory is registered.
                         const value = factoryContext.factory(container);

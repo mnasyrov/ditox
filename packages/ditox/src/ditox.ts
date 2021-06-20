@@ -308,6 +308,8 @@ export function createContainer(parentContainer?: Container): Container {
         case 'singleton': {
           if (hasValue) {
             return value;
+          } else if (parentContainer?.hasToken(token)) {
+            break;
           } else {
             // Cache the value in the same container where the factory is registered.
             const value = factoryContext.factory(container);

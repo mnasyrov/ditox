@@ -95,6 +95,10 @@ describe('Container', () => {
         scope: 'singleton',
       });
 
+      container.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'singleton',
+      });
+
       expect(container.get(NUMBER)).toBe(11);
       expect(container.get(NUMBER)).toBe(11);
       expect(parent.get(NUMBER)).toBe(11);
