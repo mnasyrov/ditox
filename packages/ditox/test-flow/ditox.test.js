@@ -1,11 +1,7 @@
-import {
-  createContainer,
-  injectable,
-  optional,
-  ResolverError,
-  token,
-  Token,
-} from '../';
+// @flow strict
+
+import type {Token} from '..';
+import {createContainer, injectable, optional, ResolverError, token} from '../';
 
 const NUMBER: Token<number> = token('number');
 const STRING: Token<string> = token('string');

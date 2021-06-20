@@ -285,5 +285,48 @@ function injectableProps(factory, tokens) {
     };
 }
 
-export { ResolverError, bindMultiValue, createContainer, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };
+/**
+ * Binds the dependency module to the container
+ * @param container - Dependency container.
+ * @param moduleDeclaration - Declaration of the dependency module.
+ * @param options - Options for module binding.
+ *
+ * @example
+ * ```ts
+ * bindModule(container, LOGGER_MODULE);
+ * ```
+ */
+function bindModule(container, moduleDeclaration, options) {
+    const { token, factory, exportedProps, beforeBinding, afterBinding, } = moduleDeclaration;
+    const scope = options === null || options === void 0 ? void 0 : options.scope;
+    if (beforeBinding) {
+        beforeBinding(container);
+    }
+    const exportedValueTokens = new Set();
+    if (exportedProps) {
+        const keys = Object.keys(exportedProps);
+        keys.forEach((valueKey) => {
+            const valueToken = exportedProps[valueKey];
+            if (valueToken) {
+                exportedValueTokens.add(valueToken);
+                container.bindFactory(valueToken, injectable((module) => module[valueKey], token), { scope });
+            }
+        });
+    }
+    container.bindFactory(token, factory, {
+        scope,
+        onRemoved: (module) => {
+            if (module.destroy) {
+                module.destroy();
+            }
+            exportedValueTokens.forEach((valueToken) => container.remove(valueToken));
+            exportedValueTokens.clear();
+        },
+    });
+    if (afterBinding) {
+        afterBinding(container);
+    }
+}
+
+export { ResolverError, bindModule, bindMultiValue, createContainer, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };
 //# sourceMappingURL=index.js.map

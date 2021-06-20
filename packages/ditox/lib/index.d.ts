@@ -48,8 +48,8 @@ declare type FactoryScope = 'scoped' | 'singleton' | 'transient';
  * Options for factory binding.
  *
  * `scope` types:
- *   - `scoped` - **This is the default**. The value is created and cached by the container which starts resolving.
- *   - `singleton` - The value is created and cached by the container which registered the factory.
+ *   - `singleton` - **This is the default**. The value is created and cached by the container which registered the factory.
+ *   - `scoped` - The value is created and cached by the container which starts resolving.
  *   - `transient` - The value is created every time it is resolved.
  *
  * `scoped` and `singleton` scopes can have `onRemoved` callback. It is called when a token is removed from the container.
@@ -175,4 +175,79 @@ declare function resolveProps<Props extends ValuesProps>(container: Container, t
  */
 declare function injectableProps<Props extends ValuesProps, Result>(factory: (props: Props) => Result, tokens: TokenProps<Props>): (container: Container) => Result;
 
-export { Container, FactoryOptions, FactoryScope, OptionalToken, RequiredToken, ResolverError, Token, bindMultiValue, createContainer, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };
+declare type AnyObject = Record<string, any>;
+declare type EmptyObject = Record<string, never>;
+declare type ModuleController = {
+    /** Dispose the module and clean its resources */
+    destroy?: () => void;
+};
+/**
+ * Dependency module
+ *
+ * @example
+ * ```ts
+ * type LoggerModule = Module<{
+ *   logger: Logger;
+ * }>;
+ * ```
+ */
+declare type Module<ModuleProps extends AnyObject = EmptyObject> = ModuleController & ModuleProps;
+declare type GetModuleProps<T> = T extends Module<infer Props> ? Props : never;
+/**
+ * Description of a dependency module in declarative way.
+ *
+ * @example
+ * ```ts
+ * const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
+ *   token: LOGGER_MODULE_TOKEN,
+ *   factory: (container) => {
+ *     const transport = container.resolve(TRANSPORT_TOKEN).open();
+ *     return {
+ *       logger: { log: (message) => transport.write(message) },
+ *       destroy: () => transport.close(),
+ *     }
+ *   },
+ *   exportedProps: {
+ *     logger: LOGGER_TOKEN,
+ *   },
+ * };
+ * ```
+ */
+declare type ModuleDeclaration<T extends Module<AnyObject>> = {
+    /** Token for the module */
+    token: Token<T>;
+    /** Factory of the module */
+    factory: (container: Container) => T;
+    /** Dictionary of module properties which are bound to tokens. */
+    exportedProps?: {
+        [K in keyof GetModuleProps<T>]?: Token<GetModuleProps<T>[K]>;
+    };
+    /** Callback could be used to prepare an environment. It is called before binding the module. */
+    beforeBinding?: (container: Container) => void;
+    /** Callback could be used to export complex dependencies from the module. It is called after binding the module.  */
+    afterBinding?: (container: Container) => void;
+};
+/**
+ * Options for module binding.
+ *
+ * `scope` types:
+ *   - `singleton` - **This is the default**. The module is created and cached by the container which registered the factory.
+ *   - `scoped` - The module is created and cached by the container which starts resolving.
+ */
+declare type BindModuleOptions = {
+    scope?: 'scoped' | 'singleton';
+};
+/**
+ * Binds the dependency module to the container
+ * @param container - Dependency container.
+ * @param moduleDeclaration - Declaration of the dependency module.
+ * @param options - Options for module binding.
+ *
+ * @example
+ * ```ts
+ * bindModule(container, LOGGER_MODULE);
+ * ```
+ */
+declare function bindModule<T extends Module<AnyObject>>(container: Container, moduleDeclaration: ModuleDeclaration<T>, options?: BindModuleOptions): void;
+
+export { BindModuleOptions, Container, FactoryOptions, FactoryScope, Module, ModuleDeclaration, OptionalToken, RequiredToken, ResolverError, Token, bindModule, bindMultiValue, createContainer, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };

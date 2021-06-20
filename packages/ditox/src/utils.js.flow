@@ -19,9 +19,9 @@ type ValuesTuple =
 type Tokens<Values: ValuesTuple> = $TupleMap<Values, <V>() => Token<V>>;
 type OptionalValues<Values: ValuesTuple> = $TupleMap<Values, <V>() => V | void>;
 
-type mapPropToToken = <K, V>(key: K, value: V) => Token<V>;
-type ValueProps = {[key: string]: *};
-type TokenProps<Values: ValueProps> = $ObjMapi<Values, mapPropToToken>;
+export type mapPropToToken = <K, V>(key: K, value: V) => Token<V>;
+export type ValueProps = {[key: string]: *};
+export type TokenProps<Values: ValueProps> = $ObjMapi<Values, mapPropToToken>;
 
 /**
  * Rebinds the array by the token with added new value.

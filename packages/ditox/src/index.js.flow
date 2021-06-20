@@ -19,3 +19,6 @@ export {
   resolveProps,
   injectableProps,
 } from './utils';
+
+export type {Module, ModuleDeclaration, BindModuleOptions} from './modules';
+export {bindModule} from './modules';

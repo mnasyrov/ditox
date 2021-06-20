@@ -20,3 +20,10 @@ export {
   resolveProps,
   injectableProps,
 } from './utils';
+
+export {
+  Module,
+  ModuleDeclaration,
+  bindModule,
+  BindModuleOptions,
+} from './modules';
