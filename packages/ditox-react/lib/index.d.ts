@@ -1,4 +1,4 @@
-import { Container, Token } from 'ditox';
+import { Container, Token, ModuleDeclaration, Module } from 'ditox';
 import { ReactNode, ReactElement } from 'react';
 
 /**
@@ -7,8 +7,8 @@ import { ReactNode, ReactElement } from 'react';
 declare type DependencyContainerBinder = (container: Container) => unknown;
 /**
  * Specifies an existed container or options for a new container:
+ * @property binder - A callback which setup bindings to the container.
  * @property root - If `true` then a new container does not depend on any parent containers
- * @property binder - A callback which can bind dependencies to the new container
  */
 declare type DependencyContainerParams = {
     children: ReactNode;
@@ -29,8 +29,8 @@ declare type DependencyContainerParams = {
  * For making a new root container specify `root` parameter as `true`,
  * and the container will not depend on any parent container.
  *
- * @param params.binder - A callback which initializes the container.
- * @param params.root - Makes the container to not depend on any parent containers.
+ * @param params.binder - A callback which setup bindings to the container.
+ * @param params.root - If `true` then a new container does not depend on any parent containers
  *
  * @example
  *
@@ -51,11 +51,7 @@ declare type DependencyContainerParams = {
  * ```
  *
  */
-declare function DependencyContainer(params: {
-    children: ReactNode;
-    root?: boolean;
-    binder?: DependencyContainerBinder;
-}): ReactElement;
+declare function DependencyContainer(params: DependencyContainerParams): ReactElement;
 
 /**
  * @category Hook
@@ -82,4 +78,34 @@ declare function useDependency<T>(token: Token<T>): T;
  */
 declare function useOptionalDependency<T>(token: Token<T>): T | undefined;
 
-export { DependencyContainer, DependencyContainerBinder, DependencyContainerParams, useDependency, useDependencyContainer, useOptionalDependency };
+/**
+ * @category Component
+ *
+ * Binds the module to a new dependency container.
+ *
+ * If a parent container is exist, it is connected to the current one by default.
+ *
+ * @param params.module - Module declaration for binding
+ * @param params.scope - Optional scope for binding: `singleton` (default) or `scoped`.
+ *
+ * @example
+ *
+ * ```tsx
+ * const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
+ *
+ * function App() {
+ *   return (
+ *     <DependencyModule module={LOGGER_MODULE}>
+ *       <NestedComponent />
+ *     </DependencyModule>
+ *   );
+ * }
+ * ```
+ */
+declare function DependencyModule(params: {
+    children: ReactNode;
+    module: ModuleDeclaration<Module<Record<string, unknown>>>;
+    scope?: 'scoped' | 'singleton';
+}): ReactElement;
+
+export { DependencyContainer, DependencyContainerBinder, DependencyContainerParams, DependencyModule, useDependency, useDependencyContainer, useOptionalDependency };

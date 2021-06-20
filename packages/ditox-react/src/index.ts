@@ -9,3 +9,5 @@ export {
   useDependency,
   useOptionalDependency,
 } from './hooks';
+
+export {DependencyModule} from './DependencyModule';

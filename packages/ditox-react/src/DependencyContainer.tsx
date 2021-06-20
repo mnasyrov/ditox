@@ -20,8 +20,8 @@ export type DependencyContainerBinder = (container: Container) => unknown;
 
 /**
  * Specifies an existed container or options for a new container:
+ * @property binder - A callback which setup bindings to the container.
  * @property root - If `true` then a new container does not depend on any parent containers
- * @property binder - A callback which can bind dependencies to the new container
  */
 export type DependencyContainerParams = {
   children: ReactNode;
@@ -43,8 +43,8 @@ export type DependencyContainerParams = {
  * For making a new root container specify `root` parameter as `true`,
  * and the container will not depend on any parent container.
  *
- * @param params.binder - A callback which initializes the container.
- * @param params.root - Makes the container to not depend on any parent containers.
+ * @param params.binder - A callback which setup bindings to the container.
+ * @param params.root - If `true` then a new container does not depend on any parent containers
  *
  * @example
  *
@@ -65,11 +65,9 @@ export type DependencyContainerParams = {
  * ```
  *
  */
-export function DependencyContainer(params: {
-  children: ReactNode;
-  root?: boolean;
-  binder?: DependencyContainerBinder;
-}): ReactElement {
+export function DependencyContainer(
+  params: DependencyContainerParams,
+): ReactElement {
   const {children, root, binder} = params;
   const parentContainer = useContext(DependencyContainerContext);
 

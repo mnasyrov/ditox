@@ -50,6 +50,8 @@ yarn add ditox @ditox/react
 
 - Components:
   - `DepencencyContainer` - provides a new or existed container to React components.
+  - `DepencencyModule` - binds a dependency module to a new container.
+  - `CustomDepencencyContainer` - provides an existed dependency container.
 - Hooks:
   - `useDependencyContainer()` - returns a provided dependency container.
   - `useDependency()` - returns a resolved value by a specified token. It throws an error in case a container or value is not found.
@@ -60,11 +62,13 @@ Examples:
 ```jsx
 import {
   DependencyContainer,
+  DependencyModule,
   useDependency,
   useDependencyContainer,
   useOptionalDependency,
 } from '@ditox/react';
 import {token} from 'ditox';
+import {LOGGER_MODULE} from './logger';
 
 const FOO = token();
 const BAR = token();
@@ -76,7 +80,9 @@ function appDependencyBinder(container) {
 function App() {
   return (
     <DependencyContainer binder={appDependencyBinder}>
-      <NestedComponent />
+      <DependencyModule module={LOGGER_MODULE}>
+        <NestedComponent />
+      </DependencyModule>
     </DependencyContainer>
   );
 }

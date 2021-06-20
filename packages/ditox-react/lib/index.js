@@ -1,5 +1,5 @@
-import { createContainer } from 'ditox';
-import React, { createContext, useContext, useMemo, useEffect } from 'react';
+import { createContainer, bindModule } from 'ditox';
+import React, { createContext, useContext, useMemo, useEffect, useCallback } from 'react';
 
 const DependencyContainerContext = createContext(undefined);
 /**
@@ -16,8 +16,8 @@ const DependencyContainerContext = createContext(undefined);
  * For making a new root container specify `root` parameter as `true`,
  * and the container will not depend on any parent container.
  *
- * @param params.binder - A callback which initializes the container.
- * @param params.root - Makes the container to not depend on any parent containers.
+ * @param params.binder - A callback which setup bindings to the container.
+ * @param params.root - If `true` then a new container does not depend on any parent containers
  *
  * @example
  *
@@ -83,5 +83,35 @@ function useOptionalDependency(token) {
     return value;
 }
 
-export { DependencyContainer, useDependency, useDependencyContainer, useOptionalDependency };
+/**
+ * @category Component
+ *
+ * Binds the module to a new dependency container.
+ *
+ * If a parent container is exist, it is connected to the current one by default.
+ *
+ * @param params.module - Module declaration for binding
+ * @param params.scope - Optional scope for binding: `singleton` (default) or `scoped`.
+ *
+ * @example
+ *
+ * ```tsx
+ * const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
+ *
+ * function App() {
+ *   return (
+ *     <DependencyModule module={LOGGER_MODULE}>
+ *       <NestedComponent />
+ *     </DependencyModule>
+ *   );
+ * }
+ * ```
+ */
+function DependencyModule(params) {
+    const { children, module, scope } = params;
+    const binder = useCallback((container) => bindModule(container, module, { scope }), [module, scope]);
+    return React.createElement(DependencyContainer, { binder: binder }, children);
+}
+
+export { DependencyContainer, DependencyModule, useDependency, useDependencyContainer, useOptionalDependency };
 //# sourceMappingURL=index.js.map
