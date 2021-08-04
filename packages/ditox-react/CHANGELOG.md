@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/mnasyrov/ditox/compare/v1.2.0...v1.3.0) (2021-08-04)
+
+
+### Features
+
+* `declareModule()` and `declareModuleBindings()` utility functions ([990ffe7](https://github.com/mnasyrov/ditox/commit/990ffe79af37c6ee56738b6ac7e9c071818d10f7))
+
+
+
+
+
 # [1.2.0](https://github.com/mnasyrov/ditox/compare/v1.1.0...v1.2.0) (2021-06-20)
 
 
