@@ -1,5 +1,12 @@
 import {createContainer, token} from './ditox';
-import {bindModule, bindModules, Module, ModuleDeclaration} from './modules';
+import {
+  bindModule,
+  bindModules,
+  declareModule,
+  declareModuleBindings,
+  Module,
+  ModuleDeclaration,
+} from './modules';
 
 describe('bindModule()', () => {
   type TestQueries = {getValue: () => number};
@@ -185,5 +192,60 @@ describe('bindModules()', () => {
 
     expect(container.get(MODULE1_TOKEN)?.value).toBe(1);
     expect(container.get(MODULE2_TOKEN)?.value).toBe(22);
+  });
+});
+
+describe('declareModule()', () => {
+  it('should declare a binding for the module', () => {
+    const container = createContainer();
+
+    const VALUE_TOKEN = token<number>();
+    const MODULE_TOKEN = token<Module<{value: number}>>();
+    const MODULE = declareModule({
+      token: MODULE_TOKEN,
+      factory: () => ({value: 1}),
+      exportedProps: {value: VALUE_TOKEN},
+    });
+
+    bindModule(container, MODULE);
+    expect(container.get(VALUE_TOKEN)).toBe(1);
+    expect(container.get(MODULE_TOKEN)).toEqual({value: 1});
+  });
+
+  it('should declare a binding for the anonymous module', () => {
+    const container = createContainer();
+
+    const VALUE_TOKEN = token<number>();
+    const MODULE = declareModule({
+      factory: () => ({value: 1}),
+      exportedProps: {value: VALUE_TOKEN},
+    });
+
+    bindModule(container, MODULE);
+    expect(container.get(VALUE_TOKEN)).toBe(1);
+  });
+});
+
+describe('declareModuleBindings()', () => {
+  it('should declare bindings for the modules', () => {
+    const container = createContainer();
+
+    const VALUE1_TOKEN = token<number>();
+    const MODULE1 = declareModule({
+      factory: () => ({value: 1}),
+      exportedProps: {value: VALUE1_TOKEN},
+    });
+
+    const VALUE2_TOKEN = token<number>();
+    const MODULE2 = declareModule({
+      factory: () => ({value: 2}),
+      exportedProps: {value: VALUE2_TOKEN},
+    });
+
+    const MODULE_BINDINGS = declareModuleBindings([MODULE1, MODULE2]);
+
+    bindModule(container, MODULE_BINDINGS);
+    expect(container.get(VALUE1_TOKEN)).toBe(1);
+    expect(container.get(VALUE2_TOKEN)).toBe(2);
   });
 });

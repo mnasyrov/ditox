@@ -28,4 +28,6 @@ export {
   ModuleBindingEntry,
   bindModule,
   bindModules,
+  declareModule,
+  declareModuleBindings,
 } from './modules';

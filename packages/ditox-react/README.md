@@ -24,7 +24,7 @@ React.js tooling for [Ditox.js](https://github.com/mnasyrov/ditox) DI container.
 
 ## Features
 
-- Simple, functional API
+- Simple and functional API
 - Container hierarchy
 - Scoped containers
 - Multi-value tokens

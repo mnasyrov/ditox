@@ -1,6 +1,7 @@
 // @flow strict
 
 import type {Container, Token} from './ditox';
+import {token} from './ditox';
 import type {TokenProps, ValueProps} from './utils';
 
 type ModuleController = {
@@ -105,3 +106,41 @@ declare export function bindModules(
   container: Container,
   modules: Array<ModuleBindingEntry>,
 ): void;
+
+/**
+ * Declares a module binding
+ *
+ * @param declaration - a module declaration
+ * @param declaration.token - optional field
+ *
+ *  @example
+ * ```ts
+ * const LOGGER_MODULE = declareModule<LoggerModule>({
+ *   factory: (container) => {
+ *     const transport = container.resolve(TRANSPORT_TOKEN).open();
+ *     return {
+ *       logger: { log: (message) => transport.write(message) },
+ *       destroy: () => transport.close(),
+ *     }
+ *   },
+ *   exportedProps: {
+ *     logger: LOGGER_TOKEN,
+ *   },
+ * });
+ * ```
+ */
+declare export function declareModule<T>(
+  declaration: ModuleDeclaration<T> | {
+    ...$Rest<ModuleDeclaration<T>, {token: *}>,
+    token?: $PropertyType<ModuleDeclaration<T>, 'token'>,
+  },
+): ModuleDeclaration<T>;
+
+/**
+ * Declares bindings of several modules
+ *
+ * @param modules - module declaration entries
+ */
+declare export function declareModuleBindings(
+  modules: Array<ModuleBindingEntry>,
+): ModuleDeclaration<Module<*>>;

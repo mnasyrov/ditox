@@ -1,4 +1,4 @@
-import {Container, Token} from './ditox';
+import {Container, token, Token} from './ditox';
 import {injectable} from './utils';
 
 type AnyObject = Record<string, any>;
@@ -19,14 +19,13 @@ type ModuleController = {
  * }>;
  * ```
  */
-export type Module<
-  ModuleProps extends AnyObject = EmptyObject
-> = ModuleController & ModuleProps;
+export type Module<ModuleProps extends AnyObject = EmptyObject> =
+  ModuleController & ModuleProps;
 
 type GetModuleProps<T> = T extends Module<infer Props> ? Props : never;
 
 /**
- * Description of a dependency module in declarative way.
+ * Description how to bind the module in declarative way.
  *
  * @example
  * ```ts
@@ -91,13 +90,8 @@ export function bindModule<T extends Module<AnyObject>>(
   moduleDeclaration: ModuleDeclaration<T>,
   options?: BindModuleOptions,
 ): void {
-  const {
-    token,
-    factory,
-    exportedProps,
-    beforeBinding,
-    afterBinding,
-  } = moduleDeclaration;
+  const {token, factory, exportedProps, beforeBinding, afterBinding} =
+    moduleDeclaration;
   const scope = options?.scope;
 
   if (beforeBinding) {
@@ -163,5 +157,48 @@ export function bindModules(
     } else {
       bindModule(container, entry);
     }
+  });
+}
+
+/**
+ * Declares a module binding
+ *
+ * @param declaration - a module declaration
+ * @param declaration.token - optional field
+ *
+ *  @example
+ * ```ts
+ * const LOGGER_MODULE = declareModule<LoggerModule>({
+ *   factory: (container) => {
+ *     const transport = container.resolve(TRANSPORT_TOKEN).open();
+ *     return {
+ *       logger: { log: (message) => transport.write(message) },
+ *       destroy: () => transport.close(),
+ *     }
+ *   },
+ *   exportedProps: {
+ *     logger: LOGGER_TOKEN,
+ *   },
+ * });
+ * ```
+ */
+export function declareModule<T>(
+  declaration: Omit<ModuleDeclaration<T>, 'token'> &
+    Partial<Pick<ModuleDeclaration<T>, 'token'>>,
+): ModuleDeclaration<T> {
+  return {...declaration, token: declaration.token ?? token()};
+}
+
+/**
+ * Declares bindings of several modules
+ *
+ * @param modules - module declaration entries
+ */
+export function declareModuleBindings(
+  modules: Array<ModuleBindingEntry>,
+): ModuleDeclaration<Module> {
+  return declareModule({
+    factory: () => ({}),
+    beforeBinding: (container) => bindModules(container, modules),
   });
 }

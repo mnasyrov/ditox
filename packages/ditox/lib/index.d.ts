@@ -194,7 +194,7 @@ declare type ModuleController = {
 declare type Module<ModuleProps extends AnyObject = EmptyObject> = ModuleController & ModuleProps;
 declare type GetModuleProps<T> = T extends Module<infer Props> ? Props : never;
 /**
- * Description of a dependency module in declarative way.
+ * Description how to bind the module in declarative way.
  *
  * @example
  * ```ts
@@ -260,5 +260,34 @@ declare type ModuleBindingEntry = ModuleDeclaration<AnyObject> | {
  * @param modules - Array of module binding entries: module declaration or `{module: ModuleDeclaration, options: BindModuleOptions}` objects.
  */
 declare function bindModules(container: Container, modules: Array<ModuleBindingEntry>): void;
+/**
+ * Declares a module binding
+ *
+ * @param declaration - a module declaration
+ * @param declaration.token - optional field
+ *
+ *  @example
+ * ```ts
+ * const LOGGER_MODULE = declareModule<LoggerModule>({
+ *   factory: (container) => {
+ *     const transport = container.resolve(TRANSPORT_TOKEN).open();
+ *     return {
+ *       logger: { log: (message) => transport.write(message) },
+ *       destroy: () => transport.close(),
+ *     }
+ *   },
+ *   exportedProps: {
+ *     logger: LOGGER_TOKEN,
+ *   },
+ * });
+ * ```
+ */
+declare function declareModule<T>(declaration: Omit<ModuleDeclaration<T>, 'token'> & Partial<Pick<ModuleDeclaration<T>, 'token'>>): ModuleDeclaration<T>;
+/**
+ * Declares bindings of several modules
+ *
+ * @param modules - module declaration entries
+ */
+declare function declareModuleBindings(modules: Array<ModuleBindingEntry>): ModuleDeclaration<Module>;
 
-export { BindModuleOptions, Container, FactoryOptions, FactoryScope, Module, ModuleBindingEntry, ModuleDeclaration, OptionalToken, RequiredToken, ResolverError, Token, bindModule, bindModules, bindMultiValue, createContainer, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };
+export { BindModuleOptions, Container, FactoryOptions, FactoryScope, Module, ModuleBindingEntry, ModuleDeclaration, OptionalToken, RequiredToken, ResolverError, Token, bindModule, bindModules, bindMultiValue, createContainer, declareModule, declareModuleBindings, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };

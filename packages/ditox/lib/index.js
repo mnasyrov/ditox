@@ -300,7 +300,7 @@ function injectableProps(factory, tokens) {
  * ```
  */
 function bindModule(container, moduleDeclaration, options) {
-    const { token, factory, exportedProps, beforeBinding, afterBinding, } = moduleDeclaration;
+    const { token, factory, exportedProps, beforeBinding, afterBinding } = moduleDeclaration;
     const scope = options === null || options === void 0 ? void 0 : options.scope;
     if (beforeBinding) {
         beforeBinding(container);
@@ -346,6 +346,43 @@ function bindModules(container, modules) {
         }
     });
 }
+/**
+ * Declares a module binding
+ *
+ * @param declaration - a module declaration
+ * @param declaration.token - optional field
+ *
+ *  @example
+ * ```ts
+ * const LOGGER_MODULE = declareModule<LoggerModule>({
+ *   factory: (container) => {
+ *     const transport = container.resolve(TRANSPORT_TOKEN).open();
+ *     return {
+ *       logger: { log: (message) => transport.write(message) },
+ *       destroy: () => transport.close(),
+ *     }
+ *   },
+ *   exportedProps: {
+ *     logger: LOGGER_TOKEN,
+ *   },
+ * });
+ * ```
+ */
+function declareModule(declaration) {
+    var _a;
+    return { ...declaration, token: (_a = declaration.token) !== null && _a !== void 0 ? _a : token() };
+}
+/**
+ * Declares bindings of several modules
+ *
+ * @param modules - module declaration entries
+ */
+function declareModuleBindings(modules) {
+    return declareModule({
+        factory: () => ({}),
+        beforeBinding: (container) => bindModules(container, modules),
+    });
+}
 
-export { ResolverError, bindModule, bindModules, bindMultiValue, createContainer, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };
+export { ResolverError, bindModule, bindModules, bindMultiValue, createContainer, declareModule, declareModuleBindings, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };
 //# sourceMappingURL=index.js.map

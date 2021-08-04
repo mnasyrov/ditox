@@ -30,7 +30,7 @@ Detoxed dependency injection container.
 
 ## Features
 
-- Simple, functional API
+- Simple and functional API
 - Container hierarchy
 - Scoped containers
 - Dependency modules
@@ -307,6 +307,23 @@ bindModule(container, LOGGER_MODULE);
 
 // or bind multiple depenendency modules
 bindModules(container, [DATABASE_MODULE, CONFIG_MODULE, API_MODULE]);
+```
+
+There are utility functions for module declarations:
+- `declareModule()` – declare a module as `ModuleDeclaration` however `token` field can be optional for anonymous modules.
+- `declareModuleBindings()` – declares an anonymous module with imports. This module binds the provided ones to a container.
+
+Example for these functions:
+
+```ts
+const LOGGER_MODULE = declareModule<LoggerModule>({
+  factory: createLoggerModule,
+  exportedProps: {
+    logger: LOGGER_TOKEN,
+  },
+});
+
+const APP_MODULE = declareModuleBinding([LOGGER_MODULE, DATABASE_MODULE]);
 ```
 
 ## API References
