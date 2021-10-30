@@ -1,6 +1,6 @@
 {
   "name": "ditox-react",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Ditox.js tooling for React.js",
   "publishConfig": {
     "access": "public"
@@ -52,7 +52,7 @@
     "watch": "rollup -c --watch"
   },
   "dependencies": {
-    "ditox": "1.3.0"
+    "ditox": "1.4.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0"

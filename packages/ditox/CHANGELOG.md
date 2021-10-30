@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/mnasyrov/ditox/compare/v1.3.0...v1.4.0) (2021-10-30)
+
+
+### Features
+
+* `ModuleDeclaration.imports` property takes module entries for binding with the module. ([6757bdc](https://github.com/mnasyrov/ditox/commit/6757bdc87a02d2336ca07661c50812a5823ca844))
+
+
+
+
+
 # [1.3.0](https://github.com/mnasyrov/ditox/compare/v1.2.0...v1.3.0) (2021-08-04)
 
 
