@@ -2,7 +2,7 @@
 
 <img alt="lemon" src="https://raw.githubusercontent.com/mnasyrov/ditox/master/lemon.svg" width="120" />
 
-Detoxed dependency injection container.
+Detoxed and powerful dependency injection container for building modular apps.
 
 [![npm](https://img.shields.io/npm/v/ditox.svg)](https://www.npmjs.com/package/ditox)
 [![downloads](https://img.shields.io/npm/dt/ditox.svg)](https://www.npmjs.com/package/ditox)
