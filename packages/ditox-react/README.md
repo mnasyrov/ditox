@@ -1,4 +1,4 @@
-# @ditox/react
+# ditox-react
 
 <img alt="lemon" src="https://raw.githubusercontent.com/mnasyrov/ditox/master/lemon.svg" width="120" />
 
@@ -36,18 +36,18 @@ React.js tooling for [Ditox.js](https://github.com/mnasyrov/ditox) DI container.
 Install with `npm`
 
 ```
-npm install ditox @ditox/react --save
+npm install ditox ditox-react --save
 ```
 
 Or `yarn`
 
 ```
-yarn add ditox @ditox/react
+yarn add ditox ditox-react
 ```
 
 ## Usage
 
-`@ditox/react` is a set of helpers for providing and using a dependency container in React apps:
+`ditox-react` is a set of helpers for providing and using a dependency container in React apps:
 
 - Components:
   - `DepencencyContainer` - provides a new or existed container to React components.
@@ -61,14 +61,14 @@ yarn add ditox @ditox/react
 Examples:
 
 ```jsx
+import {token} from 'ditox';
 import {
   DependencyContainer,
   DependencyModule,
   useDependency,
   useDependencyContainer,
   useOptionalDependency,
-} from '@ditox/react';
-import {token} from 'ditox';
+} from 'ditox-react';
 import {LOGGER_MODULE} from './logger';
 
 const FOO = token();
@@ -121,7 +121,7 @@ function App() {
 ## API References
 
 - [`ditox`](https://github.com/mnasyrov/ditox/tree/master/packages/ditox#readme)
-- [`@ditox/react`](./docs)
+- [`ditox-react`](./docs)
 
 ---
 

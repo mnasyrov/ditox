@@ -324,7 +324,7 @@ const APP_MODULE = declareModuleBinding([LOGGER_MODULE, DATABASE_MODULE]);
 ## API References
 
 - [`ditox`](./docs)
-- [`@ditox/react`](https://github.com/mnasyrov/ditox/tree/master/packages/ditox-react#readme)
+- [`ditox-react`](https://github.com/mnasyrov/ditox/tree/master/packages/ditox-react#readme)
 
 ---
 

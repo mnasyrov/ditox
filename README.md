@@ -41,7 +41,7 @@ Detoxed dependency injection container.
 ## Packages
 
 - [`ditox`](packages/ditox/README.md) - core DI container and tools
-- [`@ditox/react`](packages/ditox-react/README.md) - tooling for React.js
+- [`ditox-react`](packages/ditox-react/README.md) - tooling for React.js
 
 ## Installation
 
@@ -329,7 +329,7 @@ const APP_MODULE = declareModuleBinding([LOGGER_MODULE, DATABASE_MODULE]);
 ## API References
 
 - [`ditox`](packages/ditox/docs)
-- [`@ditox/react`](packages/ditox-react/docs)
+- [`ditox-react`](packages/ditox-react/docs)
 
 ---
 
