@@ -292,7 +292,7 @@ const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
       destroy: () => transport.close(),
     };
   },
-  exportedProps: {
+  exports: {
     logger: LOGGER_TOKEN,
   },
 };
@@ -318,7 +318,7 @@ Example for these functions:
 ```ts
 const LOGGER_MODULE = declareModule<LoggerModule>({
   factory: createLoggerModule,
-  exportedProps: {
+  exports: {
     logger: LOGGER_TOKEN,
   },
 });

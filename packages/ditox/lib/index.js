@@ -300,16 +300,21 @@ function injectableProps(factory, tokens) {
  * ```
  */
 function bindModule(container, moduleDeclaration, options) {
-    const { token, factory, exportedProps, beforeBinding, afterBinding } = moduleDeclaration;
+    var _a;
+    const { token, imports, factory, beforeBinding, afterBinding } = moduleDeclaration;
+    const exports = (_a = moduleDeclaration.exports) !== null && _a !== void 0 ? _a : moduleDeclaration.exportedProps;
     const scope = options === null || options === void 0 ? void 0 : options.scope;
+    if (imports) {
+        bindModules(container, imports);
+    }
     if (beforeBinding) {
         beforeBinding(container);
     }
     const exportedValueTokens = new Set();
-    if (exportedProps) {
-        const keys = Object.keys(exportedProps);
+    if (exports) {
+        const keys = Object.keys(exports);
         keys.forEach((valueKey) => {
-            const valueToken = exportedProps[valueKey];
+            const valueToken = exports[valueKey];
             if (valueToken) {
                 exportedValueTokens.add(valueToken);
                 container.bindFactory(valueToken, injectable((module) => module[valueKey], token), { scope });
@@ -362,7 +367,7 @@ function bindModules(container, modules) {
  *       destroy: () => transport.close(),
  *     }
  *   },
- *   exportedProps: {
+ *   exports: {
  *     logger: LOGGER_TOKEN,
  *   },
  * });
@@ -380,7 +385,7 @@ function declareModule(declaration) {
 function declareModuleBindings(modules) {
     return declareModule({
         factory: () => ({}),
-        beforeBinding: (container) => bindModules(container, modules),
+        imports: modules,
     });
 }
 

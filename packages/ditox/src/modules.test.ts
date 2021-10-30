@@ -22,7 +22,7 @@ describe('bindModule()', () => {
         getValue: () => 1,
       },
     }),
-    exportedProps: {
+    exports: {
       queries: QUERIES_TOKEN,
     },
   };
@@ -154,6 +154,48 @@ describe('bindModule()', () => {
     container.removeAll();
     expect(destroy).toBeCalledTimes(1);
   });
+
+  it('should bind modules and binding entries from "imports" to the container', () => {
+    type TestModule = Module<{value: number}>;
+
+    const MODULE1_TOKEN = token<TestModule>();
+    const MODULE1: ModuleDeclaration<TestModule> = {
+      token: MODULE1_TOKEN,
+      factory: () => ({value: 1}),
+    };
+
+    const MODULE2_TOKEN = token<TestModule>();
+    const MODULE2: ModuleDeclaration<TestModule> = {
+      token: MODULE2_TOKEN,
+      factory: () => ({value: 2}),
+    };
+
+    const MODULE2_ALTERED: ModuleDeclaration<TestModule> = {
+      token: MODULE2_TOKEN,
+      factory: () => ({value: 22}),
+    };
+
+    const parent = createContainer();
+    bindModule(parent, MODULE2);
+
+    const container = createContainer(parent);
+    bindModule(
+      container,
+      declareModule({
+        factory: () => ({}),
+        imports: [
+          MODULE1,
+          {module: MODULE2_ALTERED, options: {scope: 'scoped'}},
+        ],
+      }),
+    );
+
+    expect(parent.get(MODULE1_TOKEN)).toBeUndefined();
+    expect(parent.get(MODULE2_TOKEN)?.value).toBe(2);
+
+    expect(container.get(MODULE1_TOKEN)?.value).toBe(1);
+    expect(container.get(MODULE2_TOKEN)?.value).toBe(22);
+  });
 });
 
 describe('bindModules()', () => {
@@ -204,7 +246,7 @@ describe('declareModule()', () => {
     const MODULE = declareModule({
       token: MODULE_TOKEN,
       factory: () => ({value: 1}),
-      exportedProps: {value: VALUE_TOKEN},
+      exports: {value: VALUE_TOKEN},
     });
 
     bindModule(container, MODULE);
@@ -218,7 +260,7 @@ describe('declareModule()', () => {
     const VALUE_TOKEN = token<number>();
     const MODULE = declareModule({
       factory: () => ({value: 1}),
-      exportedProps: {value: VALUE_TOKEN},
+      exports: {value: VALUE_TOKEN},
     });
 
     bindModule(container, MODULE);
@@ -233,13 +275,13 @@ describe('declareModuleBindings()', () => {
     const VALUE1_TOKEN = token<number>();
     const MODULE1 = declareModule({
       factory: () => ({value: 1}),
-      exportedProps: {value: VALUE1_TOKEN},
+      exports: {value: VALUE1_TOKEN},
     });
 
     const VALUE2_TOKEN = token<number>();
     const MODULE2 = declareModule({
       factory: () => ({value: 2}),
-      exportedProps: {value: VALUE2_TOKEN},
+      exports: {value: VALUE2_TOKEN},
     });
 
     const MODULE_BINDINGS = declareModuleBindings([MODULE1, MODULE2]);

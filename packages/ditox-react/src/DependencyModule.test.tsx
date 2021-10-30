@@ -22,7 +22,7 @@ describe('DependencyModule', () => {
     factory: () => ({
       value: 1,
     }),
-    exportedProps: {
+    exports: {
       value: VALUE_TOKEN,
     },
   };

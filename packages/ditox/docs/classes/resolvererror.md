@@ -46,7 +46,7 @@ Error.constructor
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:60](https://github.com/mnasyrov/ditox/blob/990ffe7/packages/ditox/src/ditox.ts#L60)
+[packages/ditox/src/ditox.ts:60](https://github.com/mnasyrov/ditox/blob/d2761fa/packages/ditox/src/ditox.ts#L60)
 
 ## Properties
 

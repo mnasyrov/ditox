@@ -207,7 +207,7 @@ declare type GetModuleProps<T> = T extends Module<infer Props> ? Props : never;
  *       destroy: () => transport.close(),
  *     }
  *   },
- *   exportedProps: {
+ *   exports: {
  *     logger: LOGGER_TOKEN,
  *   },
  * };
@@ -216,12 +216,20 @@ declare type GetModuleProps<T> = T extends Module<infer Props> ? Props : never;
 declare type ModuleDeclaration<T extends Module<AnyObject>> = {
     /** Token for the module */
     token: Token<T>;
+    /** Modules for binding  */
+    imports?: ReadonlyArray<ModuleBindingEntry>;
     /** Factory of the module */
     factory: (container: Container) => T;
     /** Dictionary of module properties which are bound to tokens. */
-    exportedProps?: {
+    exports?: {
         [K in keyof GetModuleProps<T>]?: Token<GetModuleProps<T>[K]>;
     };
+    /**
+     * Dictionary of module properties which are bound to tokens.
+     *
+     * @deprecated Use `exports` property.
+     */
+    exportedProps?: ModuleDeclaration<T>['exports'];
     /** Callback could be used to prepare an environment. It is called before binding the module. */
     beforeBinding?: (container: Container) => void;
     /** Callback could be used to export complex dependencies from the module. It is called after binding the module.  */
@@ -237,6 +245,10 @@ declare type ModuleDeclaration<T extends Module<AnyObject>> = {
 declare type BindModuleOptions = {
     scope?: 'scoped' | 'singleton';
 };
+declare type ModuleBindingEntry = ModuleDeclaration<AnyObject> | {
+    module: ModuleDeclaration<AnyObject>;
+    options: BindModuleOptions;
+};
 /**
  * Binds the dependency module to the container
  * @param container - Dependency container.
@@ -249,17 +261,13 @@ declare type BindModuleOptions = {
  * ```
  */
 declare function bindModule<T extends Module<AnyObject>>(container: Container, moduleDeclaration: ModuleDeclaration<T>, options?: BindModuleOptions): void;
-declare type ModuleBindingEntry = ModuleDeclaration<AnyObject> | {
-    module: ModuleDeclaration<AnyObject>;
-    options: BindModuleOptions;
-};
 /**
  * Binds dependency modules to the container
  *
  * @param container - Dependency container for binding
  * @param modules - Array of module binding entries: module declaration or `{module: ModuleDeclaration, options: BindModuleOptions}` objects.
  */
-declare function bindModules(container: Container, modules: Array<ModuleBindingEntry>): void;
+declare function bindModules(container: Container, modules: ReadonlyArray<ModuleBindingEntry>): void;
 /**
  * Declares a module binding
  *
@@ -276,7 +284,7 @@ declare function bindModules(container: Container, modules: Array<ModuleBindingE
  *       destroy: () => transport.close(),
  *     }
  *   },
- *   exportedProps: {
+ *   exports: {
  *     logger: LOGGER_TOKEN,
  *   },
  * });
@@ -288,6 +296,6 @@ declare function declareModule<T>(declaration: Omit<ModuleDeclaration<T>, 'token
  *
  * @param modules - module declaration entries
  */
-declare function declareModuleBindings(modules: Array<ModuleBindingEntry>): ModuleDeclaration<Module>;
+declare function declareModuleBindings(modules: ReadonlyArray<ModuleBindingEntry>): ModuleDeclaration<Module>;
 
 export { BindModuleOptions, Container, FactoryOptions, FactoryScope, Module, ModuleBindingEntry, ModuleDeclaration, OptionalToken, RequiredToken, ResolverError, Token, bindModule, bindModules, bindMultiValue, createContainer, declareModule, declareModuleBindings, getProps, getValues, injectable, injectableProps, optional, resolveProps, resolveValues, token };

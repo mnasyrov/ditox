@@ -29,7 +29,7 @@ export function getValues<
   Tokens extends Token<unknown>[],
   Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : never;
-  }
+  },
 >(container: Container, ...tokens: Tokens): Values {
   return tokens.map(container.get) as Values;
 }
@@ -42,7 +42,7 @@ export function resolveValues<
   Tokens extends Token<unknown>[],
   Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : never;
-  }
+  },
 >(container: Container, ...tokens: Tokens): Values {
   return tokens.map(container.resolve) as Values;
 }
@@ -58,7 +58,7 @@ export function injectable<
   Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : never;
   },
-  Result
+  Result,
 >(
   this: unknown,
   factory: (...params: Values) => Result,

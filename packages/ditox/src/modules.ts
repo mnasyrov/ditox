@@ -38,7 +38,7 @@ type GetModuleProps<T> = T extends Module<infer Props> ? Props : never;
  *       destroy: () => transport.close(),
  *     }
  *   },
- *   exportedProps: {
+ *   exports: {
  *     logger: LOGGER_TOKEN,
  *   },
  * };
@@ -48,13 +48,23 @@ export type ModuleDeclaration<T extends Module<AnyObject>> = {
   /** Token for the module */
   token: Token<T>;
 
+  /** Modules for binding  */
+  imports?: ReadonlyArray<ModuleBindingEntry>;
+
   /** Factory of the module */
   factory: (container: Container) => T;
 
   /** Dictionary of module properties which are bound to tokens. */
-  exportedProps?: {
+  exports?: {
     [K in keyof GetModuleProps<T>]?: Token<GetModuleProps<T>[K]>;
   };
+
+  /**
+   * Dictionary of module properties which are bound to tokens.
+   *
+   * @deprecated Use `exports` property.
+   */
+  exportedProps?: ModuleDeclaration<T>['exports'];
 
   /** Callback could be used to prepare an environment. It is called before binding the module. */
   beforeBinding?: (container: Container) => void;
@@ -74,6 +84,13 @@ export type BindModuleOptions = {
   scope?: 'scoped' | 'singleton';
 };
 
+export type ModuleBindingEntry =
+  | ModuleDeclaration<AnyObject>
+  | {
+      module: ModuleDeclaration<AnyObject>;
+      options: BindModuleOptions;
+    };
+
 /**
  * Binds the dependency module to the container
  * @param container - Dependency container.
@@ -90,9 +107,15 @@ export function bindModule<T extends Module<AnyObject>>(
   moduleDeclaration: ModuleDeclaration<T>,
   options?: BindModuleOptions,
 ): void {
-  const {token, factory, exportedProps, beforeBinding, afterBinding} =
+  const {token, imports, factory, beforeBinding, afterBinding} =
     moduleDeclaration;
+  const exports = moduleDeclaration.exports ?? moduleDeclaration.exportedProps;
+
   const scope = options?.scope;
+
+  if (imports) {
+    bindModules(container, imports);
+  }
 
   if (beforeBinding) {
     beforeBinding(container);
@@ -100,11 +123,11 @@ export function bindModule<T extends Module<AnyObject>>(
 
   const exportedValueTokens = new Set<Token<unknown>>();
 
-  if (exportedProps) {
-    const keys = Object.keys(exportedProps);
+  if (exports) {
+    const keys = Object.keys(exports);
 
     keys.forEach((valueKey) => {
-      const valueToken = exportedProps[valueKey];
+      const valueToken = exports[valueKey];
       if (valueToken) {
         exportedValueTokens.add(valueToken);
 
@@ -134,13 +157,6 @@ export function bindModule<T extends Module<AnyObject>>(
   }
 }
 
-export type ModuleBindingEntry =
-  | ModuleDeclaration<AnyObject>
-  | {
-      module: ModuleDeclaration<AnyObject>;
-      options: BindModuleOptions;
-    };
-
 /**
  * Binds dependency modules to the container
  *
@@ -149,7 +165,7 @@ export type ModuleBindingEntry =
  */
 export function bindModules(
   container: Container,
-  modules: Array<ModuleBindingEntry>,
+  modules: ReadonlyArray<ModuleBindingEntry>,
 ): void {
   modules.forEach((entry) => {
     if ('module' in entry) {
@@ -176,7 +192,7 @@ export function bindModules(
  *       destroy: () => transport.close(),
  *     }
  *   },
- *   exportedProps: {
+ *   exports: {
  *     logger: LOGGER_TOKEN,
  *   },
  * });
@@ -195,10 +211,10 @@ export function declareModule<T>(
  * @param modules - module declaration entries
  */
 export function declareModuleBindings(
-  modules: Array<ModuleBindingEntry>,
+  modules: ReadonlyArray<ModuleBindingEntry>,
 ): ModuleDeclaration<Module> {
   return declareModule({
     factory: () => ({}),
-    beforeBinding: (container) => bindModules(container, modules),
+    imports: modules,
   });
 }

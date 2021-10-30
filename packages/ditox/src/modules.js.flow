@@ -38,7 +38,7 @@ export type Module<ModuleProps: ValueProps = {}> = {
  *       destroy: () => transport.close(),
  *     }
  *   },
- *   exportedProps: {
+ *   exports: {
  *     logger: LOGGER_TOKEN,
  *   },
  * };
@@ -48,10 +48,20 @@ export type ModuleDeclaration<T: Module<*>> = {
   /** Token for the module */
   token: Token<T>,
 
+  /** Modules for binding  */
+  imports?: $ReadOnlyArray<ModuleBindingEntry>;
+
   /** Factory of the module */
   factory: (container: Container) => T,
 
   /** Dictionary of module properties which are bound to tokens. */
+  exports?: $Shape<TokenProps<T>>,
+
+  /**
+   * Dictionary of module properties which are bound to tokens.
+   *
+   * @deprecated Use `exports` property
+   */
   exportedProps?: $Shape<TokenProps<T>>,
 
   /** Callback could be used to prepare an environment. It is called before binding the module. */
@@ -104,7 +114,7 @@ export type ModuleBindingEntry =
  */
 declare export function bindModules(
   container: Container,
-  modules: Array<ModuleBindingEntry>,
+  modules: $ReadOnlyArray<ModuleBindingEntry>,
 ): void;
 
 /**
@@ -142,5 +152,5 @@ declare export function declareModule<T>(
  * @param modules - module declaration entries
  */
 declare export function declareModuleBindings(
-  modules: Array<ModuleBindingEntry>,
+  modules: $ReadOnlyArray<ModuleBindingEntry>,
 ): ModuleDeclaration<Module<*>>;

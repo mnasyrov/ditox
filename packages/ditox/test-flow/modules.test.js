@@ -24,7 +24,7 @@ describe('bindModule()', () => {
         getValue: () => 1,
       },
     }),
-    exportedProps: {
+    exports: {
       queries: QUERIES_TOKEN,
     },
   };
@@ -206,7 +206,7 @@ describe('declareModule()', () => {
     const MODULE = declareModule({
       token: MODULE_TOKEN,
       factory: () => ({value: 1}),
-      exportedProps: {value: VALUE_TOKEN},
+      exports: {value: VALUE_TOKEN},
     });
 
     bindModule(container, MODULE);
@@ -220,7 +220,7 @@ describe('declareModule()', () => {
     const VALUE_TOKEN = token<number>();
     const MODULE = declareModule({
       factory: () => ({value: 1}),
-      exportedProps: {value: VALUE_TOKEN},
+      exports: {value: VALUE_TOKEN},
     });
 
     bindModule(container, MODULE);
@@ -235,13 +235,13 @@ describe('declareModuleBindings()', () => {
     const VALUE1_TOKEN = token<number>();
     const MODULE1 = declareModule({
       factory: () => ({value: 1}),
-      exportedProps: {value: VALUE1_TOKEN},
+      exports: {value: VALUE1_TOKEN},
     });
 
     const VALUE2_TOKEN = token<number>();
     const MODULE2 = declareModule({
       factory: () => ({value: 2}),
-      exportedProps: {value: VALUE2_TOKEN},
+      exports: {value: VALUE2_TOKEN},
     });
 
     const MODULE_BINDINGS = declareModuleBindings([MODULE1, MODULE2]);
