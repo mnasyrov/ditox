@@ -1,7 +1,7 @@
 {
   "name": "ditox",
   "version": "1.4.0",
-  "description": "Detoxed and powerful dependency injection container for building modular apps.",
+  "description": "Powerful dependency injection container for building modular apps.",
   "license": "MIT",
   "author": "Mikhail Nasyrov <mikhail@mnasyrov.com> (https://github.com/mnasyrov)",
   "homepage": "https://github.com/mnasyrov/ditox",
