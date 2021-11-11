@@ -113,12 +113,12 @@ export function bindModule<T extends Module<AnyObject>>(
 
   const scope = options?.scope;
 
-  if (imports) {
-    bindModules(container, imports);
-  }
-
   if (beforeBinding) {
     beforeBinding(container);
+  }
+
+  if (imports) {
+    bindModules(container, imports);
   }
 
   const exportedValueTokens = new Set<Token<unknown>>();

@@ -7,6 +7,7 @@ import {
   Module,
   ModuleDeclaration,
 } from './modules';
+import {injectable} from './utils';
 
 describe('bindModule()', () => {
   type TestQueries = {getValue: () => number};
@@ -195,6 +196,35 @@ describe('bindModule()', () => {
 
     expect(container.get(MODULE1_TOKEN)?.value).toBe(1);
     expect(container.get(MODULE2_TOKEN)?.value).toBe(22);
+  });
+
+  it('should call beforeBinding() before importing modules from "imports"', () => {
+    const ARG_TOKEN = token<string>('arg');
+    const RESULT_TOKEN = token<string>('result');
+
+    type TestModule = Module<{value: string}>;
+
+    const MODULE1: ModuleDeclaration<TestModule> = declareModule({
+      beforeBinding: (container) =>
+        container.bindValue(ARG_TOKEN, container.resolve(ARG_TOKEN) + '2'),
+      factory: injectable((arg) => ({value: arg + '3'}), ARG_TOKEN),
+      exports: {value: RESULT_TOKEN},
+    });
+
+    const container = createContainer();
+    bindModule(
+      container,
+      declareModule({
+        factory: () => ({}),
+        beforeBinding: (container) => {
+          container.bindValue(ARG_TOKEN, '1');
+        },
+        imports: [MODULE1],
+      }),
+    );
+
+    expect(container.resolve(ARG_TOKEN)).toBe('12');
+    expect(container.resolve(RESULT_TOKEN)).toBe('123');
   });
 });
 
