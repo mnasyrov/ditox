@@ -56,7 +56,7 @@ Options for module binding.
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:83](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/modules.ts#L83)
+[packages/ditox/src/modules.ts:83](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/modules.ts#L83)
 
 ___
 
@@ -80,7 +80,7 @@ Dependency container.
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:95](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/ditox.ts#L95)
+[packages/ditox/src/ditox.ts:95](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/ditox.ts#L95)
 
 ___
 
@@ -105,7 +105,7 @@ Options for factory binding.
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:83](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/ditox.ts#L83)
+[packages/ditox/src/ditox.ts:83](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/ditox.ts#L83)
 
 ___
 
@@ -117,7 +117,7 @@ ___
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/ditox.ts#L71)
+[packages/ditox/src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/ditox.ts#L71)
 
 ___
 
@@ -142,7 +142,7 @@ type LoggerModule = Module<{
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:22](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/modules.ts#L22)
+[packages/ditox/src/modules.ts:22](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/modules.ts#L22)
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:87](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/modules.ts#L87)
+[packages/ditox/src/modules.ts:87](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/modules.ts#L87)
 
 ___
 
@@ -199,7 +199,7 @@ const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:47](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/modules.ts#L47)
+[packages/ditox/src/modules.ts:47](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/modules.ts#L47)
 
 ___
 
@@ -217,7 +217,7 @@ Binding token.
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:25](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/ditox.ts#L25)
+[packages/ditox/src/ditox.ts:25](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/ditox.ts#L25)
 
 ## Functions
 
@@ -252,7 +252,7 @@ bindModule(container, LOGGER_MODULE);
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:105](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/modules.ts#L105)
+[packages/ditox/src/modules.ts:105](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/modules.ts#L105)
 
 ___
 
@@ -275,7 +275,7 @@ Binds dependency modules to the container
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:166](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/modules.ts#L166)
+[packages/ditox/src/modules.ts:166](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/modules.ts#L166)
 
 ___
 
@@ -305,7 +305,7 @@ Rebinds the array by the token with added new value.
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:14](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/utils.ts#L14)
+[packages/ditox/src/utils.ts:14](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/utils.ts#L14)
 
 ___
 
@@ -329,7 +329,7 @@ Container can have an optional parent to chain token resolution. The parent is u
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:204](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/ditox.ts#L204)
+[packages/ditox/src/ditox.ts:204](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/ditox.ts#L204)
 
 ___
 
@@ -373,7 +373,7 @@ const LOGGER_MODULE = declareModule<LoggerModule>({
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:201](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/modules.ts#L201)
+[packages/ditox/src/modules.ts:201](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/modules.ts#L201)
 
 ___
 
@@ -395,7 +395,7 @@ Declares bindings of several modules
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:213](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/modules.ts#L213)
+[packages/ditox/src/modules.ts:213](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/modules.ts#L213)
 
 ___
 
@@ -431,7 +431,7 @@ console.log(props); // {a: 1, b: 2}
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:83](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/utils.ts#L83)
+[packages/ditox/src/utils.ts:83](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/utils.ts#L83)
 
 ___
 
@@ -462,7 +462,7 @@ If a token is not found, then `undefined` value is used.
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:28](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/utils.ts#L28)
+[packages/ditox/src/utils.ts:28](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/utils.ts#L28)
 
 ___
 
@@ -507,7 +507,7 @@ Decorated factory which takes a dependency container as a single argument.
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:56](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/utils.ts#L56)
+[packages/ditox/src/utils.ts:56](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/utils.ts#L56)
 
 ___
 
@@ -558,7 +558,7 @@ Decorated factory which takes a dependency container as a single argument.
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:124](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/utils.ts#L124)
+[packages/ditox/src/utils.ts:124](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/utils.ts#L124)
 
 ___
 
@@ -588,7 +588,7 @@ This value is be used as default value in case a container does not have registe
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:41](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/ditox.ts#L41)
+[packages/ditox/src/ditox.ts:41](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/ditox.ts#L41)
 
 ▸ **optional**<T\>(`token`): `OptionalToken`<T \| undefined\>
 
@@ -610,7 +610,7 @@ This value is be used as default value in case a container does not have registe
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/ditox.ts#L45)
+[packages/ditox/src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/ditox.ts#L45)
 
 ___
 
@@ -646,7 +646,7 @@ console.log(props); // {a: 1, b: 2}
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:102](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/utils.ts#L102)
+[packages/ditox/src/utils.ts:102](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/utils.ts#L102)
 
 ___
 
@@ -677,7 +677,7 @@ If a token is not found, then `ResolverError` is thrown.
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:41](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/utils.ts#L41)
+[packages/ditox/src/utils.ts:41](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/utils.ts#L41)
 
 ___
 
@@ -705,4 +705,4 @@ Creates a new binding token.
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:31](https://github.com/mnasyrov/ditox/blob/8ebabbb/packages/ditox/src/ditox.ts#L31)
+[packages/ditox/src/ditox.ts:31](https://github.com/mnasyrov/ditox/blob/153c602/packages/ditox/src/ditox.ts#L31)

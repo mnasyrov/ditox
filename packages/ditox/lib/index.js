@@ -304,11 +304,11 @@ function bindModule(container, moduleDeclaration, options) {
     const { token, imports, factory, beforeBinding, afterBinding } = moduleDeclaration;
     const exports = (_a = moduleDeclaration.exports) !== null && _a !== void 0 ? _a : moduleDeclaration.exportedProps;
     const scope = options === null || options === void 0 ? void 0 : options.scope;
-    if (imports) {
-        bindModules(container, imports);
-    }
     if (beforeBinding) {
         beforeBinding(container);
+    }
+    if (imports) {
+        bindModules(container, imports);
     }
     const exportedValueTokens = new Set();
     if (exports) {

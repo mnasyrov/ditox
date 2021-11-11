@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/mnasyrov/ditox/compare/v1.4.0...v1.4.1) (2021-11-11)
+
+
+### Bug Fixes
+
+* beforeBinding() must be called before importing external modules. ([153c602](https://github.com/mnasyrov/ditox/commit/153c60256a4c2796e5a9f2d9c5115c3ff3f2f10b))
+
+
+
+
+
 # [1.4.0](https://github.com/mnasyrov/ditox/compare/v1.3.0...v1.4.0) (2021-10-30)
 
 
