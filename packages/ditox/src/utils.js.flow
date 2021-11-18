@@ -31,7 +31,7 @@ export type TokenProps<Values: ValueProps> = $ObjMapi<Values, mapPropToToken>;
  */
 declare export function bindMultiValue<T>(
   container: Container,
-  token: Token<Array<T>>,
+  token: Token<$ReadOnlyArray<T>>,
   value: T,
 ): void;
 

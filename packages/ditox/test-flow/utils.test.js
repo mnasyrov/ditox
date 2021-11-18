@@ -18,7 +18,7 @@ const NUMBER = token<number>('number');
 const STRING = token<string>('string');
 
 describe('bindMultiValue', () => {
-  const NUMBERS = token<Array<number>>('numbers');
+  const NUMBERS = token<$ReadOnlyArray<number>>('numbers');
 
   it('should append a value to an array declared by a token', () => {
     const container = createContainer();
@@ -26,7 +26,7 @@ describe('bindMultiValue', () => {
     bindMultiValue(container, NUMBERS, 1);
     bindMultiValue(container, NUMBERS, 2);
 
-    const values: Array<number> = container.resolve(NUMBERS);
+    const values = container.resolve(NUMBERS);
     expect(values).toEqual([1, 2]);
   });
 

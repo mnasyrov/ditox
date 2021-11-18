@@ -13,7 +13,7 @@ type TokenProps<Props extends ValuesProps> = {
  */
 export function bindMultiValue<T>(
   container: Container,
-  token: Token<Array<T>>,
+  token: Token<ReadonlyArray<T>>,
   value: T,
 ): void {
   const prevValues = container.get(token) ?? [];
