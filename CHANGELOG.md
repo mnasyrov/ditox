@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://github.com/mnasyrov/ditox/compare/v1.4.1...v1.4.2) (2021-11-18)
+
+
+### Bug Fixes
+
+* Typings for `bindMultiValue()` utility function. ([cb2b2da](https://github.com/mnasyrov/ditox/commit/cb2b2da27ad7bd293d8d5591017422ba4599d09a))
+
+
+
+
+
 ## [1.4.1](https://github.com/mnasyrov/ditox/compare/v1.4.0...v1.4.1) (2021-11-11)
 
 

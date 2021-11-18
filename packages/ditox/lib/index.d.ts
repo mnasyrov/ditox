@@ -114,7 +114,7 @@ declare type TokenProps<Props extends ValuesProps> = {
  * @param token - Token for an array of values.
  * @param value - New value which is added to the end of the array.
  */
-declare function bindMultiValue<T>(container: Container, token: Token<Array<T>>, value: T): void;
+declare function bindMultiValue<T>(container: Container, token: Token<ReadonlyArray<T>>, value: T): void;
 /**
  * Returns an array of resolved values by the specified token.
  * If a token is not found, then `undefined` value is used.
