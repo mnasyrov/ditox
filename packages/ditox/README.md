@@ -119,7 +119,8 @@ container.bindFactory(
 // A factory can have `transient` lifetime to create a value on each resolving.
 container.bindFactory(TOKENS.Logger, createLogger, {scope: 'transient'});
 
-// Classes are provided by factories.
+// A class can be injected by `injectableClass()` which calls its constructor
+// with injected dependencies as arguments.
 container.bindFactory(
   TOKENS.UserService,
   injectable(
@@ -194,7 +195,7 @@ const createLogger = (tag) => (message) => console.log(`[${tag}] ${message}`);
 
 const parent = createContainer();
 parent.bindValue(TAG, 'parent');
-parent.bindFactory(LOGGER, injectable(createLogger, TAG, {scope: 'singleton'}));
+parent.bindFactory(LOGGER, injectable(createLogger, TAG), {scope: 'singleton'});
 
 const container1 = createContainer(parent);
 container1.bindValue(TAG, 'container1');
@@ -221,7 +222,7 @@ const createLogger = (tag) => (message) => console.log(`[${tag}] ${message}`);
 
 const parent = createContainer();
 // `scoped` is default scope and can be omitted.
-parent.bindFactory(LOGGER, injectable(createLogger, TAG, {scope: 'scoped'}));
+parent.bindFactory(LOGGER, injectable(createLogger, TAG), {scope: 'scoped'});
 
 const container1 = createContainer(parent);
 container1.bindValue(TAG, 'container1');
@@ -251,7 +252,7 @@ const createLogger = (tag) => (message) => console.log(`[${tag}] ${message}`);
 
 const parent = createContainer();
 parent.bindValue(TAG, 'parent');
-parent.bindFactory(LOGGER, injectable(createLogger, TAG, {scope: 'singleton'}));
+parent.bindFactory(LOGGER, injectable(createLogger, TAG), {scope: 'singleton'});
 
 const container1 = createContainer(parent);
 container1.bindValue(TAG, 'container1');

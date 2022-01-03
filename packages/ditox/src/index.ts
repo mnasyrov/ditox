@@ -9,14 +9,22 @@ export type {
 } from './ditox';
 
 export {
+  isToken,
   bindMultiValue,
-  getValues,
+  tryResolveValue,
+  tryResolveValues,
+  resolveValue,
   resolveValues,
   injectable,
+  injectableClass,
+} from './utils';
+
+export {
+  getValues,
   getProps,
   resolveProps,
   injectableProps,
-} from './utils';
+} from './utils-deprecated';
 
 export {
   bindModule,
