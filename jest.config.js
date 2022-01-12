@@ -4,8 +4,7 @@
 
 import fastGlob from 'fast-glob';
 
-const typescript = {
-  displayName: 'Typescript',
+export default {
   roots: fastGlob.sync(['packages/*/src'], {onlyDirectories: true}),
   preset: 'ts-jest',
   globals: {
@@ -16,13 +15,4 @@ const typescript = {
       },
     },
   },
-};
-
-const flow = {
-  displayName: 'Flow',
-  roots: fastGlob.sync(['packages/*/test-flow'], {onlyDirectories: true}),
-};
-
-export default {
-  projects: [typescript, flow],
 };

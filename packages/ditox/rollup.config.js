@@ -1,10 +1,7 @@
 import typescript from '@rollup/plugin-typescript';
-import flowEntryPlugin from 'rollup-plugin-flow-entry';
 import {terser} from 'rollup-plugin-terser';
 import dts from 'rollup-plugin-dts';
 import pkg from './package.json';
-
-const flowEntry = flowEntryPlugin({mode: 'strict', types: 'src/index.js.flow'});
 
 const UMD_LIB_NAME = 'Ditox';
 
@@ -22,7 +19,7 @@ export default [
   {
     input: 'src/index.ts',
     output: [{file: pkg.main, format: 'cjs', sourcemap: true}],
-    plugins: [flowEntry, typescript()],
+    plugins: [typescript()],
   },
   {
     input: 'src/index.ts',
@@ -30,7 +27,7 @@ export default [
       {file: pkg.module, format: 'es', sourcemap: true},
       {file: 'lib/index.js', format: 'es', sourcemap: true},
     ],
-    plugins: [flowEntry, typescript()],
+    plugins: [typescript()],
   },
   {
     input: 'src/index.ts',
@@ -49,7 +46,6 @@ export default [
       },
     ],
     plugins: [
-      flowEntry,
       typescript({
         target: 'es5',
       }),

@@ -1,6 +1,5 @@
 {
   "root": true,
-  "ignorePatterns": ["*.js.flow", "test-flow"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "jest", "react-hooks"],
   "extends": [

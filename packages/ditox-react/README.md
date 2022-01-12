@@ -28,7 +28,7 @@ React.js tooling for [Ditox.js](https://github.com/mnasyrov/ditox) DI container.
 - Container hierarchy
 - Scoped containers
 - Multi-value tokens
-- Typescript and Flow typings
+- Typescript typings
 - Supports Node.js, Deno and browsers
 
 ## Installation
