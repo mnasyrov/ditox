@@ -34,7 +34,7 @@ Powerful dependency injection container for building modular apps.
 - Scoped containers
 - Dependency modules
 - Multi-value tokens
-- Typescript and Flow typings
+- Typescript typings
 - Supports Node.js, Deno and browsers
 
 ## Installation

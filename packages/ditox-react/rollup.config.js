@@ -1,10 +1,7 @@
 import typescript from '@rollup/plugin-typescript';
-import flowEntryPlugin from 'rollup-plugin-flow-entry';
 import {terser} from 'rollup-plugin-terser';
 import dts from 'rollup-plugin-dts';
 import pkg from './package.json';
-
-const flowEntry = flowEntryPlugin({mode: 'strict', types: 'src/index.js.flow'});
 
 const EXTERNALS = ['ditox', 'react'];
 
@@ -29,7 +26,7 @@ export default [
     external: EXTERNALS,
     input: 'src/index.ts',
     output: [{file: pkg.main, format: 'cjs', sourcemap: true}],
-    plugins: [flowEntry, typescript()],
+    plugins: [typescript()],
   },
   {
     external: EXTERNALS,
@@ -38,7 +35,7 @@ export default [
       {file: pkg.module, format: 'es', sourcemap: true},
       {file: 'lib/index.js', format: 'es', sourcemap: true},
     ],
-    plugins: [flowEntry, typescript()],
+    plugins: [typescript()],
   },
   {
     external: EXTERNALS,
@@ -60,7 +57,6 @@ export default [
       },
     ],
     plugins: [
-      flowEntry,
       typescript({
         target: 'es5',
       }),
