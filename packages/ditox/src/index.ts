@@ -1,14 +1,11 @@
-export {
+export {token, optional, ResolverError, createContainer} from './ditox';
+export type {
   RequiredToken,
   OptionalToken,
   Token,
-  token,
-  optional,
-  ResolverError,
   FactoryScope,
   FactoryOptions,
   Container,
-  createContainer,
 } from './ditox';
 
 export {
@@ -22,12 +19,14 @@ export {
 } from './utils';
 
 export {
-  Module,
-  ModuleDeclaration,
-  BindModuleOptions,
-  ModuleBindingEntry,
   bindModule,
   bindModules,
   declareModule,
   declareModuleBindings,
+} from './modules';
+export type {
+  Module,
+  ModuleDeclaration,
+  BindModuleOptions,
+  ModuleBindingEntry,
 } from './modules';
