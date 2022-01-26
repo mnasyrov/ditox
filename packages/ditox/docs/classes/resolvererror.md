@@ -8,25 +8,25 @@ ResolverError is thrown by the resolver when a token is not found in a container
 
 - `Error`
 
-  ↳ **ResolverError**
+  ↳ **`ResolverError`**
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](resolvererror.md#constructor)
+- [constructor](ResolverError.md#constructor)
 
 ### Properties
 
-- [message](resolvererror.md#message)
-- [name](resolvererror.md#name)
-- [stack](resolvererror.md#stack)
-- [prepareStackTrace](resolvererror.md#preparestacktrace)
-- [stackTraceLimit](resolvererror.md#stacktracelimit)
+- [message](ResolverError.md#message)
+- [name](ResolverError.md#name)
+- [stack](ResolverError.md#stack)
+- [prepareStackTrace](ResolverError.md#preparestacktrace)
+- [stackTraceLimit](ResolverError.md#stacktracelimit)
 
 ### Methods
 
-- [captureStackTrace](resolvererror.md#capturestacktrace)
+- [captureStackTrace](ResolverError.md#capturestacktrace)
 
 ## Constructors
 
@@ -46,7 +46,7 @@ Error.constructor
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:60](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/ditox.ts#L60)
+[packages/ditox/src/ditox.ts:61](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/ditox.ts#L61)
 
 ## Properties
 
@@ -60,7 +60,7 @@ Error.message
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:974
+node_modules/typescript/lib/lib.es5.d.ts:1023
 
 ___
 
@@ -74,7 +74,7 @@ Error.name
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:973
+node_modules/typescript/lib/lib.es5.d.ts:1022
 
 ___
 
@@ -88,7 +88,7 @@ Error.stack
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:975
+node_modules/typescript/lib/lib.es5.d.ts:1024
 
 ___
 
@@ -101,6 +101,8 @@ ___
 ▸ (`err`, `stackTraces`): `any`
 
 Optional override for formatting stack traces
+
+**`see`** https://v8.dev/docs/stack-trace-api#customizing-stack-traces
 
 ##### Parameters
 

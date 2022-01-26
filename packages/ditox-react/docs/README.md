@@ -44,15 +44,7 @@ Returns a dependency by token, or fails with an error. Functions
 
 - [useDependency](README.md#usedependency)
 
-### Hook
-
-Returns a dependency container, or &#x60;undefined&#x60; in case the container is not provided. Functions
-
-- [useDependencyContainer](README.md#usedependencycontainer)
-
-### Hook
-
-Returns a dependency container. Throws an error in case the container is not provided. Functions
+### Other Functions
 
 - [useDependencyContainer](README.md#usedependencycontainer)
 
@@ -80,7 +72,7 @@ A callback for binding dependencies to a container
 
 #### Defined in
 
-[DependencyContainer.tsx:19](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox-react/src/DependencyContainer.tsx#L19)
+[DependencyContainer.tsx:19](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/DependencyContainer.tsx#L19)
 
 ___
 
@@ -98,13 +90,13 @@ Specifies an existed container or options for a new container:
 
 | Name | Type |
 | :------ | :------ |
-| `binder?` | [DependencyContainerBinder](README.md#dependencycontainerbinder) |
+| `binder?` | [`DependencyContainerBinder`](README.md#dependencycontainerbinder) |
 | `children` | `ReactNode` |
 | `root?` | `boolean` |
 
 #### Defined in
 
-[DependencyContainer.tsx:26](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox-react/src/DependencyContainer.tsx#L26)
+[DependencyContainer.tsx:26](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/DependencyContainer.tsx#L26)
 
 ## Component
 
@@ -136,7 +128,7 @@ function App() {
 | :------ | :------ | :------ |
 | `params` | `Object` | - |
 | `params.children` | `ReactNode` | - |
-| `params.module` | `ModuleDeclaration`<Module<Record<string, unknown\>\>\> | Module declaration for binding |
+| `params.module` | `ModuleDeclaration`<`Module`<`Record`<`string`, `unknown`\>\>\> | Module declaration for binding |
 | `params.scope?` | ``"scoped"`` \| ``"singleton"`` | Optional scope for binding: `singleton` (default) or `scoped`. |
 
 #### Returns
@@ -145,7 +137,7 @@ function App() {
 
 #### Defined in
 
-[DependencyModule.tsx:33](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox-react/src/DependencyModule.tsx#L33)
+[DependencyModule.tsx:33](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/DependencyModule.tsx#L33)
 
 ___
 
@@ -188,7 +180,7 @@ function App() {
 
 | Name | Type |
 | :------ | :------ |
-| `params` | [DependencyContainerParams](README.md#dependencycontainerparams) |
+| `params` | [`DependencyContainerParams`](README.md#dependencycontainerparams) |
 
 #### Returns
 
@@ -196,7 +188,7 @@ function App() {
 
 #### Defined in
 
-[DependencyContainer.tsx:68](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox-react/src/DependencyContainer.tsx#L68)
+[DependencyContainer.tsx:68](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/DependencyContainer.tsx#L68)
 
 ___
 
@@ -206,7 +198,7 @@ Returns a dependency by token, or &#x60;undefined&#x60; in case the dependency i
 
 ### useOptionalDependency
 
-▸ **useOptionalDependency**<T\>(`token`): `T` \| `undefined`
+▸ **useOptionalDependency**<`T`\>(`token`): `T` \| `undefined`
 
 #### Type parameters
 
@@ -218,7 +210,7 @@ Returns a dependency by token, or &#x60;undefined&#x60; in case the dependency i
 
 | Name | Type |
 | :------ | :------ |
-| `token` | `Token`<T\> |
+| `token` | `Token`<`T`\> |
 
 #### Returns
 
@@ -226,7 +218,7 @@ Returns a dependency by token, or &#x60;undefined&#x60; in case the dependency i
 
 #### Defined in
 
-[hooks.ts:52](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox-react/src/hooks.ts#L52)
+[hooks.ts:52](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/hooks.ts#L52)
 
 ___
 
@@ -236,7 +228,7 @@ Returns a dependency by token, or fails with an error. Functions
 
 ### useDependency
 
-▸ **useDependency**<T\>(`token`): `T`
+▸ **useDependency**<`T`\>(`token`): `T`
 
 #### Type parameters
 
@@ -248,7 +240,7 @@ Returns a dependency by token, or fails with an error. Functions
 
 | Name | Type |
 | :------ | :------ |
-| `token` | `Token`<T\> |
+| `token` | `Token`<`T`\> |
 
 #### Returns
 
@@ -256,17 +248,19 @@ Returns a dependency by token, or fails with an error. Functions
 
 #### Defined in
 
-[hooks.ts:41](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox-react/src/hooks.ts#L41)
+[hooks.ts:41](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/hooks.ts#L41)
 
 ___
 
-## Hook
-
-Returns a dependency container, or &#x60;undefined&#x60; in case the container is not provided. Functions
+## Other Functions
 
 ### useDependencyContainer
 
 ▸ **useDependencyContainer**(`mode`): `Container`
+
+**`category`** Hook
+
+Returns a dependency container. Throws an error in case the container is not provided.
 
 #### Parameters
 
@@ -280,9 +274,13 @@ Returns a dependency container, or &#x60;undefined&#x60; in case the container i
 
 #### Defined in
 
-[hooks.ts:10](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox-react/src/hooks.ts#L10)
+[hooks.ts:10](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/hooks.ts#L10)
 
 ▸ **useDependencyContainer**(`mode?`): `Container` \| `undefined`
+
+**`category`** Hook
+
+Returns a dependency container, or `undefined` in case the container is not provided.
 
 #### Parameters
 
@@ -296,44 +294,4 @@ Returns a dependency container, or &#x60;undefined&#x60; in case the container i
 
 #### Defined in
 
-[hooks.ts:16](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox-react/src/hooks.ts#L16)
-
-___
-
-## Hook
-
-Returns a dependency container. Throws an error in case the container is not provided. Functions
-
-### useDependencyContainer
-
-▸ **useDependencyContainer**(`mode`): `Container`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `mode` | ``"strict"`` |
-
-#### Returns
-
-`Container`
-
-#### Defined in
-
-[hooks.ts:10](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox-react/src/hooks.ts#L10)
-
-▸ **useDependencyContainer**(`mode?`): `Container` \| `undefined`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `mode?` | ``"optional"`` |
-
-#### Returns
-
-`Container` \| `undefined`
-
-#### Defined in
-
-[hooks.ts:16](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox-react/src/hooks.ts#L16)
+[hooks.ts:16](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/hooks.ts#L16)

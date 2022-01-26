@@ -6,7 +6,7 @@ ditox
 
 ### Classes
 
-- [ResolverError](classes/resolvererror.md)
+- [ResolverError](classes/ResolverError.md)
 
 ### Type aliases
 
@@ -56,7 +56,7 @@ Options for module binding.
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:83](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/modules.ts#L83)
+[packages/ditox/src/modules.ts:83](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/modules.ts#L83)
 
 ___
 
@@ -70,23 +70,23 @@ Dependency container.
 
 | Name | Type |
 | :------ | :------ |
-| `bindFactory` | <T\>(`token`: [Token](README.md#token)<T\>, `factory`: (`container`: [Container](README.md#container)) => `T`, `options?`: [FactoryOptions](README.md#factoryoptions)<T\>) => `void` |
-| `bindValue` | <T\>(`token`: [Token](README.md#token)<T\>, `value`: `T`) => `void` |
-| `get` | <T\>(`token`: [Token](README.md#token)<T\>) => `undefined` \| `T` |
-| `hasToken` | (`token`: [Token](README.md#token)<unknown\>) => `boolean` |
-| `remove` | <T\>(`token`: [Token](README.md#token)<T\>) => `void` |
+| `bindFactory` | <T\>(`token`: [`Token`](README.md#token)<`T`\>, `factory`: (`container`: [`Container`](README.md#container)) => `T`, `options?`: [`FactoryOptions`](README.md#factoryoptions)<`T`\>) => `void` |
+| `bindValue` | <T\>(`token`: [`Token`](README.md#token)<`T`\>, `value`: `T`) => `void` |
+| `get` | <T\>(`token`: [`Token`](README.md#token)<`T`\>) => `undefined` \| `T` |
+| `hasToken` | (`token`: [`Token`](README.md#token)<`unknown`\>) => `boolean` |
+| `remove` | <T\>(`token`: [`Token`](README.md#token)<`T`\>) => `void` |
 | `removeAll` | () => `void` |
-| `resolve` | <T\>(`token`: [Token](README.md#token)<T\>) => `T` |
+| `resolve` | <T\>(`token`: [`Token`](README.md#token)<`T`\>) => `T` |
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:95](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/ditox.ts#L95)
+[packages/ditox/src/ditox.ts:95](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/ditox.ts#L95)
 
 ___
 
 ### FactoryOptions
 
-Ƭ **FactoryOptions**<T\>: { `onRemoved?`: (`value`: `T`) => `void` ; `scope?`: ``"scoped"`` \| ``"singleton"``  } \| { `scope`: ``"transient"``  }
+Ƭ **FactoryOptions**<`T`\>: { `scope?`: ``"scoped"`` \| ``"singleton"`` ; `onRemoved?`: (`value`: `T`) => `void`  } \| { `scope`: ``"transient"``  }
 
 Options for factory binding.
 
@@ -105,7 +105,7 @@ Options for factory binding.
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:83](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/ditox.ts#L83)
+[packages/ditox/src/ditox.ts:83](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/ditox.ts#L83)
 
 ___
 
@@ -117,13 +117,13 @@ ___
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/ditox.ts#L71)
+[packages/ditox/src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/ditox.ts#L71)
 
 ___
 
 ### Module
 
-Ƭ **Module**<ModuleProps\>: `ModuleController` & `ModuleProps`
+Ƭ **Module**<`ModuleProps`\>: `ModuleController` & `ModuleProps`
 
 Dependency module
 
@@ -138,27 +138,27 @@ type LoggerModule = Module<{
 
 | Name | Type |
 | :------ | :------ |
-| `ModuleProps` | `ModuleProps`: `AnyObject` = `EmptyObject` |
+| `ModuleProps` | extends `AnyObject` = `EmptyObject` |
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:22](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/modules.ts#L22)
+[packages/ditox/src/modules.ts:22](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/modules.ts#L22)
 
 ___
 
 ### ModuleBindingEntry
 
-Ƭ **ModuleBindingEntry**: [ModuleDeclaration](README.md#moduledeclaration)<AnyObject\> \| { `module`: [ModuleDeclaration](README.md#moduledeclaration)<AnyObject\> ; `options`: [BindModuleOptions](README.md#bindmoduleoptions)  }
+Ƭ **ModuleBindingEntry**: [`ModuleDeclaration`](README.md#moduledeclaration)<`AnyObject`\> \| { `module`: [`ModuleDeclaration`](README.md#moduledeclaration)<`AnyObject`\> ; `options`: [`BindModuleOptions`](README.md#bindmoduleoptions)  }
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:87](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/modules.ts#L87)
+[packages/ditox/src/modules.ts:87](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/modules.ts#L87)
 
 ___
 
 ### ModuleDeclaration
 
-Ƭ **ModuleDeclaration**<T\>: `Object`
+Ƭ **ModuleDeclaration**<`T`\>: `Object`
 
 Description how to bind the module in declarative way.
 
@@ -183,29 +183,29 @@ const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
 
 | Name | Type |
 | :------ | :------ |
-| `T` | `T`: [Module](README.md#module)<AnyObject\> |
+| `T` | extends [`Module`](README.md#module)<`AnyObject`\> |
 
 #### Type declaration
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `afterBinding?` | (`container`: [Container](README.md#container)) => `void` | - |
-| `beforeBinding?` | (`container`: [Container](README.md#container)) => `void` | - |
-| `exportedProps?` | [ModuleDeclaration](README.md#moduledeclaration)<T\>[``"exports"``] | Dictionary of module properties which are bound to tokens.  **`deprecated`** Use `exports` property. |
-| `exports?` | { [K in keyof GetModuleProps<T\>]?: Token<GetModuleProps<T\>[K]\>} | Dictionary of module properties which are bound to tokens. |
-| `factory` | (`container`: [Container](README.md#container)) => `T` | - |
-| `imports?` | `ReadonlyArray`<[ModuleBindingEntry](README.md#modulebindingentry)\> | Modules for binding |
-| `token` | [Token](README.md#token)<T\> | Token for the module |
+| `exportedProps?` | [`ModuleDeclaration`](README.md#moduledeclaration)<`T`\>[``"exports"``] | Dictionary of module properties which are bound to tokens.  **`deprecated`** Use `exports` property. |
+| `exports?` | { [K in keyof GetModuleProps<T\>]?: Token<GetModuleProps<T\>[K]\> } | Dictionary of module properties which are bound to tokens. |
+| `imports?` | `ReadonlyArray`<[`ModuleBindingEntry`](README.md#modulebindingentry)\> | Modules for binding |
+| `token` | [`Token`](README.md#token)<`T`\> | Token for the module |
+| `afterBinding?` | (`container`: [`Container`](README.md#container)) => `void` | Callback could be used to export complex dependencies from the module. It is called after binding the module. |
+| `beforeBinding?` | (`container`: [`Container`](README.md#container)) => `void` | Callback could be used to prepare an environment. It is called before binding the module. |
+| `factory` | (`container`: [`Container`](README.md#container)) => `T` | Factory of the module |
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:47](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/modules.ts#L47)
+[packages/ditox/src/modules.ts:47](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/modules.ts#L47)
 
 ___
 
 ### Token
 
-Ƭ **Token**<T\>: `RequiredToken`<T\> \| `OptionalToken`<T\>
+Ƭ **Token**<`T`\>: `RequiredToken`<`T`\> \| `OptionalToken`<`T`\>
 
 Binding token.
 
@@ -217,13 +217,13 @@ Binding token.
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:25](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/ditox.ts#L25)
+[packages/ditox/src/ditox.ts:25](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/ditox.ts#L25)
 
 ## Functions
 
 ### bindModule
 
-▸ **bindModule**<T\>(`container`, `moduleDeclaration`, `options?`): `void`
+▸ **bindModule**<`T`\>(`container`, `moduleDeclaration`, `options?`): `void`
 
 Binds the dependency module to the container
 
@@ -236,15 +236,15 @@ bindModule(container, LOGGER_MODULE);
 
 | Name | Type |
 | :------ | :------ |
-| `T` | `T`: [Module](README.md#module)<AnyObject\> |
+| `T` | extends [`Module`](README.md#module)<`AnyObject`\> |
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `container` | [Container](README.md#container) | Dependency container. |
-| `moduleDeclaration` | [ModuleDeclaration](README.md#moduledeclaration)<T\> | Declaration of the dependency module. |
-| `options?` | [BindModuleOptions](README.md#bindmoduleoptions) | Options for module binding. |
+| `container` | [`Container`](README.md#container) | Dependency container. |
+| `moduleDeclaration` | [`ModuleDeclaration`](README.md#moduledeclaration)<`T`\> | Declaration of the dependency module. |
+| `options?` | [`BindModuleOptions`](README.md#bindmoduleoptions) | Options for module binding. |
 
 #### Returns
 
@@ -252,7 +252,7 @@ bindModule(container, LOGGER_MODULE);
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:105](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/modules.ts#L105)
+[packages/ditox/src/modules.ts:105](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/modules.ts#L105)
 
 ___
 
@@ -266,8 +266,8 @@ Binds dependency modules to the container
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `container` | [Container](README.md#container) | Dependency container for binding |
-| `modules` | `ReadonlyArray`<[ModuleBindingEntry](README.md#modulebindingentry)\> | Array of module binding entries: module declaration or `{module: ModuleDeclaration, options: BindModuleOptions}` objects. |
+| `container` | [`Container`](README.md#container) | Dependency container for binding |
+| `modules` | readonly [`ModuleBindingEntry`](README.md#modulebindingentry)[] | Array of module binding entries: module declaration or `{module: ModuleDeclaration, options: BindModuleOptions}` objects. |
 
 #### Returns
 
@@ -275,13 +275,13 @@ Binds dependency modules to the container
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:166](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/modules.ts#L166)
+[packages/ditox/src/modules.ts:166](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/modules.ts#L166)
 
 ___
 
 ### bindMultiValue
 
-▸ **bindMultiValue**<T\>(`container`, `token`, `value`): `void`
+▸ **bindMultiValue**<`T`\>(`container`, `token`, `value`): `void`
 
 Rebinds the array by the token with added new value.
 
@@ -295,8 +295,8 @@ Rebinds the array by the token with added new value.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `container` | [Container](README.md#container) | Dependency container. |
-| `token` | [Token](README.md#token)<ReadonlyArray<T\>\> | Token for an array of values. |
+| `container` | [`Container`](README.md#container) | Dependency container. |
+| `token` | [`Token`](README.md#token)<readonly `T`[]\> | Token for an array of values. |
 | `value` | `T` | New value which is added to the end of the array. |
 
 #### Returns
@@ -305,13 +305,13 @@ Rebinds the array by the token with added new value.
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:14](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/utils.ts#L14)
+[packages/ditox/src/utils.ts:14](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/utils.ts#L14)
 
 ___
 
 ### createContainer
 
-▸ **createContainer**(`parentContainer?`): [Container](README.md#container)
+▸ **createContainer**(`parentContainer?`): [`Container`](README.md#container)
 
 Creates a new dependency container.
 
@@ -321,21 +321,21 @@ Container can have an optional parent to chain token resolution. The parent is u
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `parentContainer?` | [Container](README.md#container) | Optional parent container. |
+| `parentContainer?` | [`Container`](README.md#container) | Optional parent container. |
 
 #### Returns
 
-[Container](README.md#container)
+[`Container`](README.md#container)
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:204](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/ditox.ts#L204)
+[packages/ditox/src/ditox.ts:204](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/ditox.ts#L204)
 
 ___
 
 ### declareModule
 
-▸ **declareModule**<T\>(`declaration`): [ModuleDeclaration](README.md#moduledeclaration)<T\>
+▸ **declareModule**<`T`\>(`declaration`): [`ModuleDeclaration`](README.md#moduledeclaration)<`T`\>
 
 Declares a module binding
 
@@ -365,21 +365,21 @@ const LOGGER_MODULE = declareModule<LoggerModule>({
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `declaration` | `Omit`<[ModuleDeclaration](README.md#moduledeclaration)<T\>, ``"token"``\> & `Partial`<Pick<[ModuleDeclaration](README.md#moduledeclaration)<T\>, ``"token"``\>\> | a module declaration |
+| `declaration` | `Omit`<[`ModuleDeclaration`](README.md#moduledeclaration)<`T`\>, ``"token"``\> & `Partial`<`Pick`<[`ModuleDeclaration`](README.md#moduledeclaration)<`T`\>, ``"token"``\>\> | a module declaration |
 
 #### Returns
 
-[ModuleDeclaration](README.md#moduledeclaration)<T\>
+[`ModuleDeclaration`](README.md#moduledeclaration)<`T`\>
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:201](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/modules.ts#L201)
+[packages/ditox/src/modules.ts:201](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/modules.ts#L201)
 
 ___
 
 ### declareModuleBindings
 
-▸ **declareModuleBindings**(`modules`): [ModuleDeclaration](README.md#moduledeclaration)<[Module](README.md#module)\>
+▸ **declareModuleBindings**(`modules`): [`ModuleDeclaration`](README.md#moduledeclaration)<[`Module`](README.md#module)\>
 
 Declares bindings of several modules
 
@@ -387,21 +387,21 @@ Declares bindings of several modules
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `modules` | `ReadonlyArray`<[ModuleBindingEntry](README.md#modulebindingentry)\> | module declaration entries |
+| `modules` | readonly [`ModuleBindingEntry`](README.md#modulebindingentry)[] | module declaration entries |
 
 #### Returns
 
-[ModuleDeclaration](README.md#moduledeclaration)<[Module](README.md#module)\>
+[`ModuleDeclaration`](README.md#moduledeclaration)<[`Module`](README.md#module)\>
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:213](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/modules.ts#L213)
+[packages/ditox/src/modules.ts:213](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/modules.ts#L213)
 
 ___
 
 ### getProps
 
-▸ **getProps**<Props\>(`container`, `tokens`): `Partial`<Props\>
+▸ **getProps**<`Props`\>(`container`, `tokens`): `Partial`<`Props`\>
 
 Returns an object with resolved properties which are specified by token properties.
 If a token is not found, then `undefined` value is used.
@@ -416,28 +416,28 @@ console.log(props); // {a: 1, b: 2}
 
 | Name | Type |
 | :------ | :------ |
-| `Props` | `Props`: `ValuesProps` |
+| `Props` | extends `ValuesProps` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `container` | [Container](README.md#container) |
-| `tokens` | `TokenProps`<Props\> |
+| `container` | [`Container`](README.md#container) |
+| `tokens` | `TokenProps`<`Props`\> |
 
 #### Returns
 
-`Partial`<Props\>
+`Partial`<`Props`\>
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:83](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/utils.ts#L83)
+[packages/ditox/src/utils.ts:83](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/utils.ts#L83)
 
 ___
 
 ### getValues
 
-▸ **getValues**<Tokens, Values\>(`container`, ...`tokens`): `Values`
+▸ **getValues**<`Tokens`, `Values`\>(`container`, ...`tokens`): `Values`
 
 Returns an array of resolved values by the specified token.
 If a token is not found, then `undefined` value is used.
@@ -446,14 +446,14 @@ If a token is not found, then `undefined` value is used.
 
 | Name | Type |
 | :------ | :------ |
-| `Tokens` | `Tokens`: [Token](README.md#token)<unknown\>[] |
-| `Values` | `Values`: { [K in string \| number \| symbol]: Tokens[K] extends Token<V\> ? V : never} |
+| `Tokens` | extends [`Token`](README.md#token)<`unknown`\>[] |
+| `Values` | extends { [K in string \| number \| symbol]: Tokens[K] extends Token<V\> ? V : never } |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `container` | [Container](README.md#container) |
+| `container` | [`Container`](README.md#container) |
 | `...tokens` | `Tokens` |
 
 #### Returns
@@ -462,13 +462,13 @@ If a token is not found, then `undefined` value is used.
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:28](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/utils.ts#L28)
+[packages/ditox/src/utils.ts:28](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/utils.ts#L28)
 
 ___
 
 ### injectable
 
-▸ **injectable**<Tokens, Values, Result\>(`factory`, ...`tokens`): (`container`: [Container](README.md#container)) => `Result`
+▸ **injectable**<`Tokens`, `Values`, `Result`\>(`factory`, ...`tokens`): (`container`: [`Container`](README.md#container)) => `Result`
 
 Decorates a factory by passing resolved tokens as factory arguments.
 
@@ -476,8 +476,8 @@ Decorates a factory by passing resolved tokens as factory arguments.
 
 | Name | Type |
 | :------ | :------ |
-| `Tokens` | `Tokens`: [Token](README.md#token)<unknown\>[] |
-| `Values` | `Values`: { [K in string \| number \| symbol]: Tokens[K] extends Token<V\> ? V : never} |
+| `Tokens` | extends [`Token`](README.md#token)<`unknown`\>[] |
+| `Values` | extends { [K in string \| number \| symbol]: Tokens[K] extends Token<V\> ? V : never } |
 | `Result` | `Result` |
 
 #### Parameters
@@ -495,25 +495,29 @@ Decorated factory which takes a dependency container as a single argument.
 
 ▸ (`container`): `Result`
 
+Decorates a factory by passing resolved tokens as factory arguments.
+
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `container` | [Container](README.md#container) |
+| `container` | [`Container`](README.md#container) |
 
 ##### Returns
 
 `Result`
 
+Decorated factory which takes a dependency container as a single argument.
+
 #### Defined in
 
-[packages/ditox/src/utils.ts:56](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/utils.ts#L56)
+[packages/ditox/src/utils.ts:56](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/utils.ts#L56)
 
 ___
 
 ### injectableProps
 
-▸ **injectableProps**<Props, Result\>(`factory`, `tokens`): (`container`: [Container](README.md#container)) => `Result`
+▸ **injectableProps**<`Props`, `Result`\>(`factory`, `tokens`): (`container`: [`Container`](README.md#container)) => `Result`
 
 Decorates a factory by passing a resolved object with tokens as the first argument.
 
@@ -528,7 +532,7 @@ const result = decoratedFactory(container);
 
 | Name | Type |
 | :------ | :------ |
-| `Props` | `Props`: `ValuesProps` |
+| `Props` | extends `ValuesProps` |
 | `Result` | `Result` |
 
 #### Parameters
@@ -536,7 +540,7 @@ const result = decoratedFactory(container);
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `factory` | (`props`: `Props`) => `Result` | A factory. |
-| `tokens` | `TokenProps`<Props\> | Object with tokens. |
+| `tokens` | `TokenProps`<`Props`\> | Object with tokens. |
 
 #### Returns
 
@@ -546,25 +550,36 @@ Decorated factory which takes a dependency container as a single argument.
 
 ▸ (`container`): `Result`
 
+Decorates a factory by passing a resolved object with tokens as the first argument.
+
+**`example`**
+```ts
+const factory = ({a, b}: {a: number, b: number}) => a + b;
+const decoratedFactory = injectableProps(factory, {a: tokenA, b: tokenB});
+const result = decoratedFactory(container);
+```
+
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `container` | [Container](README.md#container) |
+| `container` | [`Container`](README.md#container) |
 
 ##### Returns
 
 `Result`
 
+Decorated factory which takes a dependency container as a single argument.
+
 #### Defined in
 
-[packages/ditox/src/utils.ts:124](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/utils.ts#L124)
+[packages/ditox/src/utils.ts:124](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/utils.ts#L124)
 
 ___
 
 ### optional
 
-▸ **optional**<T\>(`token`, `optionalValue`): `OptionalToken`<T\>
+▸ **optional**<`T`\>(`token`, `optionalValue`): `OptionalToken`<`T`\>
 
 Decorate a token with an optional value.
 This value is be used as default value in case a container does not have registered token.
@@ -579,18 +594,18 @@ This value is be used as default value in case a container does not have registe
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `token` | [Token](README.md#token)<T\> | Existed token. |
+| `token` | [`Token`](README.md#token)<`T`\> | Existed token. |
 | `optionalValue` | `T` | Default value for the resolver. |
 
 #### Returns
 
-`OptionalToken`<T\>
+`OptionalToken`<`T`\>
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:41](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/ditox.ts#L41)
+[packages/ditox/src/ditox.ts:41](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/ditox.ts#L41)
 
-▸ **optional**<T\>(`token`): `OptionalToken`<T \| undefined\>
+▸ **optional**<`T`\>(`token`): `OptionalToken`<`T` \| `undefined`\>
 
 #### Type parameters
 
@@ -602,21 +617,21 @@ This value is be used as default value in case a container does not have registe
 
 | Name | Type |
 | :------ | :------ |
-| `token` | [Token](README.md#token)<T\> |
+| `token` | [`Token`](README.md#token)<`T`\> |
 
 #### Returns
 
-`OptionalToken`<T \| undefined\>
+`OptionalToken`<`T` \| `undefined`\>
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/ditox.ts#L45)
+[packages/ditox/src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/ditox.ts#L45)
 
 ___
 
 ### resolveProps
 
-▸ **resolveProps**<Props\>(`container`, `tokens`): `Props`
+▸ **resolveProps**<`Props`\>(`container`, `tokens`): `Props`
 
 Returns an object with resolved properties which are specified by token properties.
 If a token is not found, then `ResolverError` is thrown.
@@ -631,14 +646,14 @@ console.log(props); // {a: 1, b: 2}
 
 | Name | Type |
 | :------ | :------ |
-| `Props` | `Props`: `ValuesProps` |
+| `Props` | extends `ValuesProps` |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `container` | [Container](README.md#container) |
-| `tokens` | `TokenProps`<Props\> |
+| `container` | [`Container`](README.md#container) |
+| `tokens` | `TokenProps`<`Props`\> |
 
 #### Returns
 
@@ -646,13 +661,13 @@ console.log(props); // {a: 1, b: 2}
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:102](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/utils.ts#L102)
+[packages/ditox/src/utils.ts:102](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/utils.ts#L102)
 
 ___
 
 ### resolveValues
 
-▸ **resolveValues**<Tokens, Values\>(`container`, ...`tokens`): `Values`
+▸ **resolveValues**<`Tokens`, `Values`\>(`container`, ...`tokens`): `Values`
 
 Returns an array of resolved values by the specified token.
 If a token is not found, then `ResolverError` is thrown.
@@ -661,14 +676,14 @@ If a token is not found, then `ResolverError` is thrown.
 
 | Name | Type |
 | :------ | :------ |
-| `Tokens` | `Tokens`: [Token](README.md#token)<unknown\>[] |
-| `Values` | `Values`: { [K in string \| number \| symbol]: Tokens[K] extends Token<V\> ? V : never} |
+| `Tokens` | extends [`Token`](README.md#token)<`unknown`\>[] |
+| `Values` | extends { [K in string \| number \| symbol]: Tokens[K] extends Token<V\> ? V : never } |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `container` | [Container](README.md#container) |
+| `container` | [`Container`](README.md#container) |
 | `...tokens` | `Tokens` |
 
 #### Returns
@@ -677,13 +692,13 @@ If a token is not found, then `ResolverError` is thrown.
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:41](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/utils.ts#L41)
+[packages/ditox/src/utils.ts:41](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/utils.ts#L41)
 
 ___
 
 ### token
 
-▸ **token**<T\>(`description?`): [Token](README.md#token)<T\>
+▸ **token**<`T`\>(`description?`): [`Token`](README.md#token)<`T`\>
 
 Creates a new binding token.
 
@@ -701,8 +716,8 @@ Creates a new binding token.
 
 #### Returns
 
-[Token](README.md#token)<T\>
+[`Token`](README.md#token)<`T`\>
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:31](https://github.com/mnasyrov/ditox/blob/cb2b2da/packages/ditox/src/ditox.ts#L31)
+[packages/ditox/src/ditox.ts:31](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox/src/ditox.ts#L31)
