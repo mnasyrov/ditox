@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="596px" preserveAspectRatio="none" style="width:708px;height:596px;background:#FFFFFF;" version="1.1" viewBox="0 0 708 596" width="708px" zoomAndPan="magnify"><defs><filter height="300%" id="f1pnk9jc46cbsd" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[0ba5ee7700168656dc1b457c6fe9fdac]
+entity Client--><ellipse cx="26" cy="18.2422" fill="#FFF48C" filter="url(#f1pnk9jc46cbsd)" rx="8" ry="8" style="stroke:#000000;stroke-width:1.5;"/><path d="M26,26.2422 L26,53.2422 M13,34.2422 L39,34.2422 M26,53.2422 L13,68.2422 M26,53.2422 L39,68.2422 " fill="none" filter="url(#f1pnk9jc46cbsd)" style="stroke:#000000;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="6" y="87.2773">Client</text><!--MD5=[6a699a515a41fa5022d80998dc7e27dc]
+entity Container--><rect fill="#9CEB61" filter="url(#f1pnk9jc46cbsd)" height="46.4883" style="stroke:#000000;stroke-width:1.5;" width="108" x="202" y="26.2422"/><rect fill="#9CEB61" height="10" style="stroke:#000000;stroke-width:1.5;" width="15" x="290" y="31.2422"/><rect fill="#9CEB61" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="288" y="33.2422"/><rect fill="#9CEB61" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="288" y="37.2422"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="68" x="217" y="59.7773">Container</text><!--MD5=[439fd0432c25c04e35b3ecceb5911b7c]
+entity Token--><rect fill="#9CEB61" filter="url(#f1pnk9jc46cbsd)" height="46.4883" style="stroke:#000000;stroke-width:1.5;" width="83" x="359.5" y="289.7422"/><rect fill="#9CEB61" height="10" style="stroke:#000000;stroke-width:1.5;" width="15" x="422.5" y="294.7422"/><rect fill="#9CEB61" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="420.5" y="296.7422"/><rect fill="#9CEB61" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="420.5" y="300.7422"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="43" x="374.5" y="323.2773">Token</text><!--MD5=[362e86ef695341bb44931b1b079569b1]
+entity OptionalToken--><rect fill="#9CEB61" filter="url(#f1pnk9jc46cbsd)" height="46.4883" style="stroke:#000000;stroke-width:1.5;" width="146" x="328" y="412.7422"/><rect fill="#9CEB61" height="10" style="stroke:#000000;stroke-width:1.5;" width="15" x="454" y="417.7422"/><rect fill="#9CEB61" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="452" y="419.7422"/><rect fill="#9CEB61" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="452" y="423.7422"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="343" y="446.2773">Optional Token</text><path d="M628.5,36.7422 L628.5,62.0527 L699.5,62.0527 L699.5,46.7422 L689.5,36.7422 L628.5,36.7422 " fill="#9CEB61" filter="url(#f1pnk9jc46cbsd)" style="stroke:#000000;stroke-width:1.0;"/><path d="M689.5,36.7422 L689.5,46.7422 L699.5,46.7422 L689.5,36.7422 " fill="#9CEB61" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="50" x="634.5" y="54.3105">Ditox.js</text><!--MD5=[d7735d92f2a41b821568342a009b1039]
+entity Value--><rect fill="#FFF48C" filter="url(#f1pnk9jc46cbsd)" height="46.4883" style="stroke:#000000;stroke-width:1.5;" width="78" x="283" y="166.7422"/><rect fill="#FFF48C" height="10" style="stroke:#000000;stroke-width:1.5;" width="15" x="341" y="171.7422"/><rect fill="#FFF48C" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="339" y="173.7422"/><rect fill="#FFF48C" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="339" y="177.7422"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="38" x="298" y="200.2773">Value</text><!--MD5=[5613fd023c04142800e16cf56b617923]
+entity ProducedValue--><rect fill="#FFF48C" filter="url(#f1pnk9jc46cbsd)" height="46.4883" style="stroke:#000000;stroke-width:1.5;" width="147" x="396.5" y="166.7422"/><rect fill="#FFF48C" height="10" style="stroke:#000000;stroke-width:1.5;" width="15" x="523.5" y="171.7422"/><rect fill="#FFF48C" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="521.5" y="173.7422"/><rect fill="#FFF48C" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="521.5" y="177.7422"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="107" x="411.5" y="200.2773">Produced Value</text><!--MD5=[331e5ab4100280e552d45eaf1040aa7a]
+entity Factory--><rect fill="#FFF48C" filter="url(#f1pnk9jc46cbsd)" height="46.4883" style="stroke:#000000;stroke-width:1.5;" width="90" x="503" y="26.2422"/><rect fill="#FFF48C" height="10" style="stroke:#000000;stroke-width:1.5;" width="15" x="573" y="31.2422"/><rect fill="#FFF48C" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="571" y="33.2422"/><rect fill="#FFF48C" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="571" y="37.2422"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="50" x="518" y="59.7773">Factory</text><!--MD5=[c196218f9d3520782eda94137a125154]
+entity DefaultValue--><rect fill="#FFF48C" filter="url(#f1pnk9jc46cbsd)" height="46.4883" style="stroke:#000000;stroke-width:1.5;" width="129" x="336.5" y="535.7422"/><rect fill="#FFF48C" height="10" style="stroke:#000000;stroke-width:1.5;" width="15" x="445.5" y="540.7422"/><rect fill="#FFF48C" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="443.5" y="542.7422"/><rect fill="#FFF48C" height="2" style="stroke:#000000;stroke-width:1.5;" width="4" x="443.5" y="546.7422"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89" x="351.5" y="569.2773">Default value</text><!--MD5=[f500e957add76349bf6e8f151138488d]
+link Client to Container--><path d="M46.01,49.2422 C79.29,49.2422 147.28,49.2422 196.9,49.2422 " fill="none" id="Client-to-Container" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="201.95,49.2422,192.95,45.2422,196.95,49.2422,192.95,53.2422,201.95,49.2422" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="119" x="64.5" y="42.8105">creates a container</text><!--MD5=[f500e957add76349bf6e8f151138488d]
+link Client to Container--><path d="M46.07,73.6822 C53.64,81.0922 62.9,88.3222 73,92.2422 C94.13,100.4522 153,97.7222 175,92.2422 C189.45,88.6422 204.15,81.9422 216.99,74.8722 " fill="none" id="Client-to-Container-1" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="221.63,72.2622,211.8235,73.1745,217.2687,74.7074,215.7358,80.1526,221.63,72.2622" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="83" x="82.5" y="88.8105">binds a value</text><!--MD5=[f500e957add76349bf6e8f151138488d]
+link Client to Container--><path d="M46.29,36.1222 C51.67,33.2922 57.63,30.7122 63.5,29.2422 C89.59,22.7222 157.86,25.5822 184.5,29.2422 C188.45,29.7822 192.49,30.4922 196.54,31.3022 " fill="none" id="Client-to-Container-2" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="201.67,32.4022,193.6837,26.6386,196.7766,31.375,192.0402,34.468,201.67,32.4022" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="94" x="77" y="19.8105">binds a factory</text><!--MD5=[f500e957add76349bf6e8f151138488d]
+link Client to Container--><path d="M46.01,59.8622 C54.15,63.6122 63.79,67.3622 73,69.2422 C117.42,78.3022 130,74.7122 175,69.2422 C182.13,68.3722 189.53,67.0922 196.84,65.5922 " fill="none" id="Client-to-Container-3" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="201.87,64.5222,192.2333,62.489,196.9802,65.5659,193.9033,70.3128,201.87,64.5222" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="100" x="74" y="65.8105">resolves a value</text><!--MD5=[323dead9d50b5ccb256e6cd480d3b4f7]
+link Container to Factory--><path d="M310.24,49.2422 C363.82,49.2422 445.12,49.2422 497.39,49.2422 " fill="none" id="Container-to-Factory" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="502.68,49.2422,493.68,45.2422,497.68,49.2422,493.68,53.2422,502.68,49.2422" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="119" x="347" y="42.8105">stores and invokes</text><!--MD5=[a6f7f6b4bf5563bc73b551fe647b2a27]
+link Container to Token--><path d="M231.82,72.2622 C199.48,104.4722 149.52,165.6922 180,212.7422 C218.42,272.0522 301.65,296.1522 354.3,305.7222 " fill="none" id="Container-to-Token" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="359.29,306.6022,351.1085,301.1193,354.3639,305.7455,349.7377,309.001,359.29,306.6022" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="84" x="181" y="194.8105">uses as a key</text><!--MD5=[e54bca75f99f5c7fe5c15d19b8d8cc78]
+link Container to Value--><path d="M234.17,72.3822 C219.19,90.3522 204.14,116.0322 217,136.7422 C224.2,148.3322 252.68,162.0622 278.17,172.4922 " fill="none" id="Container-to-Value" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="282.89,174.4022,276.038,167.3276,278.2526,172.5329,273.0472,174.7475,282.89,174.4022" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="122" x="218" y="133.3105">stores and resolves</text><!--MD5=[91ad1ce02ffc1512c59f687676b5c671]
+link Container to ProducedValue--><path d="M285.2,72.5122 C309.33,90.5622 344.73,116.2722 377,136.7422 C391.86,146.1722 408.53,155.7722 423.6,164.1222 " fill="none" id="Container-to-ProducedValue" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="428.22,166.6722,422.2755,158.8196,423.8432,164.2549,418.4079,165.8226,428.22,166.6722" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="122" x="378" y="133.3105">stores and resolves</text><!--MD5=[c3af409eeff01625f5b122b76aa044c0]
+link Factory to ProducedValue--><path d="M539.51,72.5922 C532.35,90.4622 521.32,115.8922 509,136.7422 C503.87,145.4322 497.56,154.3922 491.53,162.3822 " fill="none" id="Factory-to-ProducedValue" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="488.21,166.7122,496.8482,161.9812,491.2419,162.7363,490.4868,157.1301,488.21,166.7122" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="58" x="518" y="133.3105">produces</text><!--MD5=[393555d0b41c60e0192d62bb323dc118]
+link Factory to Token--><path d="M563.32,72.2622 C571.51,85.3922 580.76,102.7622 585,119.7422 C600.96,183.7022 585.35,216.0322 536,259.7422 C511.13,281.7622 475.92,294.9122 447.7,302.4822 " fill="none" id="Factory-to-Token" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="442.51,303.8222,452.2263,305.4325,447.3496,302.5659,450.2162,297.6892,442.51,303.8222" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="87" x="591" y="194.8105">is resolved by</text><!--MD5=[cbe1af1b7961ff4914b96ae4239df33e]
+link Value to Token--><path d="M321.84,212.9922 C322.67,227.2522 325.54,245.6722 334,259.7422 C340.18,270.0122 349.19,279.0022 358.63,286.4922 " fill="none" id="Value-to-Token" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="362.69,289.6122,357.9982,280.9527,358.7279,286.5623,353.1183,287.292,362.69,289.6122" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="87" x="335" y="256.3105">is resolved by</text><!--MD5=[cecca78475b8a62b251d35caa3bc7bb3]
+link ProducedValue to Token--><path d="M457.34,212.9322 C445.72,233.3222 428.48,263.5522 416.13,285.2022 " fill="none" id="ProducedValue-to-Token" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="413.58,289.6922,421.5079,283.8485,416.053,285.3466,414.5549,279.8917,413.58,289.6922" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="87" x="440" y="256.3105">is resolved by</text><!--MD5=[bba39d7d7269c298564fe7ae83f51259]
+reverse link Token to OptionalToken--><path d="M401,340.9722 C401,362.6222 401,392.5222 401,412.6922 " fill="none" id="Token-backto-OptionalToken" style="stroke:#000000;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#000000" points="401,335.9322,397,344.9322,401,340.9322,405,344.9322,401,335.9322" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="50" x="402" y="379.3105">extends</text><!--MD5=[9b0c1906ee12b44d476ab77d22273d2f]
+link OptionalToken to DefaultValue--><path d="M401,458.9322 C401,479.1522 401,509.0522 401,530.6622 " fill="none" id="OptionalToken-to-DefaultValue" style="stroke:#000000;stroke-width:1.0;"/><polygon fill="#000000" points="401,535.6922,405,526.6922,401,530.6922,397,526.6922,401,535.6922" style="stroke:#000000;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="22" x="402" y="502.3105">has</text><!--MD5=[d5c518e05632ab9b67fe3367e65094e5]
+@startuml
+'https://plantuml.com/component-diagram
+
+skinparam note {
+  BorderColor black
+}
+
+skinparam component {
+  BorderColor black
+  BackgroundColor #FFF48C
+  ArrowColor black
+}
+
+skinparam actor {
+  BorderColor black
+  BackgroundColor #FFF48C
+  ArrowColor black
+}
+
+actor Client
+
+'component Container #d2e660
+component Container #9CEB61
+component Token #9CEB61
+component "Optional Token" as OptionalToken #9CEB61
+
+note as DitoxNote #9CEB61
+  Ditox.js
+end note
+
+component Value
+component "Produced Value" as ProducedValue
+component Factory
+component "Default value" as DefaultValue
+
+Client -> Container : creates a container
+Client -> Container : binds a value
+Client -> Container : binds a factory
+Client -> Container : resolves a value
+
+Container -> Factory : stores and invokes
+Container - -> Token : uses as a key
+Container - -> Value : stores and resolves
+Container - -> ProducedValue : stores and resolves
+
+Factory - -> ProducedValue : produces
+Factory ..> Token : is resolved by
+Value ..> Token : is resolved by
+ProducedValue ..> Token : is resolved by
+
+Token <.. OptionalToken : extends
+OptionalToken - -> DefaultValue : has
+
+@enduml
+
+@startuml
+
+skinparam note {
+  BorderColor black
+}
+
+skinparam component {
+  BorderColor black
+  BackgroundColor #FFF48C
+  ArrowColor black
+}
+
+skinparam actor {
+  BorderColor black
+  BackgroundColor #FFF48C
+  ArrowColor black
+}
+
+actor Client
+
+component Container #9CEB61
+component Token #9CEB61
+component "Optional Token" as OptionalToken #9CEB61
+
+note as DitoxNote #9CEB61
+  Ditox.js
+end note
+
+component Value
+component "Produced Value" as ProducedValue
+component Factory
+component "Default value" as DefaultValue
+
+Client -> Container : creates a container
+Client -> Container : binds a value
+Client -> Container : binds a factory
+Client -> Container : resolves a value
+
+Container -> Factory : stores and invokes
+Container - -> Token : uses as a key
+Container - -> Value : stores and resolves
+Container - -> ProducedValue : stores and resolves
+
+Factory - -> ProducedValue : produces
+Factory ..> Token : is resolved by
+Value ..> Token : is resolved by
+ProducedValue ..> Token : is resolved by
+
+Token <.. OptionalToken : extends
+OptionalToken - -> DefaultValue : has
+
+@enduml
+
+PlantUML version 1.2021.16(Thu Dec 09 00:25:22 NOVT 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: RU
+--></g></svg>

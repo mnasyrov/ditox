@@ -1,0 +1,54 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+skinparam note {
+  BorderColor black
+}
+
+skinparam component {
+  BorderColor black
+  BackgroundColor #FFF48C
+  ArrowColor black
+}
+
+skinparam actor {
+  BorderColor black
+  BackgroundColor #FFF48C
+  ArrowColor black
+}
+
+actor Client
+
+'component Container #d2e660
+component Container #9CEB61
+component Token #9CEB61
+component "Optional Token" as OptionalToken #9CEB61
+
+note as DitoxNote #9CEB61
+  Ditox.js
+end note
+
+component Value
+component "Produced Value" as ProducedValue
+component Factory
+component "Default value" as DefaultValue
+
+Client -> Container : creates a container
+Client -> Container : binds a value
+Client -> Container : binds a factory
+Client -> Container : resolves a value
+
+Container -> Factory : stores and invokes
+Container --> Token : uses as a key
+Container --> Value : stores and resolves
+Container --> ProducedValue : stores and resolves
+
+Factory --> ProducedValue : produces
+Factory ..> Token : is resolved by
+Value ..> Token : is resolved by
+ProducedValue ..> Token : is resolved by
+
+Token <.. OptionalToken : extends
+OptionalToken --> DefaultValue : has
+
+@enduml
