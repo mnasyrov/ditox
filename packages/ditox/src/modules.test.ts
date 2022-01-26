@@ -319,5 +319,7 @@ describe('declareModuleBindings()', () => {
     bindModule(container, MODULE_BINDINGS);
     expect(container.get(VALUE1_TOKEN)).toBe(1);
     expect(container.get(VALUE2_TOKEN)).toBe(2);
+
+    expect(container.get(MODULE_BINDINGS.token)).toEqual({});
   });
 });
