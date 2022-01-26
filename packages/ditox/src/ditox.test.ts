@@ -508,7 +508,16 @@ describe('Container', () => {
 
     it('should throw ResolverError in case a value is not provided', () => {
       const container = createContainer();
-      expect(() => container.resolve(NUMBER)).toThrowError(ResolverError);
+      expect(() => container.resolve(token('test'))).toThrowError(
+        new ResolverError(`Token "test" is not provided`),
+      );
+    });
+
+    it('should throw ResolverError with an empty name in case a token is not resolved', () => {
+      const container = createContainer();
+      expect(() => container.resolve(token())).toThrowError(
+        new ResolverError(`Token "" is not provided`),
+      );
     });
 
     it('should resolve a value from the parent container', () => {

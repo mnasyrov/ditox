@@ -15,4 +15,8 @@ export default {
       },
     },
   },
+  collectCoverageFrom: [
+    'packages/*/src/**/*.{ts,tsx}',
+    '!packages/*/src/**/index.{ts,tsx}',
+  ],
 };
