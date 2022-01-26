@@ -17,7 +17,7 @@ import {
   ResolverError,
   resolveValues,
   token,
-} from '../mod.ts';
+} from '../../../mod.ts';
 
 const NUMBER = token<number>('number');
 const STRING = token<string>('string');

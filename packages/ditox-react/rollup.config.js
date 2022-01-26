@@ -14,28 +14,8 @@ const UMD_GLOBALS = {
 export default [
   {
     input: 'src/index.ts',
-    output: [
-      {file: 'lib/index.d.ts'},
-      {file: 'dist/index.d.ts'},
-      {file: 'dist/index.module.d.ts'},
-      {file: 'dist/index.umd.d.ts'},
-    ],
+    output: [{file: 'dist/browser/index.d.ts'}, {file: 'dist/umd/index.d.ts'}],
     plugins: [dts()],
-  },
-  {
-    external: EXTERNALS,
-    input: 'src/index.ts',
-    output: [{file: pkg.main, format: 'cjs', sourcemap: true}],
-    plugins: [typescript()],
-  },
-  {
-    external: EXTERNALS,
-    input: 'src/index.ts',
-    output: [
-      {file: pkg.module, format: 'es', sourcemap: true},
-      {file: 'lib/index.js', format: 'es', sourcemap: true},
-    ],
-    plugins: [typescript()],
   },
   {
     external: EXTERNALS,
@@ -59,6 +39,7 @@ export default [
     plugins: [
       typescript({
         target: 'es5',
+        declaration: false,
       }),
       terser({
         output: {comments: false},

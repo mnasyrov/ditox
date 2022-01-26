@@ -9,25 +9,20 @@ export default [
   {
     input: 'src/index.ts',
     output: [
-      {file: 'lib/index.d.ts'},
-      {file: 'dist/index.d.ts'},
-      {file: 'dist/index.module.d.ts'},
-      {file: 'dist/index.umd.d.ts'},
+      {file: 'lib-deno/index.d.ts'},
+      {file: 'dist/browser/index.d.ts'},
+      {file: 'dist/umd/index.d.ts'},
     ],
     plugins: [dts()],
   },
   {
     input: 'src/index.ts',
-    output: [{file: pkg.main, format: 'cjs', sourcemap: true}],
-    plugins: [typescript()],
-  },
-  {
-    input: 'src/index.ts',
-    output: [
-      {file: pkg.module, format: 'es', sourcemap: true},
-      {file: 'lib/index.js', format: 'es', sourcemap: true},
+    output: [{file: 'lib-deno/index.js', format: 'es', sourcemap: true}],
+    plugins: [
+      typescript({
+        declaration: false,
+      }),
     ],
-    plugins: [typescript()],
   },
   {
     input: 'src/index.ts',
@@ -48,6 +43,7 @@ export default [
     plugins: [
       typescript({
         target: 'es5',
+        declaration: false,
       }),
       terser({
         output: {comments: false},

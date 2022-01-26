@@ -6,7 +6,6 @@
   "display": "Deno",
 
   "compilerOptions": {
-    "jsx": "react",
     "lib": [],
     "resolveJsonModule": true,
     "strict": true

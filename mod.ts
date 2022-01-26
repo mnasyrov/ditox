@@ -1,2 +1,2 @@
-// @deno-types="./packages/ditox/lib/index.d.ts"
-export * from './packages/ditox/lib/index.js';
+// @deno-types="./packages/ditox/lib-deno/index.d.ts"
+export * from './packages/ditox/lib-deno/index.js';
