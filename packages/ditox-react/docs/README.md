@@ -72,7 +72,7 @@ A callback for binding dependencies to a container
 
 #### Defined in
 
-[DependencyContainer.tsx:19](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/DependencyContainer.tsx#L19)
+[DependencyContainer.tsx:19](https://github.com/mnasyrov/ditox/blob/8c2302d/packages/ditox-react/src/DependencyContainer.tsx#L19)
 
 ___
 
@@ -96,7 +96,7 @@ Specifies an existed container or options for a new container:
 
 #### Defined in
 
-[DependencyContainer.tsx:26](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/DependencyContainer.tsx#L26)
+[DependencyContainer.tsx:26](https://github.com/mnasyrov/ditox/blob/8c2302d/packages/ditox-react/src/DependencyContainer.tsx#L26)
 
 ## Component
 
@@ -137,7 +137,7 @@ function App() {
 
 #### Defined in
 
-[DependencyModule.tsx:33](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/DependencyModule.tsx#L33)
+[DependencyModule.tsx:33](https://github.com/mnasyrov/ditox/blob/8c2302d/packages/ditox-react/src/DependencyModule.tsx#L33)
 
 ___
 
@@ -188,7 +188,7 @@ function App() {
 
 #### Defined in
 
-[DependencyContainer.tsx:68](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/DependencyContainer.tsx#L68)
+[DependencyContainer.tsx:68](https://github.com/mnasyrov/ditox/blob/8c2302d/packages/ditox-react/src/DependencyContainer.tsx#L68)
 
 ___
 
@@ -218,7 +218,7 @@ Returns a dependency by token, or &#x60;undefined&#x60; in case the dependency i
 
 #### Defined in
 
-[hooks.ts:52](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/hooks.ts#L52)
+[hooks.ts:52](https://github.com/mnasyrov/ditox/blob/8c2302d/packages/ditox-react/src/hooks.ts#L52)
 
 ___
 
@@ -248,7 +248,7 @@ Returns a dependency by token, or fails with an error. Functions
 
 #### Defined in
 
-[hooks.ts:41](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/hooks.ts#L41)
+[hooks.ts:41](https://github.com/mnasyrov/ditox/blob/8c2302d/packages/ditox-react/src/hooks.ts#L41)
 
 ___
 
@@ -274,7 +274,7 @@ Returns a dependency container. Throws an error in case the container is not pro
 
 #### Defined in
 
-[hooks.ts:10](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/hooks.ts#L10)
+[hooks.ts:10](https://github.com/mnasyrov/ditox/blob/8c2302d/packages/ditox-react/src/hooks.ts#L10)
 
 ▸ **useDependencyContainer**(`mode?`): `Container` \| `undefined`
 
@@ -294,4 +294,4 @@ Returns a dependency container, or `undefined` in case the container is not prov
 
 #### Defined in
 
-[hooks.ts:16](https://github.com/mnasyrov/ditox/blob/4df34f1/packages/ditox-react/src/hooks.ts#L16)
+[hooks.ts:16](https://github.com/mnasyrov/ditox/blob/8c2302d/packages/ditox-react/src/hooks.ts#L16)
