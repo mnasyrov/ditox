@@ -346,64 +346,6 @@ function injectableClass(constructor, ...tokens) {
 }
 
 /**
- * Returns an array of resolved values by the specified token.
- * If a token is not found, then `undefined` value is used.
- *
- * @deprecated Use `tryResolveValues()` function.
- */
-function getValues(container, ...tokens) {
-    return tryResolveValues(container, ...tokens);
-}
-/**
- * Returns an object with resolved properties which are specified by token properties.
- * If a token is not found, then `undefined` value is used.
- *
- * @deprecated Use `tryResolveValue()` function.
- *
- * @example
- * ```ts
- * const props = getProps(container, {a: tokenA, b: tokenB});
- * console.log(props); // {a: 1, b: 2}
- * ```
- */
-function getProps(container, tokens) {
-    return tryResolveValue(container, tokens);
-}
-/**
- * Returns an object with resolved properties which are specified by token properties.
- * If a token is not found, then `ResolverError` is thrown.
- *
- * @deprecated Use `resolveValue()` function.
- *
- * @example
- * ```ts
- * const props = resolveProps(container, {a: tokenA, b: tokenB});
- * console.log(props); // {a: 1, b: 2}
- * ```
- */
-function resolveProps(container, tokens) {
-    return resolveValue(container, tokens);
-}
-/**
- * Decorates a factory by passing a resolved object with tokens as the first argument.
- * @param factory - A factory.
- * @param tokens - Object with tokens.
- * @return Decorated factory which takes a dependency container as a single argument.
- *
- * @deprecated Use `injectable()` function.
- *
- * @example
- * ```ts
- * const factory = ({a, b}: {a: number, b: number}) => a + b;
- * const decoratedFactory = injectableProps(factory, {a: tokenA, b: tokenB});
- * const result = decoratedFactory(container);
- * ```
- */
-function injectableProps(factory, tokens) {
-    return injectable(factory, tokens);
-}
-
-/**
  * Binds the dependency module to the container
  * @param container - Dependency container.
  * @param moduleDeclaration - Declaration of the dependency module.
@@ -415,9 +357,8 @@ function injectableProps(factory, tokens) {
  * ```
  */
 function bindModule(container, moduleDeclaration, options) {
-    var _a;
     const { token, imports, factory, beforeBinding, afterBinding } = moduleDeclaration;
-    const exports = (_a = moduleDeclaration.exports) !== null && _a !== void 0 ? _a : moduleDeclaration.exportedProps;
+    const exports = moduleDeclaration.exports;
     const scope = options === null || options === void 0 ? void 0 : options.scope;
     if (beforeBinding) {
         beforeBinding(container);
@@ -504,5 +445,5 @@ function declareModuleBindings(modules) {
     });
 }
 
-export { ResolverError, bindModule, bindModules, bindMultiValue, createContainer, declareModule, declareModuleBindings, getProps, getValues, injectable, injectableClass, injectableProps, isToken, optional, resolveProps, resolveValue, resolveValues, token, tryResolveValue, tryResolveValues };
+export { ResolverError, bindModule, bindModules, bindMultiValue, createContainer, declareModule, declareModuleBindings, injectable, injectableClass, isToken, optional, resolveValue, resolveValues, token, tryResolveValue, tryResolveValues };
 //# sourceMappingURL=index.js.map

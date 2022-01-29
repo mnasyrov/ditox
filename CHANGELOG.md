@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/mnasyrov/ditox/compare/v2.1.0...v2.2.0) (2022-01-29)
+
+
+### Code Refactoring
+
+* Removed the deprecated code ([a821171](https://github.com/mnasyrov/ditox/commit/a821171e5de011b82f4f1aedbe91f3f6d2ef6360))
+
+
+### BREAKING CHANGES
+
+* Removed the deprecated code:
+- `exportedProps` property of the module declaration
+- utilities:
+  - getValues()
+  - getProps()
+  - resolveProps()
+  - injectableProps()
+Use v2.1 version to migrate to the unified API.
+
+
+
+
+
 # [2.1.0](https://github.com/mnasyrov/ditox/compare/v2.0.0...v2.1.0) (2022-01-29)
 
 

@@ -102,10 +102,10 @@ declare type Container = {
  */
 declare function createContainer(parentContainer?: Container): Container;
 
-declare type ValuesProps$1 = {
+declare type ValuesProps = {
     [key: string]: unknown;
 };
-declare type TokenProps$1<Props extends ValuesProps$1> = {
+declare type TokenProps<Props extends ValuesProps> = {
     [K in keyof Props]: Token<Props[K]>;
 };
 /**
@@ -138,7 +138,7 @@ declare function bindMultiValue<T>(container: Container, token: Token<ReadonlyAr
  */
 declare function tryResolveValue<Tokens extends Token<unknown> | {
     [key: string]: Token<unknown>;
-}, Values extends Tokens extends Token<infer V> ? V | undefined : Tokens extends TokenProps$1<infer Props> ? Partial<Props> : never>(container: Container, token: Tokens): Values;
+}, Values extends Tokens extends Token<infer V> ? V | undefined : Tokens extends TokenProps<infer Props> ? Partial<Props> : never>(container: Container, token: Tokens): Values;
 /**
  * Returns an array of resolved values or objects with resolved values.
  *
@@ -159,7 +159,7 @@ declare function tryResolveValue<Tokens extends Token<unknown> | {
 declare function tryResolveValues<Tokens extends (Token<unknown> | {
     [key: string]: Token<unknown>;
 })[], Values extends {
-    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V | undefined : Tokens[K] extends TokenProps$1<infer Props> ? Partial<Props> : never;
+    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V | undefined : Tokens[K] extends TokenProps<infer Props> ? Partial<Props> : never;
 }>(container: Container, ...tokens: Tokens): Values;
 /**
  * Resolves a value by the provided token.
@@ -180,7 +180,7 @@ declare function tryResolveValues<Tokens extends (Token<unknown> | {
  */
 declare function resolveValue<Tokens extends Token<unknown> | {
     [key: string]: Token<unknown>;
-}, Values extends Tokens extends Token<infer V> ? V : Tokens extends TokenProps$1<infer Props> ? Props : never>(container: Container, token: Tokens): Values;
+}, Values extends Tokens extends Token<infer V> ? V : Tokens extends TokenProps<infer Props> ? Props : never>(container: Container, token: Tokens): Values;
 /**
  * Returns an array of resolved values or objects with resolved values.
  *
@@ -201,7 +201,7 @@ declare function resolveValue<Tokens extends Token<unknown> | {
 declare function resolveValues<Tokens extends (Token<unknown> | {
     [key: string]: Token<unknown>;
 })[], Values extends {
-    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : Tokens[K] extends TokenProps$1<infer Props> ? Props : never;
+    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : Tokens[K] extends TokenProps<infer Props> ? Props : never;
 }>(container: Container, ...tokens: Tokens): Values;
 /**
  * Decorates a factory by passing resolved values as factory arguments.
@@ -217,7 +217,7 @@ declare function resolveValues<Tokens extends (Token<unknown> | {
 declare function injectable<Tokens extends (Token<unknown> | {
     [key: string]: Token<unknown>;
 })[], Values extends {
-    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : Tokens[K] extends TokenProps$1<infer Props> ? Props : never;
+    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : Tokens[K] extends TokenProps<infer Props> ? Props : never;
 }, Result>(this: unknown, factory: (...params: Values) => Result, ...tokens: Tokens): (container: Container) => Result;
 /**
  * Decorates a class by passing resolved values as arguments to its constructor.
@@ -234,66 +234,8 @@ declare function injectable<Tokens extends (Token<unknown> | {
 declare function injectableClass<Tokens extends (Token<unknown> | {
     [key: string]: Token<unknown>;
 })[], Values extends {
-    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : Tokens[K] extends TokenProps$1<infer Props> ? Props : never;
+    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : Tokens[K] extends TokenProps<infer Props> ? Props : never;
 }, Result>(this: unknown, constructor: new (...params: Values) => Result, ...tokens: Tokens): (container: Container) => Result;
-
-declare type ValuesProps = {
-    [key: string]: unknown;
-};
-declare type TokenProps<Props extends ValuesProps> = {
-    [K in keyof Props]: Token<Props[K]>;
-};
-/**
- * Returns an array of resolved values by the specified token.
- * If a token is not found, then `undefined` value is used.
- *
- * @deprecated Use `tryResolveValues()` function.
- */
-declare function getValues<Tokens extends Token<unknown>[], Values extends {
-    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : never;
-}>(container: Container, ...tokens: Tokens): Values;
-/**
- * Returns an object with resolved properties which are specified by token properties.
- * If a token is not found, then `undefined` value is used.
- *
- * @deprecated Use `tryResolveValue()` function.
- *
- * @example
- * ```ts
- * const props = getProps(container, {a: tokenA, b: tokenB});
- * console.log(props); // {a: 1, b: 2}
- * ```
- */
-declare function getProps<Props extends ValuesProps>(container: Container, tokens: TokenProps<Props>): Partial<Props>;
-/**
- * Returns an object with resolved properties which are specified by token properties.
- * If a token is not found, then `ResolverError` is thrown.
- *
- * @deprecated Use `resolveValue()` function.
- *
- * @example
- * ```ts
- * const props = resolveProps(container, {a: tokenA, b: tokenB});
- * console.log(props); // {a: 1, b: 2}
- * ```
- */
-declare function resolveProps<Props extends ValuesProps>(container: Container, tokens: TokenProps<Props>): Props;
-/**
- * Decorates a factory by passing a resolved object with tokens as the first argument.
- * @param factory - A factory.
- * @param tokens - Object with tokens.
- * @return Decorated factory which takes a dependency container as a single argument.
- *
- * @deprecated Use `injectable()` function.
- *
- * @example
- * ```ts
- * const factory = ({a, b}: {a: number, b: number}) => a + b;
- * const decoratedFactory = injectableProps(factory, {a: tokenA, b: tokenB});
- * const result = decoratedFactory(container);
- * ```
- */
-declare function injectableProps<Props extends ValuesProps, Result>(factory: (props: Props) => Result, tokens: TokenProps<Props>): (container: Container) => Result;
 
 declare type AnyObject = Record<string, any>;
 declare type EmptyObject = Record<string, never>;
@@ -344,12 +286,6 @@ declare type ModuleDeclaration<T extends Module<AnyObject>> = {
     exports?: {
         [K in keyof GetModuleProps<T>]?: Token<GetModuleProps<T>[K]>;
     };
-    /**
-     * Dictionary of module properties which are bound to tokens.
-     *
-     * @deprecated Use `exports` property.
-     */
-    exportedProps?: ModuleDeclaration<T>['exports'];
     /** Callback could be used to prepare an environment. It is called before binding the module. */
     beforeBinding?: (container: Container) => void;
     /** Callback could be used to export complex dependencies from the module. It is called after binding the module.  */
@@ -418,4 +354,4 @@ declare function declareModule<T>(declaration: Omit<ModuleDeclaration<T>, 'token
  */
 declare function declareModuleBindings(modules: ReadonlyArray<ModuleBindingEntry>): ModuleDeclaration<Module>;
 
-export { BindModuleOptions, Container, FactoryOptions, FactoryScope, Module, ModuleBindingEntry, ModuleDeclaration, OptionalToken, RequiredToken, ResolverError, Token, bindModule, bindModules, bindMultiValue, createContainer, declareModule, declareModuleBindings, getProps, getValues, injectable, injectableClass, injectableProps, isToken, optional, resolveProps, resolveValue, resolveValues, token, tryResolveValue, tryResolveValues };
+export { BindModuleOptions, Container, FactoryOptions, FactoryScope, Module, ModuleBindingEntry, ModuleDeclaration, OptionalToken, RequiredToken, ResolverError, Token, bindModule, bindModules, bindMultiValue, createContainer, declareModule, declareModuleBindings, injectable, injectableClass, isToken, optional, resolveValue, resolveValues, token, tryResolveValue, tryResolveValues };

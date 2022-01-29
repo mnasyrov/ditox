@@ -27,14 +27,10 @@ ditox
 - [createContainer](README.md#createcontainer)
 - [declareModule](README.md#declaremodule)
 - [declareModuleBindings](README.md#declaremodulebindings)
-- [getProps](README.md#getprops)
-- [getValues](README.md#getvalues)
 - [injectable](README.md#injectable)
 - [injectableClass](README.md#injectableclass)
-- [injectableProps](README.md#injectableprops)
 - [isToken](README.md#istoken)
 - [optional](README.md#optional)
-- [resolveProps](README.md#resolveprops)
 - [resolveValue](README.md#resolvevalue)
 - [resolveValues](README.md#resolvevalues)
 - [token](README.md#token)
@@ -61,7 +57,7 @@ Options for module binding.
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:83](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/modules.ts#L83)
+[packages/ditox/src/modules.ts:76](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/modules.ts#L76)
 
 ___
 
@@ -85,7 +81,7 @@ Dependency container.
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:95](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/ditox.ts#L95)
+[packages/ditox/src/ditox.ts:95](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/ditox.ts#L95)
 
 ___
 
@@ -110,7 +106,7 @@ Options for factory binding.
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:83](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/ditox.ts#L83)
+[packages/ditox/src/ditox.ts:83](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/ditox.ts#L83)
 
 ___
 
@@ -122,7 +118,7 @@ ___
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/ditox.ts#L71)
+[packages/ditox/src/ditox.ts:71](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/ditox.ts#L71)
 
 ___
 
@@ -147,7 +143,7 @@ type LoggerModule = Module<{
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:22](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/modules.ts#L22)
+[packages/ditox/src/modules.ts:22](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/modules.ts#L22)
 
 ___
 
@@ -157,7 +153,7 @@ ___
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:87](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/modules.ts#L87)
+[packages/ditox/src/modules.ts:80](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/modules.ts#L80)
 
 ___
 
@@ -194,7 +190,6 @@ const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `exportedProps?` | [`ModuleDeclaration`](README.md#moduledeclaration)<`T`\>[``"exports"``] | Dictionary of module properties which are bound to tokens.  **`deprecated`** Use `exports` property. |
 | `exports?` | { [K in keyof GetModuleProps<T\>]?: Token<GetModuleProps<T\>[K]\> } | Dictionary of module properties which are bound to tokens. |
 | `imports?` | `ReadonlyArray`<[`ModuleBindingEntry`](README.md#modulebindingentry)\> | Modules for binding |
 | `token` | [`Token`](README.md#token)<`T`\> | Token for the module |
@@ -204,7 +199,7 @@ const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:47](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/modules.ts#L47)
+[packages/ditox/src/modules.ts:47](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/modules.ts#L47)
 
 ___
 
@@ -222,7 +217,7 @@ Binding token.
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:25](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/ditox.ts#L25)
+[packages/ditox/src/ditox.ts:25](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/ditox.ts#L25)
 
 ## Functions
 
@@ -257,7 +252,7 @@ bindModule(container, LOGGER_MODULE);
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:105](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/modules.ts#L105)
+[packages/ditox/src/modules.ts:98](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/modules.ts#L98)
 
 ___
 
@@ -280,7 +275,7 @@ Binds dependency modules to the container
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:166](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/modules.ts#L166)
+[packages/ditox/src/modules.ts:159](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/modules.ts#L159)
 
 ___
 
@@ -310,7 +305,7 @@ Rebinds the array by the token with added new value.
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:27](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/utils.ts#L27)
+[packages/ditox/src/utils.ts:27](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/utils.ts#L27)
 
 ___
 
@@ -334,7 +329,7 @@ Container can have an optional parent to chain token resolution. The parent is u
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:204](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/ditox.ts#L204)
+[packages/ditox/src/ditox.ts:204](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/ditox.ts#L204)
 
 ___
 
@@ -378,7 +373,7 @@ const LOGGER_MODULE = declareModule<LoggerModule>({
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:201](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/modules.ts#L201)
+[packages/ditox/src/modules.ts:194](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/modules.ts#L194)
 
 ___
 
@@ -400,78 +395,7 @@ Declares bindings of several modules
 
 #### Defined in
 
-[packages/ditox/src/modules.ts:213](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/modules.ts#L213)
-
-___
-
-### getProps
-
-▸ **getProps**<`Props`\>(`container`, `tokens`): `Partial`<`Props`\>
-
-Returns an object with resolved properties which are specified by token properties.
-If a token is not found, then `undefined` value is used.
-
-**`deprecated`** Use `tryResolveValue()` function.
-
-**`example`**
-```ts
-const props = getProps(container, {a: tokenA, b: tokenB});
-console.log(props); // {a: 1, b: 2}
-```
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Props` | extends `ValuesProps` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `container` | [`Container`](README.md#container) |
-| `tokens` | `TokenProps`<`Props`\> |
-
-#### Returns
-
-`Partial`<`Props`\>
-
-#### Defined in
-
-[packages/ditox/src/utils-deprecated.ts:41](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/utils-deprecated.ts#L41)
-
-___
-
-### getValues
-
-▸ **getValues**<`Tokens`, `Values`\>(`container`, ...`tokens`): `Values`
-
-Returns an array of resolved values by the specified token.
-If a token is not found, then `undefined` value is used.
-
-**`deprecated`** Use `tryResolveValues()` function.
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Tokens` | extends [`Token`](README.md#token)<`unknown`\>[] |
-| `Values` | extends { [K in string \| number \| symbol]: Tokens[K] extends Token<V\> ? V : never } |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `container` | [`Container`](README.md#container) |
-| `...tokens` | `Tokens` |
-
-#### Returns
-
-`Values`
-
-#### Defined in
-
-[packages/ditox/src/utils-deprecated.ts:20](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/utils-deprecated.ts#L20)
+[packages/ditox/src/modules.ts:206](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/modules.ts#L206)
 
 ___
 
@@ -526,7 +450,7 @@ Decorated factory which takes a dependency container as a single argument.
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:178](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/utils.ts#L178)
+[packages/ditox/src/utils.ts:178](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/utils.ts#L178)
 
 ___
 
@@ -583,73 +507,7 @@ and returns a new created class.
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:211](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/utils.ts#L211)
-
-___
-
-### injectableProps
-
-▸ **injectableProps**<`Props`, `Result`\>(`factory`, `tokens`): (`container`: [`Container`](README.md#container)) => `Result`
-
-Decorates a factory by passing a resolved object with tokens as the first argument.
-
-**`deprecated`** Use `injectable()` function.
-
-**`example`**
-```ts
-const factory = ({a, b}: {a: number, b: number}) => a + b;
-const decoratedFactory = injectableProps(factory, {a: tokenA, b: tokenB});
-const result = decoratedFactory(container);
-```
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Props` | extends `ValuesProps` |
-| `Result` | `Result` |
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `factory` | (`props`: `Props`) => `Result` | A factory. |
-| `tokens` | `TokenProps`<`Props`\> | Object with tokens. |
-
-#### Returns
-
-`fn`
-
-Decorated factory which takes a dependency container as a single argument.
-
-▸ (`container`): `Result`
-
-Decorates a factory by passing a resolved object with tokens as the first argument.
-
-**`deprecated`** Use `injectable()` function.
-
-**`example`**
-```ts
-const factory = ({a, b}: {a: number, b: number}) => a + b;
-const decoratedFactory = injectableProps(factory, {a: tokenA, b: tokenB});
-const result = decoratedFactory(container);
-```
-
-##### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `container` | [`Container`](README.md#container) |
-
-##### Returns
-
-`Result`
-
-Decorated factory which takes a dependency container as a single argument.
-
-#### Defined in
-
-[packages/ditox/src/utils-deprecated.ts:82](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/utils-deprecated.ts#L82)
+[packages/ditox/src/utils.ts:211](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/utils.ts#L211)
 
 ___
 
@@ -677,7 +535,7 @@ value is Token<T\>
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:11](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/utils.ts#L11)
+[packages/ditox/src/utils.ts:11](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/utils.ts#L11)
 
 ___
 
@@ -707,7 +565,7 @@ This value is be used as default value in case a container does not have registe
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:41](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/ditox.ts#L41)
+[packages/ditox/src/ditox.ts:41](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/ditox.ts#L41)
 
 ▸ **optional**<`T`\>(`token`): `OptionalToken`<`T` \| `undefined`\>
 
@@ -729,45 +587,7 @@ This value is be used as default value in case a container does not have registe
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/ditox.ts#L45)
-
-___
-
-### resolveProps
-
-▸ **resolveProps**<`Props`\>(`container`, `tokens`): `Props`
-
-Returns an object with resolved properties which are specified by token properties.
-If a token is not found, then `ResolverError` is thrown.
-
-**`deprecated`** Use `resolveValue()` function.
-
-**`example`**
-```ts
-const props = resolveProps(container, {a: tokenA, b: tokenB});
-console.log(props); // {a: 1, b: 2}
-```
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Props` | extends `ValuesProps` |
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `container` | [`Container`](README.md#container) |
-| `tokens` | `TokenProps`<`Props`\> |
-
-#### Returns
-
-`Props`
-
-#### Defined in
-
-[packages/ditox/src/utils-deprecated.ts:60](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/utils-deprecated.ts#L60)
+[packages/ditox/src/ditox.ts:45](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/ditox.ts#L45)
 
 ___
 
@@ -811,7 +631,7 @@ console.log(props); // {a: 1, b: 2}
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:118](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/utils.ts#L118)
+[packages/ditox/src/utils.ts:118](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/utils.ts#L118)
 
 ___
 
@@ -855,7 +675,7 @@ console.log(items2); // [1, {a: 1, b: 2}]
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:154](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/utils.ts#L154)
+[packages/ditox/src/utils.ts:154](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/utils.ts#L154)
 
 ___
 
@@ -883,7 +703,7 @@ Creates a new binding token.
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:31](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/ditox.ts#L31)
+[packages/ditox/src/ditox.ts:31](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/ditox.ts#L31)
 
 ___
 
@@ -927,7 +747,7 @@ console.log(props); // {a: 1, b: 2}
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:54](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/utils.ts#L54)
+[packages/ditox/src/utils.ts:54](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/utils.ts#L54)
 
 ___
 
@@ -971,4 +791,4 @@ console.log(items2); // [1, {a: 1, b: 2}]
 
 #### Defined in
 
-[packages/ditox/src/utils.ts:88](https://github.com/mnasyrov/ditox/blob/aea7a8f/packages/ditox/src/utils.ts#L88)
+[packages/ditox/src/utils.ts:88](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/utils.ts#L88)
