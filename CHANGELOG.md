@@ -13,14 +13,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### BREAKING CHANGES
 
-* Removed the deprecated code:
+_Use v2.1 version to migrate to the unified API._
+
+Removed the deprecated code:
 - `exportedProps` property of the module declaration
 - utilities:
-  - getValues()
-  - getProps()
-  - resolveProps()
-  - injectableProps()
-Use v2.1 version to migrate to the unified API.
+  - `getValues()` is replaced by `tryResolveValues()`
+  - `getProps()` is replaced by `tryResolveValue()`
+  - `resolveProps()` is replaced by `resolveValue()`
+  - `injectableProps()` is replaced by `injectable()`
 
 
 
