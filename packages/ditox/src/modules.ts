@@ -59,13 +59,6 @@ export type ModuleDeclaration<T extends Module<AnyObject>> = {
     [K in keyof GetModuleProps<T>]?: Token<GetModuleProps<T>[K]>;
   };
 
-  /**
-   * Dictionary of module properties which are bound to tokens.
-   *
-   * @deprecated Use `exports` property.
-   */
-  exportedProps?: ModuleDeclaration<T>['exports'];
-
   /** Callback could be used to prepare an environment. It is called before binding the module. */
   beforeBinding?: (container: Container) => void;
 
@@ -109,7 +102,7 @@ export function bindModule<T extends Module<AnyObject>>(
 ): void {
   const {token, imports, factory, beforeBinding, afterBinding} =
     moduleDeclaration;
-  const exports = moduleDeclaration.exports ?? moduleDeclaration.exportedProps;
+  const exports = moduleDeclaration.exports;
 
   const scope = options?.scope;
 

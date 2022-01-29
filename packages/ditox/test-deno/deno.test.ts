@@ -11,7 +11,7 @@ import {
   bindMultiValue,
   Container,
   createContainer,
-  getValues,
+  tryResolveValues,
   injectable,
   optional,
   ResolverError,
@@ -171,7 +171,7 @@ Deno.test('should return values for the tokens', () => {
   container.bindValue(NUMBER, 1);
   container.bindValue(STRING, 'abc');
 
-  const values: [number, string] = getValues(container, NUMBER, STRING);
+  const values: [number, string] = tryResolveValues(container, NUMBER, STRING);
   assertEquals(values, [1, 'abc']);
 });
 

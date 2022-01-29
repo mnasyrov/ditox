@@ -20,13 +20,6 @@ export {
 } from './utils';
 
 export {
-  getValues,
-  getProps,
-  resolveProps,
-  injectableProps,
-} from './utils-deprecated';
-
-export {
   bindModule,
   bindModules,
   declareModule,
