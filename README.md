@@ -264,7 +264,7 @@ const createLogger = (tag) => (message) => console.log(`[${tag}] ${message}`);
 
 const parent = createContainer();
 parent.bindValue(TAG, 'parent');
-parent.bindFactory(LOGGER, injectable(createLogger, TAG), {scope: 'singleton'});
+parent.bindFactory(LOGGER, injectable(createLogger, TAG), {scope: 'transient'});
 
 const container1 = createContainer(parent);
 container1.bindValue(TAG, 'container1');
