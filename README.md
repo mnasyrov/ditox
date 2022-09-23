@@ -288,7 +288,7 @@ It is useful for providing pieces of functionality from libraries to an app whic
 ```ts
 type LoggerModule = Module<{logger: Logger}>;
 
-const LOGGER_MODULE_TOKEN = token<LoggerModule>;
+const LOGGER_MODULE_TOKEN = token<LoggerModule>();
 
 const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
   token: LOGGER_MODULE_TOKEN,
