@@ -1,12 +1,11 @@
 {
   "version": "2.2.0",
+  "useWorkspaces": true,
   "hoist": "**",
   "forceLocal": true,
   "command": {
     "bootstrap": {
-      "npmClientArgs": [
-        "--save-exact"
-      ]
+      "npmClientArgs": ["--save-exact"]
     },
     "run": {
       "stream": true

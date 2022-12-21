@@ -2,8 +2,7 @@
  * @jest-environment jsdom
  */
 
-import {render} from '@testing-library/react';
-import {renderHook} from '@testing-library/react-hooks';
+import {render, renderHook} from '@testing-library/react';
 import {Container, createContainer, Token, token} from 'ditox';
 import React, {useEffect} from 'react';
 import {

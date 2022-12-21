@@ -5,6 +5,7 @@
     "target": "ES2019",
     "module": "ES2015",
     "lib": ["ES2019"],
+    "jsx": "react-jsx",
     "importHelpers": false,
     "declaration": true,
     "sourceMap": true,
