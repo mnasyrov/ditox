@@ -1,8 +1,10 @@
 /.idea
 /.vscode
 /coverage
+/dist
 /packages/*/dist
 .DS_Store
+lerna-debug.log
 node_modules
 npm-debug.log
 Thumbs.db

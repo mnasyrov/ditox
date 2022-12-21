@@ -2,25 +2,25 @@
  * @ignore
  * Binding token for mandatory value
  */
-declare type RequiredToken<T> = {
-    symbol: symbol;
-    type?: T;
-    isOptional?: false;
+type RequiredToken<T> = {
+  symbol: symbol;
+  type?: T;
+  isOptional?: false;
 };
 /**
  * @ignore
  * Binding token for optional value
  */
-declare type OptionalToken<T> = {
-    symbol: symbol;
-    type?: T;
-    isOptional: true;
-    optionalValue: T;
+type OptionalToken<T> = {
+  symbol: symbol;
+  type?: T;
+  isOptional: true;
+  optionalValue: T;
 };
 /**
  * Binding token.
  */
-declare type Token<T> = RequiredToken<T> | OptionalToken<T>;
+type Token<T> = RequiredToken<T> | OptionalToken<T>;
 /**
  * Creates a new binding token.
  * @param description - Token description for better error messages.
@@ -32,18 +32,21 @@ declare function token<T>(description?: string): Token<T>;
  * @param token - Existed token.
  * @param optionalValue - Default value for the resolver.
  */
-declare function optional<T>(token: Token<T>, optionalValue: T): OptionalToken<T>;
+declare function optional<T>(
+  token: Token<T>,
+  optionalValue: T,
+): OptionalToken<T>;
 declare function optional<T>(token: Token<T>): OptionalToken<T | undefined>;
 /**
  * ResolverError is thrown by the resolver when a token is not found in a container.
  */
 declare class ResolverError extends Error {
-    constructor(message: string);
+  constructor(message: string);
 }
 /**
  * @see https://github.com/mnasyrov/ditox#factory-lifetimes
  */
-declare type FactoryScope = 'scoped' | 'singleton' | 'transient';
+type FactoryScope = 'scoped' | 'singleton' | 'transient';
 /**
  * Options for factory binding.
  *
@@ -54,44 +57,50 @@ declare type FactoryScope = 'scoped' | 'singleton' | 'transient';
  *
  * `scoped` and `singleton` scopes can have `onRemoved` callback. It is called when a token is removed from the container.
  */
-declare type FactoryOptions<T> = {
-    scope?: 'scoped' | 'singleton';
-    onRemoved?: (value: T) => void;
-} | {
-    scope: 'transient';
-};
+type FactoryOptions<T> =
+  | {
+      scope?: 'scoped' | 'singleton';
+      onRemoved?: (value: T) => void;
+    }
+  | {
+      scope: 'transient';
+    };
 /**
  * Dependency container.
  */
-declare type Container = {
-    /**
-     * Binds a value for the token
-     */
-    bindValue<T>(token: Token<T>, value: T): void;
-    /**
-     * Binds a factory for the token.
-     */
-    bindFactory<T>(token: Token<T>, factory: (container: Container) => T, options?: FactoryOptions<T>): void;
-    /**
-     * Checks if the token is registered in the container hierarchy.
-     */
-    hasToken(token: Token<unknown>): boolean;
-    /**
-     * Returns a resolved value by the token, or returns `undefined` in case the token is not found.
-     */
-    get<T>(token: Token<T>): T | undefined;
-    /**
-     * Returns a resolved value by the token, or throws `ResolverError` in case the token is not found.
-     */
-    resolve<T>(token: Token<T>): T;
-    /**
-     * Removes a binding for the token.
-     */
-    remove<T>(token: Token<T>): void;
-    /**
-     * Removes all bindings in the container.
-     */
-    removeAll(): void;
+type Container = {
+  /**
+   * Binds a value for the token
+   */
+  bindValue<T>(token: Token<T>, value: T): void;
+  /**
+   * Binds a factory for the token.
+   */
+  bindFactory<T>(
+    token: Token<T>,
+    factory: (container: Container) => T,
+    options?: FactoryOptions<T>,
+  ): void;
+  /**
+   * Checks if the token is registered in the container hierarchy.
+   */
+  hasToken(token: Token<unknown>): boolean;
+  /**
+   * Returns a resolved value by the token, or returns `undefined` in case the token is not found.
+   */
+  get<T>(token: Token<T>): T | undefined;
+  /**
+   * Returns a resolved value by the token, or throws `ResolverError` in case the token is not found.
+   */
+  resolve<T>(token: Token<T>): T;
+  /**
+   * Removes a binding for the token.
+   */
+  remove<T>(token: Token<T>): void;
+  /**
+   * Removes all bindings in the container.
+   */
+  removeAll(): void;
 };
 /**
  * Creates a new dependency container.
@@ -102,11 +111,11 @@ declare type Container = {
  */
 declare function createContainer(parentContainer?: Container): Container;
 
-declare type ValuesProps = {
-    [key: string]: unknown;
+type ValuesProps = {
+  [key: string]: unknown;
 };
-declare type TokenProps<Props extends ValuesProps> = {
-    [K in keyof Props]: Token<Props[K]>;
+type TokenProps<Props extends ValuesProps> = {
+  [K in keyof Props]: Token<Props[K]>;
 };
 /**
  * Checks if a value is the token
@@ -118,7 +127,11 @@ declare function isToken<T>(value: unknown): value is Token<T>;
  * @param token - Token for an array of values.
  * @param value - New value which is added to the end of the array.
  */
-declare function bindMultiValue<T>(container: Container, token: Token<ReadonlyArray<T>>, value: T): void;
+declare function bindMultiValue<T>(
+  container: Container,
+  token: Token<ReadonlyArray<T>>,
+  value: T,
+): void;
 /**
  * Tries to resolve a value by the provided token.
  *
@@ -136,9 +149,18 @@ declare function bindMultiValue<T>(container: Container, token: Token<ReadonlyAr
  * console.log(props); // {a: 1, b: 2}
  * ```
  */
-declare function tryResolveValue<Tokens extends Token<unknown> | {
-    [key: string]: Token<unknown>;
-}, Values extends Tokens extends Token<infer V> ? V | undefined : Tokens extends TokenProps<infer Props> ? Partial<Props> : never>(container: Container, token: Tokens): Values;
+declare function tryResolveValue<
+  Tokens extends
+    | Token<unknown>
+    | {
+        [key: string]: Token<unknown>;
+      },
+  Values extends Tokens extends Token<infer V>
+    ? V | undefined
+    : Tokens extends TokenProps<infer Props>
+    ? Partial<Props>
+    : never,
+>(container: Container, token: Tokens): Values;
 /**
  * Returns an array of resolved values or objects with resolved values.
  *
@@ -156,11 +178,21 @@ declare function tryResolveValue<Tokens extends Token<unknown> | {
  * console.log(items2); // [1, {a: 1, b: 2}]
  * ```
  */
-declare function tryResolveValues<Tokens extends (Token<unknown> | {
-    [key: string]: Token<unknown>;
-})[], Values extends {
-    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V | undefined : Tokens[K] extends TokenProps<infer Props> ? Partial<Props> : never;
-}>(container: Container, ...tokens: Tokens): Values;
+declare function tryResolveValues<
+  Tokens extends (
+    | Token<unknown>
+    | {
+        [key: string]: Token<unknown>;
+      }
+  )[],
+  Values extends {
+    [K in keyof Tokens]: Tokens[K] extends Token<infer V>
+      ? V | undefined
+      : Tokens[K] extends TokenProps<infer Props>
+      ? Partial<Props>
+      : never;
+  },
+>(container: Container, ...tokens: Tokens): Values;
 /**
  * Resolves a value by the provided token.
  *
@@ -178,9 +210,18 @@ declare function tryResolveValues<Tokens extends (Token<unknown> | {
  * console.log(props); // {a: 1, b: 2}
  * ```
  */
-declare function resolveValue<Tokens extends Token<unknown> | {
-    [key: string]: Token<unknown>;
-}, Values extends Tokens extends Token<infer V> ? V : Tokens extends TokenProps<infer Props> ? Props : never>(container: Container, token: Tokens): Values;
+declare function resolveValue<
+  Tokens extends
+    | Token<unknown>
+    | {
+        [key: string]: Token<unknown>;
+      },
+  Values extends Tokens extends Token<infer V>
+    ? V
+    : Tokens extends TokenProps<infer Props>
+    ? Props
+    : never,
+>(container: Container, token: Tokens): Values;
 /**
  * Returns an array of resolved values or objects with resolved values.
  *
@@ -198,11 +239,21 @@ declare function resolveValue<Tokens extends Token<unknown> | {
  * console.log(items2); // [1, {a: 1, b: 2}]
  * ```
  */
-declare function resolveValues<Tokens extends (Token<unknown> | {
-    [key: string]: Token<unknown>;
-})[], Values extends {
-    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : Tokens[K] extends TokenProps<infer Props> ? Props : never;
-}>(container: Container, ...tokens: Tokens): Values;
+declare function resolveValues<
+  Tokens extends (
+    | Token<unknown>
+    | {
+        [key: string]: Token<unknown>;
+      }
+  )[],
+  Values extends {
+    [K in keyof Tokens]: Tokens[K] extends Token<infer V>
+      ? V
+      : Tokens[K] extends TokenProps<infer Props>
+      ? Props
+      : never;
+  },
+>(container: Container, ...tokens: Tokens): Values;
 /**
  * Decorates a factory by passing resolved values as factory arguments.
  *
@@ -214,11 +265,26 @@ declare function resolveValues<Tokens extends (Token<unknown> | {
  *
  * @return Decorated factory which takes a dependency container as a single argument.
  */
-declare function injectable<Tokens extends (Token<unknown> | {
-    [key: string]: Token<unknown>;
-})[], Values extends {
-    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : Tokens[K] extends TokenProps<infer Props> ? Props : never;
-}, Result>(this: unknown, factory: (...params: Values) => Result, ...tokens: Tokens): (container: Container) => Result;
+declare function injectable<
+  Tokens extends (
+    | Token<unknown>
+    | {
+        [key: string]: Token<unknown>;
+      }
+  )[],
+  Values extends {
+    [K in keyof Tokens]: Tokens[K] extends Token<infer V>
+      ? V
+      : Tokens[K] extends TokenProps<infer Props>
+      ? Props
+      : never;
+  },
+  Result,
+>(
+  this: unknown,
+  factory: (...params: Values) => Result,
+  ...tokens: Tokens
+): (container: Container) => Result;
 /**
  * Decorates a class by passing resolved values as arguments to its constructor.
  *
@@ -231,17 +297,32 @@ declare function injectable<Tokens extends (Token<unknown> | {
  * @return A factory function which takes a dependency container as a single argument
  * and returns a new created class.
  */
-declare function injectableClass<Tokens extends (Token<unknown> | {
-    [key: string]: Token<unknown>;
-})[], Values extends {
-    [K in keyof Tokens]: Tokens[K] extends Token<infer V> ? V : Tokens[K] extends TokenProps<infer Props> ? Props : never;
-}, Result>(this: unknown, constructor: new (...params: Values) => Result, ...tokens: Tokens): (container: Container) => Result;
+declare function injectableClass<
+  Tokens extends (
+    | Token<unknown>
+    | {
+        [key: string]: Token<unknown>;
+      }
+  )[],
+  Values extends {
+    [K in keyof Tokens]: Tokens[K] extends Token<infer V>
+      ? V
+      : Tokens[K] extends TokenProps<infer Props>
+      ? Props
+      : never;
+  },
+  Result,
+>(
+  this: unknown,
+  constructor: new (...params: Values) => Result,
+  ...tokens: Tokens
+): (container: Container) => Result;
 
-declare type AnyObject = Record<string, any>;
-declare type EmptyObject = Record<string, never>;
-declare type ModuleController = {
-    /** Dispose the module and clean its resources */
-    destroy?: () => void;
+type AnyObject = Record<string, any>;
+type EmptyObject = Record<string, never>;
+type ModuleController = {
+  /** Dispose the module and clean its resources */
+  destroy?: () => void;
 };
 /**
  * Dependency module
@@ -253,8 +334,9 @@ declare type ModuleController = {
  * }>;
  * ```
  */
-declare type Module<ModuleProps extends AnyObject = EmptyObject> = ModuleController & ModuleProps;
-declare type GetModuleProps<T> = T extends Module<infer Props> ? Props : never;
+type Module<ModuleProps extends AnyObject = EmptyObject> = ModuleController &
+  ModuleProps;
+type GetModuleProps<T> = T extends Module<infer Props> ? Props : never;
 /**
  * Description how to bind the module in declarative way.
  *
@@ -275,21 +357,21 @@ declare type GetModuleProps<T> = T extends Module<infer Props> ? Props : never;
  * };
  * ```
  */
-declare type ModuleDeclaration<T extends Module<AnyObject>> = {
-    /** Token for the module */
-    token: Token<T>;
-    /** Modules for binding  */
-    imports?: ReadonlyArray<ModuleBindingEntry>;
-    /** Factory of the module */
-    factory: (container: Container) => T;
-    /** Dictionary of module properties which are bound to tokens. */
-    exports?: {
-        [K in keyof GetModuleProps<T>]?: Token<GetModuleProps<T>[K]>;
-    };
-    /** Callback could be used to prepare an environment. It is called before binding the module. */
-    beforeBinding?: (container: Container) => void;
-    /** Callback could be used to export complex dependencies from the module. It is called after binding the module.  */
-    afterBinding?: (container: Container) => void;
+type ModuleDeclaration<T extends Module<AnyObject>> = {
+  /** Token for the module */
+  token: Token<T>;
+  /** Modules for binding  */
+  imports?: ReadonlyArray<ModuleBindingEntry>;
+  /** Factory of the module */
+  factory: (container: Container) => T;
+  /** Dictionary of module properties which are bound to tokens. */
+  exports?: {
+    [K in keyof GetModuleProps<T>]?: Token<GetModuleProps<T>[K]>;
+  };
+  /** Callback could be used to prepare an environment. It is called before binding the module. */
+  beforeBinding?: (container: Container) => void;
+  /** Callback could be used to export complex dependencies from the module. It is called after binding the module.  */
+  afterBinding?: (container: Container) => void;
 };
 /**
  * Options for module binding.
@@ -298,13 +380,15 @@ declare type ModuleDeclaration<T extends Module<AnyObject>> = {
  *   - `singleton` - **This is the default**. The module is created and cached by the container which registered the factory.
  *   - `scoped` - The module is created and cached by the container which starts resolving.
  */
-declare type BindModuleOptions = {
-    scope?: 'scoped' | 'singleton';
+type BindModuleOptions = {
+  scope?: 'scoped' | 'singleton';
 };
-declare type ModuleBindingEntry = ModuleDeclaration<AnyObject> | {
-    module: ModuleDeclaration<AnyObject>;
-    options: BindModuleOptions;
-};
+type ModuleBindingEntry =
+  | ModuleDeclaration<AnyObject>
+  | {
+      module: ModuleDeclaration<AnyObject>;
+      options: BindModuleOptions;
+    };
 /**
  * Binds the dependency module to the container
  * @param container - Dependency container.
@@ -316,14 +400,21 @@ declare type ModuleBindingEntry = ModuleDeclaration<AnyObject> | {
  * bindModule(container, LOGGER_MODULE);
  * ```
  */
-declare function bindModule<T extends Module<AnyObject>>(container: Container, moduleDeclaration: ModuleDeclaration<T>, options?: BindModuleOptions): void;
+declare function bindModule<T extends Module<AnyObject>>(
+  container: Container,
+  moduleDeclaration: ModuleDeclaration<T>,
+  options?: BindModuleOptions,
+): void;
 /**
  * Binds dependency modules to the container
  *
  * @param container - Dependency container for binding
  * @param modules - Array of module binding entries: module declaration or `{module: ModuleDeclaration, options: BindModuleOptions}` objects.
  */
-declare function bindModules(container: Container, modules: ReadonlyArray<ModuleBindingEntry>): void;
+declare function bindModules(
+  container: Container,
+  modules: ReadonlyArray<ModuleBindingEntry>,
+): void;
 /**
  * Declares a module binding
  *
@@ -346,12 +437,44 @@ declare function bindModules(container: Container, modules: ReadonlyArray<Module
  * });
  * ```
  */
-declare function declareModule<T>(declaration: Omit<ModuleDeclaration<T>, 'token'> & Partial<Pick<ModuleDeclaration<T>, 'token'>>): ModuleDeclaration<T>;
+declare function declareModule<T extends Module<AnyObject>>(
+  declaration: Omit<ModuleDeclaration<T>, 'token'> &
+    Partial<Pick<ModuleDeclaration<T>, 'token'>>,
+): ModuleDeclaration<T>;
 /**
  * Declares bindings of several modules
  *
  * @param modules - module declaration entries
  */
-declare function declareModuleBindings(modules: ReadonlyArray<ModuleBindingEntry>): ModuleDeclaration<Module>;
+declare function declareModuleBindings(
+  modules: ReadonlyArray<ModuleBindingEntry>,
+): ModuleDeclaration<Module>;
 
-export { BindModuleOptions, Container, FactoryOptions, FactoryScope, Module, ModuleBindingEntry, ModuleDeclaration, OptionalToken, RequiredToken, ResolverError, Token, bindModule, bindModules, bindMultiValue, createContainer, declareModule, declareModuleBindings, injectable, injectableClass, isToken, optional, resolveValue, resolveValues, token, tryResolveValue, tryResolveValues };
+export {
+  BindModuleOptions,
+  Container,
+  FactoryOptions,
+  FactoryScope,
+  Module,
+  ModuleBindingEntry,
+  ModuleDeclaration,
+  OptionalToken,
+  RequiredToken,
+  ResolverError,
+  Token,
+  bindModule,
+  bindModules,
+  bindMultiValue,
+  createContainer,
+  declareModule,
+  declareModuleBindings,
+  injectable,
+  injectableClass,
+  isToken,
+  optional,
+  resolveValue,
+  resolveValues,
+  token,
+  tryResolveValue,
+  tryResolveValues,
+};

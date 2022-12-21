@@ -7,14 +7,7 @@ import fastGlob from 'fast-glob';
 export default {
   roots: fastGlob.sync(['packages/*/src'], {onlyDirectories: true}),
   preset: 'ts-jest',
-  globals: {
-    'ts-jest': {
-      tsconfig: {
-        module: 'commonjs',
-        jsx: 'react',
-      },
-    },
-  },
+  testEnvironment: 'jsdom',
   collectCoverageFrom: [
     'packages/*/src/**/*.{ts,tsx}',
     '!packages/*/src/**/index.{ts,tsx}',

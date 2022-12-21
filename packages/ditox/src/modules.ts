@@ -66,6 +66,8 @@ export type ModuleDeclaration<T extends Module<AnyObject>> = {
   afterBinding?: (container: Container) => void;
 };
 
+export type AnyModuleDeclaration = ModuleDeclaration<Module<AnyObject>>;
+
 /**
  * Options for module binding.
  *
@@ -191,7 +193,7 @@ export function bindModules(
  * });
  * ```
  */
-export function declareModule<T>(
+export function declareModule<T extends Module<AnyObject>>(
   declaration: Omit<ModuleDeclaration<T>, 'token'> &
     Partial<Pick<ModuleDeclaration<T>, 'token'>>,
 ): ModuleDeclaration<T> {

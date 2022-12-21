@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook} from '@testing-library/react';
 import {createContainer, token} from 'ditox';
 import React from 'react';
 import {CustomDependencyContainer} from './DependencyContainer';
@@ -7,6 +7,10 @@ import {
   useDependencyContainer,
   useOptionalDependency,
 } from './hooks';
+
+beforeAll(() => {
+  jest.spyOn(console, 'error').mockImplementation();
+});
 
 describe('useDependencyContainer()', () => {
   it('should return a provided container in "strict" mode', () => {
@@ -24,11 +28,7 @@ describe('useDependencyContainer()', () => {
   });
 
   it('should throw an error in "strict" mode in case a container is not provided', () => {
-    const {result} = renderHook(() => useDependencyContainer('strict'));
-
-    expect(() => {
-      throw result.error;
-    }).toThrowError(
+    expect(() => renderHook(() => useDependencyContainer('strict'))).toThrow(
       'Container is not provided by DependencyContainer component',
     );
   });
@@ -73,11 +73,7 @@ describe('useDependency()', () => {
   it('should throw an error in case a container is not provided', () => {
     const TOKEN = token('token');
 
-    const {result} = renderHook(() => useDependency(TOKEN));
-
-    expect(() => {
-      throw result.error;
-    }).toThrowError(
+    expect(() => renderHook(() => useDependency(TOKEN))).toThrowError(
       'Container is not provided by DependencyContainer component',
     );
   });
@@ -86,16 +82,14 @@ describe('useDependency()', () => {
     const TOKEN = token('token');
     const container = createContainer();
 
-    const {result} = renderHook(() => useDependency(TOKEN), {
-      wrapper: ({children}) => (
-        <CustomDependencyContainer container={container}>
-          {children}
-        </CustomDependencyContainer>
-      ),
-    });
-
     expect(() => {
-      throw result.error;
+      renderHook(() => useDependency(TOKEN), {
+        wrapper: ({children}) => (
+          <CustomDependencyContainer container={container}>
+            {children}
+          </CustomDependencyContainer>
+        ),
+      });
     }).toThrowError('Token "token" is not provided');
   });
 });
