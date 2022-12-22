@@ -17,7 +17,6 @@
   "type": "module",
   "scripts": {
     "prepare": "husky install",
-    "postinstall": "lerna bootstrap",
     "clean": "npm run -ws clean && rm -rf coverage dist",
     "lint": "npm run lint:eslint && npm run lint:tsc",
     "lint:eslint": "eslint \"packages/*/{src,test*}/**\"",
