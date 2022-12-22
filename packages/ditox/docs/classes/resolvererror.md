@@ -36,8 +36,8 @@ ResolverError is thrown by the resolver when a token is not found in a container
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
+| Name      | Type     |
+| :-------- | :------- |
 | `message` | `string` |
 
 #### Overrides
@@ -46,7 +46,7 @@ Error.constructor
 
 #### Defined in
 
-[packages/ditox/src/ditox.ts:61](https://github.com/mnasyrov/ditox/blob/a821171/packages/ditox/src/ditox.ts#L61)
+[packages/ditox/src/ditox.ts:61](https://github.com/mnasyrov/ditox/blob/37f658c/packages/ditox/src/ditox.ts#L61)
 
 ## Properties
 
@@ -60,9 +60,9 @@ Error.message
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1023
+node_modules/typescript/lib/lib.es5.d.ts:1054
 
-___
+---
 
 ### name
 
@@ -74,9 +74,9 @@ Error.name
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1022
+node_modules/typescript/lib/lib.es5.d.ts:1053
 
-___
+---
 
 ### stack
 
@@ -88,9 +88,9 @@ Error.stack
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1024
+node_modules/typescript/lib/lib.es5.d.ts:1055
 
-___
+---
 
 ### prepareStackTrace
 
@@ -102,13 +102,15 @@ ___
 
 Optional override for formatting stack traces
 
-**`see`** https://v8.dev/docs/stack-trace-api#customizing-stack-traces
+**`See`**
+
+https://v8.dev/docs/stack-trace-api#customizing-stack-traces
 
 ##### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `err` | `Error` |
+| Name          | Type         |
+| :------------ | :----------- |
+| `err`         | `Error`      |
 | `stackTraces` | `CallSite`[] |
 
 ##### Returns
@@ -123,7 +125,7 @@ Error.prepareStackTrace
 
 node_modules/@types/node/globals.d.ts:11
 
-___
+---
 
 ### stackTraceLimit
 
@@ -147,9 +149,9 @@ Create .stack property on a target object
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `targetObject` | `object` |
+| Name              | Type       |
+| :---------------- | :--------- |
+| `targetObject`    | `object`   |
 | `constructorOpt?` | `Function` |
 
 #### Returns
