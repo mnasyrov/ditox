@@ -64,18 +64,16 @@ Examples:
 import {token} from 'ditox';
 import {
   DependencyContainer,
-  DependencyModule,
   useDependency,
   useDependencyContainer,
   useOptionalDependency,
 } from 'ditox-react';
-import {LOGGER_MODULE} from './logger';
 
-const FOO = token();
-const BAR = token();
+const FOO_TOKEN = token();
+const BARTOKEN = token();
 
 function appDependencyBinder(container) {
-  container.bindValue(FOO, 'foo');
+  container.bindValue(FOO_TOKEN, 'foo');
 }
 
 function App() {
@@ -91,10 +89,10 @@ function NestedComponent() {
   const container = useDependencyContainer();
 
   // Use a resolved value
-  const foo = useDependency(FOO);
+  const foo = useDependency(FOO_TOKEN);
 
   // Use an optional value. It is not provided in this example.
-  const bar = useOptionalDependency(BAR);
+  const bar = useOptionalDependency(BARTOKEN);
 
   useEffect(() => {
     console.log({foo, bar}); // {foo: 'foo', bar: undefined}
