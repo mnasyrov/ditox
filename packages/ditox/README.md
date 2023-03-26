@@ -1,66 +1,37 @@
-# Ditox.js
+# ditox package
 
 <img alt="lemon" src="https://raw.githubusercontent.com/mnasyrov/ditox/master/lemon.svg" width="120" />
 
-Powerful dependency injection container for building modular apps.
+**Dependency injection for modular web applications**
 
-[![npm](https://img.shields.io/npm/v/ditox.svg)](https://www.npmjs.com/package/ditox)
-[![downloads](https://img.shields.io/npm/dt/ditox.svg)](https://www.npmjs.com/package/ditox)
-[![types](https://img.shields.io/npm/types/ditox.svg)](https://www.npmjs.com/package/ditox)
-[![licence](https://img.shields.io/github/license/mnasyrov/ditox.svg)](https://github.com/mnasyrov/ditox/blob/master/LICENSE)
-[![Coverage Status](https://coveralls.io/repos/github/mnasyrov/ditox/badge.svg)](https://coveralls.io/github/mnasyrov/ditox)
+Please see the documentation at [ditox.js.org](https://ditox.js.org)
 
-## Table of Contents
-
-<!-- toc -->
-
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Container Hierarchy](#container-hierarchy)
-- [Factory Lifetimes](#factory-lifetimes)
-  - [`singleton`](#singleton)
-  - [`scoped`](#scoped)
-  - [`transient`](#transient)
-- [Dependency modules](#dependency-modules)
-- [API References](#api-references)
-
-<!-- tocstop -->
-
-## Features
-
-- Simple and functional API
-- Container hierarchy
-- Scoped containers
-- Dependency modules
-- Multi-value tokens
-- Typescript typings
-- Supports Node.js, Deno and browsers
+[![npm](https://img.shields.io/npm/v/ditox)](https://www.npmjs.com/package/ditox)
+[![stars](https://img.shields.io/github/stars/mnasyrov/ditox)](https://github.com/mnasyrov/ditox/stargazers)
+[![types](https://img.shields.io/npm/types/ditox)](https://www.npmjs.com/package/ditox)
+[![licence](https://img.shields.io/github/license/mnasyrov/ditox)](https://github.com/mnasyrov/ditox/blob/master/LICENSE)
+[![coverage](https://coveralls.io/repos/github/mnasyrov/ditox/badge)](https://coveralls.io/github/mnasyrov/ditox)
 
 ## Installation
 
-Install with `npm`
+You can use the following command to install this package:
 
-```
-npm install ditox --save
-```
-
-Or `yarn`
-
-```
-yarn add ditox
+```shell
+npm install --save ditox
 ```
 
-You can also use the [UMD](https://github.com/umdjs/umd) build from `unpkg`
+The package can be used as [UMD](https://github.com/umdjs/umd) module. Use
+[jsdelivr.com](https://jsdelivr.com) CDN site to load
+[ditox](https://www.jsdelivr.com/package/npm/ditox):
 
 ```html
-<script src="https://unpkg.com/ditox/dist/index.browser.js" />
+<script src="//cdn.jsdelivr.net/npm/ditox/dist/umd/index.js" />
 <script>
   const container = Ditox.createContainer();
 </script>
 ```
 
-Usage with Deno:
+Using in Deno environment:
 
 ```ts
 import {createContainer} from 'https://deno.land/x/ditox/mod.ts';
@@ -68,17 +39,32 @@ import {createContainer} from 'https://deno.land/x/ditox/mod.ts';
 const container = createContainer();
 ```
 
-## Usage
+## General description
 
-Ditox.js works with containers, tokens, values and value factories.
-There are no class decorators, field injectors and other magic. Only explicit binding and resolving.
+DI pattern in general allows to declare and construct a code graph of an
+application. It can be described by following phases:
 
-In general, all you need is to do the following:
+1. Code declaration phase:
 
-- Create binding tokens.
-- Create a container.
-- Register values and factories in the container using tokens.
-- Resolve tokens and use the provided values.
+- Defining public API and types of business layer
+- Creation of injection tokens
+- Declaring DI modules
+
+2. Binding phase:
+
+- Creation of a container
+- Binding values, factories and modules to the container
+
+3. Runtime phase:
+
+- Running the code
+- Values are constructed by registered factories
+
+Diagram:
+
+<img alt="diagram" src="../../media/diagram.svg" width="800" />
+
+## Usage Example
 
 ```js
 import {createContainer, injectable, optional, token} from 'ditox';
@@ -93,7 +79,7 @@ class UserService {
 }
 
 // Define tokens for injections.
-const STORAGE_TOKEN = token('Token description for debugging');
+const STORAGE_TOKEN = token < UserService > 'Token description for debugging';
 const LOGGER_TOKEN = token();
 const USER_SERVICE_TOKEN = token();
 
@@ -152,7 +138,8 @@ container.removeAll();
 
 ## Container Hierarchy
 
-Ditox.js supports "parent-child" hierarchy. If the child container cannot to resolve a token, it asks the parent container to resolve it:
+Ditox.js supports "parent-child" hierarchy. If the child container cannot to
+resolve a token, it asks the parent container to resolve it:
 
 ```js
 import {creatContainer, token} from 'ditox';
@@ -173,16 +160,19 @@ container.resolve(V2_TOKEN); // 21
 
 ## Factory Lifetimes
 
-Ditox.js supports managing the lifetime of values which are produced by factories.
-There are the following types:
+Ditox.js supports managing the lifetime of values which are produced by
+factories. There are the following types:
 
-- `singleton` - **This is the default**. The value is created and cached by the container which registered the factory.
-- `scoped` - The value is created and cached by the container which starts resolving.
+- `singleton` - **This is the default**. The value is created and cached by the
+  container which registered the factory.
+- `scoped` - The value is created and cached by the container which starts
+  resolving.
 - `transient` - The value is created every time it is resolved.
 
 ### `singleton`
 
-**This is the default scope**. "Singleton" allows to cache a produced value by a parent container which registered the factory:
+**This is the default scope**. "Singleton" allows to cache a produced value by a
+parent container which registered the factory:
 
 ```js
 import {creatContainer, token} from 'ditox';
@@ -211,7 +201,9 @@ container2.resolve(LOGGER_TOKEN)('bar'); // [parent] bar
 
 ### `scoped`
 
-"Scoped" lifetime allows to have sub-containers with own instances of some services which can be disposed. For example, a context during HTTP request handling, or other unit of work:
+"Scoped" lifetime allows to have sub-containers with own instances of some
+services which can be disposed. For example, a context during HTTP request
+handling, or other unit of work:
 
 ```js
 import {creatContainer, token} from 'ditox';
@@ -273,12 +265,13 @@ parent.bindValue(TAG_TOKEN, 'parent-rebind');
 parent.resolve(LOGGER_TOKEN)('xyz'); // [parent-rebind] xyz
 ```
 
-## Dependency modules
+## Dependency Modules
 
-Dependencies can be organized as modules in declarative way with `ModuleDeclaration`.
-It is useful for providing pieces of functionality from libraries to an app which depends on them.
+Dependencies can be organized as modules in declarative way with
+`ModuleDeclaration`. It is useful for providing pieces of functionality from
+libraries to an app which depends on them.
 
-```ts
+```typescript
 import {Module, ModuleDeclaration, token} from 'ditox';
 import {TRANSPORT_TOKEN} from './transport';
 
@@ -292,6 +285,7 @@ const LOGGER_MODULE_TOKEN = token<LoggerModule>();
 const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
   // An optional explicit token for a module itself
   token: LOGGER_MODULE_TOKEN,
+
   factory: (container) => {
     const transport = container.resolve(TRANSPORT_TOKEN).open();
     return {
@@ -307,7 +301,7 @@ const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
 
 Later such module declarations can be bound to a container:
 
-```ts
+```typescript
 const container = createContainer();
 
 // bind a single module
@@ -319,12 +313,14 @@ bindModules(container, [DATABASE_MODULE, CONFIG_MODULE, API_MODULE]);
 
 Utility functions for module declarations:
 
-- `declareModule()` – declare a module as `ModuleDeclaration` however `token` field can be optional for anonymous modules.
-- `declareModuleBindings()` – declares an anonymous module with imports. This module binds the provided ones to a container.
+- `declareModule()` – declare a module as `ModuleDeclaration` however `token`
+  field can be optional for anonymous modules.
+- `declareModuleBindings()` – declares an anonymous module with imports. This
+  module binds the provided ones to a container.
 
 Example for these functions:
 
-```ts
+```typescript
 const LOGGER_MODULE = declareModule<LoggerModule>({
   factory: createLoggerModule,
   exports: {
@@ -335,11 +331,7 @@ const LOGGER_MODULE = declareModule<LoggerModule>({
 const APP_MODULE = declareModuleBinding([LOGGER_MODULE, DATABASE_MODULE]);
 ```
 
-## API References
-
-- [`ditox`](./docs)
-- [`ditox-react`](https://github.com/mnasyrov/ditox/tree/master/packages/ditox-react#readme)
-
 ---
 
-&copy; 2020-2023 [Mikhail Nasyrov](https://github.com/mnasyrov), [MIT license](./LICENSE)
+This project is licensed under the
+[MIT license](https://github.com/mnasyrov/ditox/blob/master/LICENSE).

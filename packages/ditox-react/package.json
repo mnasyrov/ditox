@@ -1,7 +1,7 @@
 {
   "name": "ditox-react",
   "version": "2.3.0",
-  "description": "Ditox.js tooling for React.js",
+  "description": "Dependency injection container for React.js",
   "publishConfig": {
     "access": "public"
   },
@@ -14,14 +14,19 @@
     "url": "https://github.com/mnasyrov/ditox.git"
   },
   "keywords": [
-    "dependency-injection",
+    "react",
+    "react.js",
+    "dependency container",
+    "dependency injection",
+    "typescript",
+    "javascript",
+    "npm",
     "dependency",
     "injection",
     "container",
+    "module",
     "ioc",
-    "di",
-    "ditox.js",
-    "react"
+    "di"
   ],
   "engines": {
     "node": ">=12"
@@ -48,7 +53,8 @@
     "build": "npm run build:cjs && npm run build:esm && npm run build:rollup",
     "build:cjs": "tsc -p tsconfig.build.json --outDir dist/cjs --module commonjs",
     "build:esm": "tsc -p tsconfig.build.json --outDir dist/esm --module es2015",
-    "build:rollup": "rollup -c"
+    "build:rollup": "rollup -c",
+    "typedoc": "typedoc"
   },
   "dependencies": {
     "ditox": "2.3.0"

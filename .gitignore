@@ -1,7 +1,9 @@
 /.idea
 /.vscode
+/build
 /coverage
 /dist
+/docs/api
 /packages/*/dist
 .DS_Store
 lerna-debug.log

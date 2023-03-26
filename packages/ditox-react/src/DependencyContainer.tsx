@@ -30,8 +30,6 @@ export type DependencyContainerParams = {
 };
 
 /**
- * @category Component
- *
  * Provides a new dependency container to React app
  *
  * This component creates a new container and provides it down to React children.
@@ -90,8 +88,6 @@ export function DependencyContainer(
 }
 
 /**
- * @category Component
- *
  * Provides a custom dependency container to React app
  *
  * @param params.container - a custom container

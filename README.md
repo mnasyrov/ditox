@@ -1,358 +1,297 @@
 # Ditox.js
 
-<img alt="lemon" src="lemon.svg" width="120" />
+<img alt="lemon" src="media/lemon.svg" width="120" />
 
-Powerful dependency injection container for building modular apps.
+**Dependency injection for modular web applications**
 
-[![npm](https://img.shields.io/npm/v/ditox.svg)](https://www.npmjs.com/package/ditox)
-[![downloads](https://img.shields.io/npm/dt/ditox.svg)](https://www.npmjs.com/package/ditox)
-[![types](https://img.shields.io/npm/types/ditox.svg)](https://www.npmjs.com/package/ditox)
-[![licence](https://img.shields.io/github/license/mnasyrov/ditox.svg)](https://github.com/mnasyrov/ditox/blob/master/LICENSE)
-[![Coverage Status](https://coveralls.io/repos/github/mnasyrov/ditox/badge.svg)](https://coveralls.io/github/mnasyrov/ditox)
+[![npm](https://img.shields.io/npm/v/ditox)](https://www.npmjs.com/package/ditox)
+[![stars](https://img.shields.io/github/stars/mnasyrov/ditox)](https://github.com/mnasyrov/ditox/stargazers)
+[![types](https://img.shields.io/npm/types/ditox)](https://www.npmjs.com/package/ditox)
+[![licence](https://img.shields.io/github/license/mnasyrov/ditox)](https://github.com/mnasyrov/ditox/blob/master/LICENSE)
+[![coverage](https://coveralls.io/repos/github/mnasyrov/ditox/badge)](https://coveralls.io/github/mnasyrov/ditox)
 
-## Table of Contents
+## Overview
 
-<!-- toc -->
+Ditox.js is a lightweight dependency injection container for TypeScript. It
+provides a simple functional API to bind values and factories to container by
+tokens, and resolve values later. The library supports different scopes for
+factory bindings, including "singleton", "scoped", and "transient". Bindings can
+be organised as a dependency module in declarative way.
 
-- [Features](#features)
-- [Packages](#packages)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Container Hierarchy](#container-hierarchy)
-- [Factory Lifetimes](#factory-lifetimes)
-  - [`singleton`](#singleton)
-  - [`scoped`](#scoped)
-  - [`transient`](#transient)
-- [Dependency modules](#dependency-modules)
-- [API References](#api-references)
-
-<!-- tocstop -->
+Ditox.js works with containers, tokens, values and value factories. There are no
+class decorators, field injectors and other magic. Explicit binding and
+resolving are used.
 
 ## Features
 
-- Simple and functional API
+- Functional API
 - Container hierarchy
-- Scoped containers
+- Scopes for factory bindings
 - Dependency modules
 - Multi-value tokens
 - Typescript typings
-- Supports Node.js, Deno and browsers
 
-## Packages
+## API References
 
-- [`ditox`](packages/ditox/README.md) - core DI container and tools
-- [`ditox-react`](packages/ditox-react/README.md) - tooling for React.js
+The library is available as two packages:
 
-## Installation
+- **ditox** - DI container and core tools
+- **ditox-react** - Tools for React.js applications
 
-Install with `npm`
+Please see the documentation at [ditox.js.org](https://ditox.js.org)
 
+## Getting Started
+
+### Installation
+
+You can use the following command to install packages:
+
+```shell
+npm install --save ditox
+npm install --save ditox-react
 ```
-npm install ditox --save
-```
 
-Or `yarn`
-
-```
-yarn add ditox
-```
-
-You can also use the [UMD](https://github.com/umdjs/umd) build from `unpkg`
+Packages can be used as [UMD](https://github.com/umdjs/umd) modules. Use
+[jsdelivr.com](https://jsdelivr.com) CDN site to load
+[ditox](https://www.jsdelivr.com/package/npm/ditox) and
+[ditox-react](https://www.jsdelivr.com/package/npm/ditox-react):
 
 ```html
-<script src="https://unpkg.com/ditox/dist/index.browser.js" />
+<script src="//cdn.jsdelivr.net/npm/ditox@2.3.0/dist/umd/index.js" />
+<script src="//cdn.jsdelivr.net/npm/ditox-react@2.3.0/dist/umd/index.js" />
 <script>
   const container = Ditox.createContainer();
+  // DitoxReact.useDependency(SOME_TOKEN);
 </script>
 ```
 
-Usage with Deno:
+`ditox` package is available for Deno environment:
 
-```ts
+```typescript
 import {createContainer} from 'https://deno.land/x/ditox/mod.ts';
 
 const container = createContainer();
 ```
 
-## Usage
+### Basic concepts
 
-Ditox.js works with containers, tokens, values and value factories.
-There are no class decorators, field injectors and other magic. Only explicit binding and resolving.
+- **Token** specifies a future injection of an "internal" implementation with a
+  concrete "public" type.
 
-In general, all you need is to do the following:
+  ```ts
+  type Logger = (message: string) => void;
 
-- Create binding tokens.
-- Create a container.
-- Register values and factories in the container using tokens.
-- Resolve tokens and use the provided values.
+  const LOGGER_TOKEN = token<Logger>();
+  ```
 
-Diagram:
+- **Container** keeps bindings of **tokens** to concrete values and
+  implementations
 
-<img alt="diagram" src="docs/diagram.svg" width="800" />
+  ```ts
+  const container = createContainer();
+  container.bindValue(LOGGER_TOKEN, (message) => console.log(message));
+  ```
 
-Usage example:
+- **Code graph** is constructed at **runtime** by resolving values of tokens.
 
-```js
-import {createContainer, injectable, optional, token} from 'ditox';
+  ```ts
+  const logger = container.resolve(LOGGER_TOKEN);
+  logger('Hello World!');
+  ```
 
-// This is app code, some factory functions and classes:
-function createStorage(config) {}
+## Usage Examples
 
-function createLogger(config) {}
+### Binding a value
 
-class UserService {
-  constructor(storage, logger) {}
-}
+Create an injection token for a logger and DI container. Bind a logger
+implementation and resolve its value later in the application:
 
-// Define tokens for injections.
-const STORAGE_TOKEN = token('Token description for debugging');
-const LOGGER_TOKEN = token();
-const USER_SERVICE_TOKEN = token();
-
-// Token can be optional with a default value.
-const STORAGE_CONFIG_TOKEN = optional(token(), {name: 'default storage'});
-
-// Create the container.
-const container = createContainer();
-
-// Provide a value to the container.
-container.bindValue(STORAGE_CONFIG_TOKEN, {name: 'custom storage'});
-
-// Dynamic values are provided by factories.
-
-// A factory can be decorated with `injectable()` to resolve its arguments.
-// By default, a factory has `singleton` lifetime.
-container.bindFactory(
-  STORAGE_TOKEN,
-  injectable(createStorage, STORAGE_CONFIG_TOKEN),
-);
-
-// A factory can have `transient` lifetime to create a value on each resolving.
-container.bindFactory(LOGGER_TOKEN, createLogger, {scope: 'transient'});
-
-// A class can be injected by `injectableClass()` which calls its constructor
-// with injected dependencies as arguments.
-container.bindFactory(
-  USER_SERVICE_TOKEN,
-  injectable(
-    (storage, logger) => new UserService(storage, logger),
-    STORAGE_TOKEN,
-    // A token can be made optional to resolve with a default value
-    // when it is not found during resolving.
-    optional(LOGGER_TOKEN),
-  ),
-  {
-    // `scoped` and `singleton` scopes can have `onRemoved` callback.
-    // It is called when a token is removed from the container.
-    scope: 'scoped',
-    onRemoved: (userService) => userService.destroy(),
-  },
-);
-
-// Get a value from the container, it returns `undefined` in case a value is not found.
-const logger = container.get(LOGGER_TOKEN);
-
-// Resolve a value, it throws `ResolverError` in case a value is not found.
-const userService = container.resolve(userService);
-
-// Remove a value from the container.
-container.remove(LOGGER_TOKEN);
-
-// Clean up the container.
-container.removeAll();
-```
-
-## Container Hierarchy
-
-Ditox.js supports "parent-child" hierarchy. If the child container cannot to resolve a token, it asks the parent container to resolve it:
-
-```js
-import {creatContainer, token} from 'ditox';
-
-const V1_TOKEN = token();
-const V2_TOKEN = token();
-
-const parent = createContainer();
-parent.bindValue(V1_TOKEN, 10);
-parent.bindValue(V2_TOKEN, 20);
-
-const container = createContainer(parent);
-container.bindValue(V2_TOKEN, 21);
-
-container.resolve(V1_TOKEN); // 10
-container.resolve(V2_TOKEN); // 21
-```
-
-## Factory Lifetimes
-
-Ditox.js supports managing the lifetime of values which are produced by factories.
-There are the following types:
-
-- `singleton` - **This is the default**. The value is created and cached by the container which registered the factory.
-- `scoped` - The value is created and cached by the container which starts resolving.
-- `transient` - The value is created every time it is resolved.
-
-### `singleton`
-
-**This is the default scope**. "Singleton" allows to cache a produced value by a parent container which registered the factory:
-
-```js
-import {creatContainer, token} from 'ditox';
-
-const TAG_TOKEN = token();
-const LOGGER_TOKEN = token();
-
-const createLogger = (tag) => (message) => console.log(`[${tag}] ${message}`);
-
-const parent = createContainer();
-parent.bindValue(TAG_TOKEN, 'parent');
-parent.bindFactory(LOGGER_TOKEN, injectable(createLogger, TAG_TOKEN), {
-  scope: 'singleton',
-});
-
-const container1 = createContainer(parent);
-container1.bindValue(TAG_TOKEN, 'container1');
-
-const container2 = createContainer(parent);
-container2.bindValue(TAG_TOKEN, 'container2');
-
-parent.resolve(LOGGER_TOKEN)('xyz'); // [parent] xyz
-container1.resolve(LOGGER_TOKEN)('foo'); // [parent] foo
-container2.resolve(LOGGER_TOKEN)('bar'); // [parent] bar
-```
-
-### `scoped`
-
-"Scoped" lifetime allows to have sub-containers with own instances of some services which can be disposed. For example, a context during HTTP request handling, or other unit of work:
-
-```js
-import {creatContainer, token} from 'ditox';
-
-const TAG_TOKEN = token();
-const LOGGER_TOKEN = token();
-
-const createLogger = (tag) => (message) => console.log(`[${tag}] ${message}`);
-
-const parent = createContainer();
-// `scoped` is default scope and can be omitted.
-parent.bindFactory(LOGGER_TOKEN, injectable(createLogger, TAG_TOKEN), {
-  scope: 'scoped',
-});
-
-const container1 = createContainer(parent);
-container1.bindValue(TAG_TOKEN, 'container1');
-
-const container2 = createContainer(parent);
-container2.bindValue(TAG_TOKEN, 'container2');
-
-parent.resolve(LOGGER_TOKEN)('xyz'); // throws ResolverError, the parent does not have TAG value.
-container1.resolve(LOGGER_TOKEN)('foo'); // [container1] foo
-container2.resolve(LOGGER_TOKEN)('bar'); // [container2] bar
-
-// Dispose a container.
-container1.removeAll();
-```
-
-### `transient`
-
-"Transient" makes to a produce values by the factory for each resolving:
-
-```js
+```typescript
 import {createContainer, token} from 'ditox';
 
-const TAG_TOKEN = token();
-const LOGGER_TOKEN = token();
+type LoggerService = {
+  log: (...messages: string[]) => void;
+};
 
-const createLogger = (tag) => (message) => console.log(`[${tag}] ${message}`);
+// Injection token
+const LOGGER_TOKEN = token<LoggerService>();
 
-const parent = createContainer();
-parent.bindValue(TAG_TOKEN, 'parent');
-parent.bindFactory(LOGGER_TOKEN, injectable(createLogger, TAG_TOKEN), {
-  scope: 'transient',
-});
+// Default implementation
+const CONSOLE_LOGGER: LoggerService = {
+  log: (...messages) => console.log(...messages),
+};
 
-const container1 = createContainer(parent);
-container1.bindValue(TAG_TOKEN, 'container1');
+// Create a DI container
+const container = createContainer();
 
-const container2 = createContainer(parent);
-container2.bindValue(TAG_TOKEN, 'container2');
+container.bindValue(LOGGER_TOKEN, CONSOLE_LOGGER);
 
-parent.resolve(LOGGER_TOKEN)('xyz'); // [parent] xyz
-container1.resolve(LOGGER_TOKEN)('foo'); // [container1] foo
-container2.resolve(LOGGER_TOKEN)('bar'); // [container2] bar
-
-parent.bindValue(TAG_TOKEN, 'parent-rebind');
-parent.resolve(LOGGER_TOKEN)('xyz'); // [parent-rebind] xyz
+// Later, somewhere in the app
+const logger = container.resolve(LOGGER_TOKEN);
+logger.log('Hello World!');
 ```
 
-## Dependency modules
+### Binding a factory
 
-Dependencies can be organized as modules in declarative way with `ModuleDeclaration`.
-It is useful for providing pieces of functionality from libraries to an app which depends on them.
+Bind a factory of a remote logger which depends on an HTTP client:
 
-```ts
-import {Module, ModuleDeclaration, token} from 'ditox';
-import {TRANSPORT_TOKEN} from './transport';
+```typescript
+import {injectable} from 'ditox';
 
-export type Logger = {log: (message: string) => void};
-export const LOGGER_TOKEN = token<Logger>();
+export type ServerClient = {
+  log: (...messages: string[]) => void;
+  sendMetric: (key: string, value: string) => void;
+};
 
-type LoggerModule = Module<{logger: Logger}>;
+export const SERVER_CLIENT_TOKEN = token<ServerClient>();
 
-const LOGGER_MODULE_TOKEN = token<LoggerModule>();
+function createLoggerClient(client: ServerClient): Logger {
+  return {
+    log: (...messages) => client.log(...messages),
+  };
+}
 
-const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
-  // An optional explicit token for a module itself
-  token: LOGGER_MODULE_TOKEN,
+container.bindFactory(
+  LOGGER_TOKEN,
+  injectable(createLoggerClient, SERVER_CLIENT_TOKEN),
+);
 
-  factory: (container) => {
-    const transport = container.resolve(TRANSPORT_TOKEN).open();
-    return {
-      logger: {log: (message) => transport.write(message)},
-      destroy: () => transport.close(),
+// Later, somewhere in the app
+const logger = container.resolve(LOGGER_TOKEN);
+logger.log('Hello World!');
+```
+
+### DI module
+
+Organise related bindings and functional as a DI module:
+
+```typescript
+import {bindModule, declareModule} from 'ditox';
+
+type SendMetricFn = (key: string, value: string) => void;
+
+const SEND_METRIC_TOKEN = token<SendMetricFn>();
+
+function createMetricClient(client: ServerClient): Logger {
+  return {
+    sendMetric: (key: string, value: string) => client.sendMetric(key, value),
+  };
+}
+
+// Declare a DI module
+const TELEMETRY_MODULE = declareModule<LoggerModule>({
+  factory: injectable((client) => {
+    const logger = createLoggerClient(client);
+
+    const sendMetric = (key: string, value: string) => {
+      logger('metric', key, value);
+      client.sendMetric(key, value);
     };
-  },
+
+    return {logger, sendMetric};
+  }, SERVER_CLIENT_TOKEN),
   exports: {
     logger: LOGGER_TOKEN,
+    sendMetric: SEND_METRIC_TOKEN,
   },
+});
+
+// Bind the module
+bindModule(container, TELEMETRY_MODULE);
+
+// Later, somewhere in the app
+const logger = container.resolve(LOGGER_TOKEN);
+logger.log('Hello World!');
+
+const sendMetric = container.resolve(SEND_METRIC_TOKEN);
+sendMetric('foo', 'bar');
+```
+
+### Using in React app
+
+Wrap a component tree by a DI container and bind modules:
+
+```tsx
+// index.tsx
+
+import ReactDOM from 'react-dom';
+
+import {Greeting} from './Greeting';
+import {TELEMETRY_MODULE} from './telemetry';
+
+const APP_MODULE = declareModule({
+  imports: [TELEMETRY_MODULE],
+});
+
+const App: FC = () => {
+  return (
+    <DependencyContainer root>
+      <DependencyModule module={APP_MODULE}>
+        <Greeting />
+      </DependencyModule>
+    </DependencyContainer>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+Injecting a dependency by a React component:
+
+```tsx
+// Greeting.tsx
+
+import {useDependency} from 'ditox-react';
+
+export const Greeting: FC = () => {
+  const logger = useDependency(LOGGER_TOKEN);
+
+  useEffect(() => {
+    logger.log('Hello World!');
+  }, [logger]);
+
+  return <>Hello</>;
 };
 ```
 
-Later such module declarations can be bound to a container:
+## Contact & Support
 
-```ts
-const container = createContainer();
+- Follow 👨🏻‍💻 **@mnasyrov** on [GitHub](https://github.com/mnasyrov) for
+  announcements
+- Create a 💬 [GitHub issue](https://github.com/mnasyrov/ditox/issues) for bug
+  reports, feature requests, or questions
+- Add a ⭐️ star on [GitHub](https://github.com/mnasyrov/ditox/issues) and 🐦
+  [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fmnasyrov%2Fditox&hashtags=developers,frontend,javascript)
+  to promote the project
 
-// bind a single module
-bindModule(container, LOGGER_MODULE);
+## License
 
-// or bind multiple depenendency modules
-bindModules(container, [DATABASE_MODULE, CONFIG_MODULE, API_MODULE]);
-```
+This project is licensed under the
+[MIT license](https://github.com/mnasyrov/ditox/blob/master/LICENSE).
 
-Utility functions for module declarations:
+<!---
+III. Ditox Package
+- Explanation of the core library
+- List of available methods and functions
+- Examples of advanced usage
 
-- `declareModule()` – declare a module as `ModuleDeclaration` however `token` field can be optional for anonymous modules.
-- `declareModuleBindings()` – declares an anonymous module with imports. This module binds the provided ones to a container.
+IV. Ditox-React Package
+- Explanation of the React library
+- List of available components and functions
+- Examples of usage in a React project
 
-Example for these functions:
+V. Best Practices
+- Recommendations for using Ditox.js effectively
+- Tips for optimizing performance
 
-```ts
-const LOGGER_MODULE = declareModule<LoggerModule>({
-  factory: createLoggerModule,
-  exports: {
-    logger: LOGGER_TOKEN,
-  },
-});
+VI. Troubleshooting
+- Common issues and solutions
+- How to report bugs or request new features
 
-const APP_MODULE = declareModuleBinding([LOGGER_MODULE, DATABASE_MODULE]);
-```
+VII. Contributing
+- Guidelines for contributing to the project
+- Code of conduct for contributors
 
-## API References
-
-- [`ditox`](packages/ditox/docs)
-- [`ditox-react`](packages/ditox-react/docs)
-
----
-
-&copy; 2020-2023 [Mikhail Nasyrov](https://github.com/mnasyrov), [MIT license](./LICENSE)
+IX. Credits
+- Acknowledgements for contributors and external resources used in the project.
+--->

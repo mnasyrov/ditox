@@ -7,8 +7,6 @@ import {
 } from './DependencyContainer';
 
 /**
- * @category Component
- *
  * Binds the module to a new dependency container.
  *
  * If a parent container is exist, it is connected to the current one by default.

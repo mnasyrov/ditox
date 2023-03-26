@@ -1,7 +1,7 @@
 {
   "name": "ditox",
   "version": "2.3.0",
-  "description": "Powerful dependency injection container for building modular apps.",
+  "description": "Dependency injection for modular web applications",
   "license": "MIT",
   "author": "Mikhail Nasyrov <mikhail@mnasyrov.com> (https://github.com/mnasyrov)",
   "homepage": "https://github.com/mnasyrov/ditox",
@@ -11,11 +11,15 @@
     "url": "https://github.com/mnasyrov/ditox.git"
   },
   "keywords": [
-    "detox",
-    "dependency-injection",
+    "dependency container",
+    "dependency injection",
+    "typescript",
+    "javascript",
+    "npm",
     "dependency",
     "injection",
     "container",
+    "module",
     "ioc",
     "di"
   ],
@@ -45,6 +49,7 @@
     "build": "npm run build:cjs && npm run build:esm && npm run build:rollup",
     "build:cjs": "tsc -p tsconfig.build.json --outDir dist/cjs --module commonjs",
     "build:esm": "tsc -p tsconfig.build.json --outDir dist/esm --module es2015",
-    "build:rollup": "rollup -c"
+    "build:rollup": "rollup -c",
+    "typedoc": "typedoc"
   }
 }
