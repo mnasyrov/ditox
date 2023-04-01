@@ -37,7 +37,7 @@
     "test": "jest",
     "test-deno": "npm run -w ditox test-deno",
     "build": "npm run -ws build",
-    "docs": "npm run build && typedoc",
+    "build-docs": "npm run build && typedoc",
     "pack": "npm run build && mkdir -p dist && npm exec -ws -c 'npm pack --pack-destination ../../dist'",
     "preversion": "npm run build && npm run lint && npm run test && git add --all",
     "release-version": "lerna version",
