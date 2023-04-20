@@ -1,6 +1,12 @@
 {
   "$schema": "https://typedoc.org/schema.json",
 
+  "plugin": [
+    "typedoc-plugin-extras",
+    "typedoc-plugin-replace-text",
+    "typedoc-plugin-resolve-crossmodule-references"
+  ],
+
   "entryPointStrategy": "packages",
   "entryPoints": ["packages/ditox", "packages/ditox-react"],
   "exclude": ["**/*.test.ts"],
