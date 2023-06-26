@@ -2,7 +2,7 @@ export type {
   DependencyContainerBinder,
   DependencyContainerParams,
 } from './DependencyContainer';
-export {DependencyContainer} from './DependencyContainer';
+export { DependencyContainer } from './DependencyContainer';
 
 export {
   useDependencyContainer,
@@ -10,4 +10,4 @@ export {
   useOptionalDependency,
 } from './hooks';
 
-export {DependencyModule} from './DependencyModule';
+export { DependencyModule } from './DependencyModule';

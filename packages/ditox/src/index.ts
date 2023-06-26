@@ -1,4 +1,4 @@
-export {token, optional, ResolverError, createContainer} from './ditox';
+export { token, optional, ResolverError, createContainer } from './ditox';
 export type {
   RequiredToken,
   OptionalToken,

@@ -8,7 +8,7 @@ import {
   ResolverError,
   token,
 } from './ditox';
-import {injectable} from './utils';
+import { injectable } from './utils';
 
 const NUMBER = token<number>('number');
 const STRING = token<string>('string');
@@ -217,7 +217,7 @@ describe('Container', () => {
 
       const factory = jest.fn(() => 1);
       const callback = jest.fn();
-      container.bindFactory(NUMBER, factory, {onRemoved: callback});
+      container.bindFactory(NUMBER, factory, { onRemoved: callback });
 
       expect(container.get(NUMBER)).toBe(1);
       container.remove(NUMBER);
@@ -251,7 +251,7 @@ describe('Container', () => {
 
       const factory = jest.fn(() => 1);
       const onRemoved = jest.fn();
-      container.bindFactory(NUMBER, factory, {scope: 'singleton', onRemoved});
+      container.bindFactory(NUMBER, factory, { scope: 'singleton', onRemoved });
       container.remove(NUMBER);
 
       expect(container.get(NUMBER)).toBeUndefined();
@@ -264,7 +264,7 @@ describe('Container', () => {
 
       const factory = jest.fn(() => 100);
       const onRemoved = jest.fn();
-      container.bindFactory(NUMBER, factory, {scope: 'singleton', onRemoved});
+      container.bindFactory(NUMBER, factory, { scope: 'singleton', onRemoved });
 
       expect(container.get(NUMBER)).toBe(100);
       container.remove(NUMBER);
@@ -282,7 +282,7 @@ describe('Container', () => {
       let count = 1;
       const factory = jest.fn(() => count++);
       const onRemoved = jest.fn();
-      parent.bindFactory(NUMBER, factory, {scope: 'scoped', onRemoved});
+      parent.bindFactory(NUMBER, factory, { scope: 'scoped', onRemoved });
 
       expect(parent.get(NUMBER)).toBe(1);
       expect(container.get(NUMBER)).toBe(2);
@@ -310,7 +310,7 @@ describe('Container', () => {
       const container = createContainer();
 
       const factory = jest.fn(() => 1);
-      container.bindFactory(NUMBER, factory, {scope: 'transient'});
+      container.bindFactory(NUMBER, factory, { scope: 'transient' });
       container.remove(NUMBER);
 
       expect(container.get(NUMBER)).toBeUndefined();
@@ -321,7 +321,7 @@ describe('Container', () => {
       const container = createContainer();
 
       const factory = jest.fn(() => 1);
-      container.bindFactory(NUMBER, factory, {scope: 'transient'});
+      container.bindFactory(NUMBER, factory, { scope: 'transient' });
       expect(container.get(NUMBER)).toBe(1);
 
       container.remove(NUMBER);

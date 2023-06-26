@@ -1,6 +1,6 @@
-import type {Container, Token} from './ditox';
+import type { Container, Token } from './ditox';
 
-type ValuesProps = {[key: string]: unknown};
+type ValuesProps = { [key: string]: unknown };
 type TokenProps<Props extends ValuesProps> = {
   [K in keyof Props]: Token<Props[K]>;
 };
@@ -52,7 +52,7 @@ export function bindMultiValue<T>(
  * ```
  */
 export function tryResolveValue<
-  Tokens extends Token<unknown> | {[key: string]: Token<unknown>},
+  Tokens extends Token<unknown> | { [key: string]: Token<unknown> },
   Values extends Tokens extends Token<infer V>
     ? V | undefined
     : Tokens extends TokenProps<infer Props>
@@ -86,7 +86,7 @@ export function tryResolveValue<
  * ```
  */
 export function tryResolveValues<
-  Tokens extends (Token<unknown> | {[key: string]: Token<unknown>})[],
+  Tokens extends (Token<unknown> | { [key: string]: Token<unknown> })[],
   Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V>
       ? V | undefined
@@ -116,7 +116,7 @@ export function tryResolveValues<
  * ```
  */
 export function resolveValue<
-  Tokens extends Token<unknown> | {[key: string]: Token<unknown>},
+  Tokens extends Token<unknown> | { [key: string]: Token<unknown> },
   Values extends Tokens extends Token<infer V>
     ? V
     : Tokens extends TokenProps<infer Props>
@@ -152,7 +152,7 @@ export function resolveValue<
  * ```
  */
 export function resolveValues<
-  Tokens extends (Token<unknown> | {[key: string]: Token<unknown>})[],
+  Tokens extends (Token<unknown> | { [key: string]: Token<unknown> })[],
   Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V>
       ? V
@@ -176,7 +176,7 @@ export function resolveValues<
  * @return Decorated factory which takes a dependency container as a single argument.
  */
 export function injectable<
-  Tokens extends (Token<unknown> | {[key: string]: Token<unknown>})[],
+  Tokens extends (Token<unknown> | { [key: string]: Token<unknown> })[],
   Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V>
       ? V
@@ -209,7 +209,7 @@ export function injectable<
  * and returns a new created class.
  */
 export function injectableClass<
-  Tokens extends (Token<unknown> | {[key: string]: Token<unknown>})[],
+  Tokens extends (Token<unknown> | { [key: string]: Token<unknown> })[],
   Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V>
       ? V

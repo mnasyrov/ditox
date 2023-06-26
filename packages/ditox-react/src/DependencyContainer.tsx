@@ -1,5 +1,5 @@
-import type {Container} from 'ditox';
-import {createContainer} from 'ditox';
+import type { Container } from 'ditox';
+import { createContainer } from 'ditox';
 import React, {
   createContext,
   ReactElement,
@@ -66,7 +66,7 @@ export type DependencyContainerParams = {
 export function DependencyContainer(
   params: DependencyContainerParams,
 ): ReactElement {
-  const {children, root, binder} = params;
+  const { children, root, binder } = params;
   const parentContainer = useContext(DependencyContainerContext);
 
   const container = useMemo(() => {
@@ -109,7 +109,7 @@ export function CustomDependencyContainer(params: {
   children: ReactNode;
   container: Container;
 }): ReactElement {
-  const {children, container} = params;
+  const { children, container } = params;
 
   return (
     <DependencyContainerContext.Provider value={container}>

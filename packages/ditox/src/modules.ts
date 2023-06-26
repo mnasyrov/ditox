@@ -1,5 +1,5 @@
-import {Container, token, Token} from './ditox';
-import {injectable} from './utils';
+import { Container, token, Token } from './ditox';
+import { injectable } from './utils';
 
 type AnyObject = Record<string, any>;
 type EmptyObject = Record<string, never>;
@@ -102,7 +102,7 @@ export function bindModule<T extends Module<AnyObject>>(
   moduleDeclaration: ModuleDeclaration<T>,
   options?: BindModuleOptions,
 ): void {
-  const {token, imports, factory, beforeBinding, afterBinding} =
+  const { token, imports, factory, beforeBinding, afterBinding } =
     moduleDeclaration;
   const exports = moduleDeclaration.exports;
 
@@ -129,7 +129,7 @@ export function bindModule<T extends Module<AnyObject>>(
         container.bindFactory(
           valueToken,
           injectable((module) => module[valueKey], token),
-          {scope},
+          { scope },
         );
       }
     });
@@ -197,7 +197,7 @@ export function declareModule<T extends Module<AnyObject>>(
   declaration: Omit<ModuleDeclaration<T>, 'token'> &
     Partial<Pick<ModuleDeclaration<T>, 'token'>>,
 ): ModuleDeclaration<T> {
-  return {...declaration, token: declaration.token ?? token()};
+  return { ...declaration, token: declaration.token ?? token() };
 }
 
 /**

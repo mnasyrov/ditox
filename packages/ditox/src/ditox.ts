@@ -29,7 +29,7 @@ export type Token<T> = RequiredToken<T> | OptionalToken<T>;
  * @param description - Token description for better error messages.
  */
 export function token<T>(description?: string): Token<T> {
-  return {symbol: Symbol(description)};
+  return { symbol: Symbol(description) };
 }
 
 /**
@@ -223,7 +223,7 @@ export function createContainer(parentContainer?: Container): Container {
         return;
       }
 
-      factories.set(token.symbol, {factory, options});
+      factories.set(token.symbol, { factory, options });
     },
 
     remove<T>(token: Token<T>): void {
