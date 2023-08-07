@@ -527,6 +527,16 @@ describe('Container', () => {
       expect(container.resolve(NUMBER)).toBe(1);
     });
 
+    it('should resolve a value from the parent container by OptionalToken', () => {
+      const OPTIONAL_TOKEN = optional(token(), 0);
+
+      const parent = createContainer();
+      parent.bindValue(OPTIONAL_TOKEN, 1);
+
+      const container = createContainer(parent);
+      expect(container.resolve(OPTIONAL_TOKEN)).toBe(1);
+    });
+
     it('should throw ResolverError in case the parent container does not provide a value', () => {
       const parent = createContainer();
       const container = createContainer(parent);
