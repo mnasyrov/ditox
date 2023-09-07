@@ -1,5 +1,6 @@
-import {Container, token, Token} from './ditox';
+import {Container} from './container';
 import {injectable} from './utils';
+import {Token, token} from './tokens';
 
 type AnyObject = Record<string, any>;
 type EmptyObject = Record<string, never>;

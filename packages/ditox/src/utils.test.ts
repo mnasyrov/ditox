@@ -1,4 +1,4 @@
-import {createContainer, optional, ResolverError, token} from './ditox';
+import {createContainer, ResolverError} from './container';
 import {
   bindMultiValue,
   injectable,
@@ -8,6 +8,7 @@ import {
   tryResolveValue,
   tryResolveValues,
 } from './utils';
+import {optional, token} from './tokens';
 
 const NUMBER = token<number>('number');
 const STRING = token<string>('string');

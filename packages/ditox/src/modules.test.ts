@@ -1,4 +1,4 @@
-import {createContainer, token} from './ditox';
+import {createContainer} from './container';
 import {
   bindModule,
   bindModules,
@@ -8,6 +8,7 @@ import {
   ModuleDeclaration,
 } from './modules';
 import {injectable} from './utils';
+import {token} from './tokens';
 
 describe('bindModule()', () => {
   type TestQueries = {getValue: () => number};

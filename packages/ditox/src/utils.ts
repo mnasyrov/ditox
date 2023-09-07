@@ -1,4 +1,5 @@
-import type {Container, Token} from './ditox';
+import type {Container} from './container';
+import {Token} from './tokens';
 
 type ValuesProps = {[key: string]: unknown};
 type TokenProps<Props extends ValuesProps> = {
