@@ -3,12 +3,11 @@ import {
   createContainer,
   FACTORIES_MAP,
   FAKE_FACTORY,
-  optional,
   PARENT_CONTAINER,
   ResolverError,
-  token,
-} from './ditox';
+} from './container';
 import {injectable} from './utils';
+import {optional, token} from './tokens';
 
 const NUMBER = token<number>('number');
 const STRING = token<string>('string');
@@ -594,6 +593,19 @@ describe('Container', () => {
 
       expect(parent.resolve(optionalNumber)).toBe(1);
       expect(container.resolve(optionalNumber)).toBe(1);
+    });
+
+    it('should resolve a value by shared tokens', () => {
+      const key = 'token-' + Date.now();
+      const t1 = token({key});
+      const t2 = token({key});
+      expect(t1).not.toBe(t2);
+
+      const container = createContainer();
+      container.bindValue(t1, 1);
+
+      expect(container.resolve(t1)).toBe(1);
+      expect(container.resolve(t2)).toBe(1);
     });
   });
 });

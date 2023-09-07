@@ -1,12 +1,8 @@
-export {token, optional, ResolverError, createContainer} from './ditox';
-export type {
-  RequiredToken,
-  OptionalToken,
-  Token,
-  FactoryScope,
-  FactoryOptions,
-  Container,
-} from './ditox';
+export {token, optional} from './tokens';
+export type {RequiredToken, OptionalToken, Token} from './tokens';
+
+export {ResolverError, createContainer} from './container';
+export type {FactoryScope, FactoryOptions, Container} from './container';
 
 export {
   isToken,
