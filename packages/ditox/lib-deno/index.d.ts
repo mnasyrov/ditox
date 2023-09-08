@@ -18,14 +18,36 @@ type OptionalToken<T> = {
   optionalValue: T;
 };
 /**
- * Binding token.
+ * Binding token
  */
 type Token<T> = RequiredToken<T> | OptionalToken<T>;
+/**
+ * Token options
+ */
+type TokenOptions =
+  | {
+      /**
+       * Key for token's symbol. It allows to create shareable tokens.
+       */
+      key: string;
+      /** @ignore */
+      description?: undefined;
+    }
+  | {
+      /** Description for better error messages */
+      description?: string;
+      /** @ignore */
+      key?: undefined;
+    };
 /**
  * Creates a new binding token.
  * @param description - Token description for better error messages.
  */
 declare function token<T>(description?: string): Token<T>;
+/**
+ * Creates a new binding token.
+ * @param options - Token description for better error messages.
+ */ declare function token<T>(options?: TokenOptions): Token<T>;
 /**
  * Decorate a token with an optional value.
  * This value is be used as default value in case a container does not have registered token.
@@ -37,6 +59,7 @@ declare function optional<T>(
   optionalValue: T,
 ): OptionalToken<T>;
 declare function optional<T>(token: Token<T>): OptionalToken<T | undefined>;
+
 /**
  * ResolverError is thrown by the resolver when a token is not found in a container.
  */

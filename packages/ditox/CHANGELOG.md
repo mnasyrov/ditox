@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/mnasyrov/ditox/compare/v2.3.1...v2.4.0) (2023-09-08)
+
+### Features
+
+- Ability to create a shareable token by providing a key for its symbol
+  ([4fde1d9](https://github.com/mnasyrov/ditox/commit/4fde1d95dc728018c67f8fc5e154597e9115d8b5))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [2.3.1](https://github.com/mnasyrov/ditox/compare/v2.3.0...v2.3.1) (2023-04-01)
 
 **Note:** Version bump only for package ditox

@@ -1,9 +1,9 @@
-/**
- * Creates a new binding token.
- * @param description - Token description for better error messages.
- */
-function token(description) {
-    return { symbol: Symbol(description) };
+function token(options) {
+    const normalized = typeof options === 'string' ? { description: options } : options;
+    const symbol = (normalized === null || normalized === void 0 ? void 0 : normalized.key)
+        ? Symbol.for(normalized.key)
+        : Symbol(normalized === null || normalized === void 0 ? void 0 : normalized.description);
+    return { symbol };
 }
 function optional(token, optionalValue) {
     return {
@@ -12,6 +12,7 @@ function optional(token, optionalValue) {
         optionalValue,
     };
 }
+
 /**
  * ResolverError is thrown by the resolver when a token is not found in a container.
  */
