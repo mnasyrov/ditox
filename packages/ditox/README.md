@@ -79,7 +79,7 @@ class UserService {
 }
 
 // Define tokens for injections.
-const STORAGE_TOKEN = token < UserService > 'Token description for debugging';
+const STORAGE_TOKEN = token<UserService>('Token description for debugging');
 const LOGGER_TOKEN = token();
 const USER_SERVICE_TOKEN = token();
 
@@ -127,7 +127,7 @@ container.bindFactory(
 const logger = container.get(LOGGER_TOKEN);
 
 // Resolve a value, it throws `ResolverError` in case a value is not found.
-const userService = container.resolve(userService);
+const userService = container.resolve(USER_SERVICE_TOKEN);
 
 // Remove a value from the container.
 container.remove(LOGGER_TOKEN);
