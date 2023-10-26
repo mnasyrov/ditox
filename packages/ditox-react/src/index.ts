@@ -2,7 +2,10 @@ export type {
   DependencyContainerBinder,
   DependencyContainerParams,
 } from './DependencyContainer';
-export {DependencyContainer} from './DependencyContainer';
+export {
+  CustomDependencyContainer,
+  DependencyContainer,
+} from './DependencyContainer';
 
 export {
   useDependencyContainer,
