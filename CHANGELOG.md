@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1](https://github.com/mnasyrov/ditox/compare/v2.4.0...v2.4.1) (2023-10-27)
+
+### Bug Fixes
+
+- Add export CustomDependencyContainer to index
+  ([#34](https://github.com/mnasyrov/ditox/issues/34))
+  ([1723671](https://github.com/mnasyrov/ditox/commit/17236718c54c381ffca0a0c9160615aa26c79eaa))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [2.4.0](https://github.com/mnasyrov/ditox/compare/v2.3.1...v2.4.0) (2023-09-08)
 
 ### Features
