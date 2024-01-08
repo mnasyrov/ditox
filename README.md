@@ -152,12 +152,12 @@ function createLoggerClient(client: ServerClient): Logger {
 }
 
 container.bindFactory(
-  LOGGER_TOKEN,
-  injectable(createLoggerClient, SERVER_CLIENT_TOKEN),
+  SERVER_CLIENT_TOKEN,
+  injectable(createLoggerClient, LOGGER_TOKEN),
 );
 
 // Later, somewhere in the app
-const logger = container.resolve(LOGGER_TOKEN);
+const logger = container.resolve(SERVER_CLIENT_TOKEN);
 logger.log('Hello World!');
 ```
 
