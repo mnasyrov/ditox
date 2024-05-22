@@ -106,6 +106,32 @@ describe('Container', () => {
       expect(factory).toBeCalledTimes(1);
     });
 
+    it('should bind a factory with "main" scope', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+
+      const START = token<number>();
+      parent.bindValue(START, 10);
+      container.bindValue(START, 20);
+
+      let counter = 0;
+      const factory = jest.fn((start) => start + ++counter);
+      parent.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'main',
+      });
+
+      container.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'main',
+      });
+
+      expect(container.get(NUMBER)).toBe(21);
+      expect(container.get(NUMBER)).toBe(21);
+      expect(parent.get(NUMBER)).toBe(12);
+      expect(container.get(NUMBER)).toBe(21);
+
+      expect(factory).toBeCalledTimes(2);
+    });
+
     it('should bind a factory with "scoped" scope', () => {
       const parent = createContainer();
       const container = createContainer(parent);
@@ -138,6 +164,34 @@ describe('Container', () => {
         fakeContext?.options?.scope === 'scoped' &&
         fakeContext?.options?.onRemoved;
       expect(internalOnRemoved).toBeUndefined();
+    });
+
+    it('should inherit a factory with "main" scope', async () => {
+      const parentParent = createContainer();
+      let counter = 0;
+      const factory = jest.fn(() => ++counter);
+
+      parentParent.bindFactory(NUMBER, factory);
+
+      expect(parentParent.get(NUMBER)).toBe(1);
+
+      const parent = createContainer(parentParent);
+
+      parent.bindFactory(NUMBER, injectable(factory), {
+        scope: 'main',
+      });
+
+      expect(parent.get(NUMBER)).toBe(2);
+
+      const container = createContainer(parent);
+
+      expect(container.get(NUMBER)).toBe(2);
+      expect(parent.get(NUMBER)).toBe(2);
+
+      expect(factory).toBeCalledTimes(2);
+
+      container.removeAll();
+      expect(parent.get(NUMBER)).toBe(2);
     });
 
     it('should bind a factory with "singleton" scope by default', () => {
@@ -264,6 +318,35 @@ describe('Container', () => {
       const factory = jest.fn(() => 100);
       const onRemoved = jest.fn();
       container.bindFactory(NUMBER, factory, {scope: 'singleton', onRemoved});
+
+      expect(container.get(NUMBER)).toBe(100);
+      container.remove(NUMBER);
+
+      expect(container.get(NUMBER)).toBeUndefined();
+      expect(factory).toHaveBeenCalledTimes(1);
+      expect(onRemoved).toHaveBeenCalledTimes(1);
+      expect(onRemoved).toHaveBeenCalledWith(100);
+    });
+
+    it('should remove "main" factory silently in case its value has never been resolved', () => {
+      const container = createContainer();
+
+      const factory = jest.fn(() => 1);
+      const onRemoved = jest.fn();
+      container.bindFactory(NUMBER, factory, {scope: 'main', onRemoved});
+      container.remove(NUMBER);
+
+      expect(container.get(NUMBER)).toBeUndefined();
+      expect(factory).toHaveBeenCalledTimes(0);
+      expect(onRemoved).toHaveBeenCalledTimes(0);
+    });
+
+    it('should remove "main" factory with calling "onRemoved" in case its value has been resolved', () => {
+      const container = createContainer();
+
+      const factory = jest.fn(() => 100);
+      const onRemoved = jest.fn();
+      container.bindFactory(NUMBER, factory, {scope: 'main', onRemoved});
 
       expect(container.get(NUMBER)).toBe(100);
       container.remove(NUMBER);

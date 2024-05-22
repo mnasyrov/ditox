@@ -14,7 +14,7 @@ export class ResolverError extends Error {
 /**
  * @see https://github.com/mnasyrov/ditox#factory-lifetimes
  */
-export type FactoryScope = 'scoped' | 'singleton' | 'transient';
+export type FactoryScope = 'scoped' | 'singleton' | 'transient' | 'main';
 
 /**
  * Options for factory binding.
@@ -28,7 +28,7 @@ export type FactoryScope = 'scoped' | 'singleton' | 'transient';
  */
 export type FactoryOptions<T> =
   | {
-      scope?: 'scoped' | 'singleton';
+      scope?: 'scoped' | 'singleton' | 'main';
       onRemoved?: (value: T) => void;
     }
   | {
@@ -126,7 +126,8 @@ function getScope<T>(options?: FactoryOptions<T>): FactoryScope {
 function getOnRemoved<T>(options: FactoryOptions<T>) {
   return options.scope === undefined ||
     options.scope === 'scoped' ||
-    options.scope === 'singleton'
+    options.scope === 'singleton' ||
+    options.scope === 'main'
     ? options.onRemoved
     : undefined;
 }
@@ -275,6 +276,17 @@ export function createContainer(parentContainer?: Container): Container {
           }
 
           return value;
+        }
+
+        case 'main': {
+          if (hasValue) {
+            return value;
+          } else {
+            // Create a value within the origin container and cache it.
+            const value = factoryContext.factory(container);
+            container.bindValue(token, value);
+            return value;
+          }
         }
 
         case 'transient': {
