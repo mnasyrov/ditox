@@ -35,10 +35,18 @@ export type FactoryOptions<T> =
       scope: 'transient';
     };
 
+export type ContainerType = 'scope';
+
+export type ContainerOptions = {
+  type?: ContainerType;
+};
+
 /**
  * Dependency container.
  */
 export type Container = {
+  readonly type?: ContainerType;
+
   /**
    * Binds a value for the token
    */
@@ -115,7 +123,11 @@ export type FactoriesMap = Map<symbol, FactoryContext<any>>;
 export const FACTORIES_MAP: Token<FactoriesMap> = token('ditox.FactoriesMap');
 
 /** @internal */
-type Resolver = <T>(token: Token<T>, origin: Container) => T | typeof NOT_FOUND;
+type Resolver = <T>(
+  token: Token<T>,
+  origin: Container,
+  scopeRoot?: Container,
+) => T | typeof NOT_FOUND;
 
 /** @internal */
 function getScope<T>(options?: FactoryOptions<T>): FactoryScope {
@@ -147,11 +159,16 @@ function isInternalToken<T>(token: Token<T>): boolean {
  *
  * @param parentContainer - Optional parent container.
  */
-export function createContainer(parentContainer?: Container): Container {
+export function createContainer(
+  parentContainer?: Container,
+  options?: ContainerOptions,
+): Container {
   const values: ValuesMap = new Map<symbol, any>();
   const factories: FactoriesMap = new Map<symbol, FactoryContext<any>>();
 
   const container: Container = {
+    type: options?.type,
+
     bindValue<T>(token: Token<T>, value: T): void {
       if (isInternalToken(token)) {
         return;
@@ -238,6 +255,7 @@ export function createContainer(parentContainer?: Container): Container {
   function resolver<T>(
     token: Token<T>,
     origin: Container,
+    scopeRoot?: Container,
   ): T | typeof NOT_FOUND {
     const value = values.get(token.symbol);
     const hasValue = value !== undefined || values.has(token.symbol);
@@ -265,16 +283,26 @@ export function createContainer(parentContainer?: Container): Container {
         }
 
         case 'scoped': {
-          // Create a value within the origin container and cache it.
-          const value = factoryContext.factory(origin);
-          origin.bindValue(token, value);
+          const scope = scopeRoot
+            ? scopeRoot
+            : container.type === 'scope'
+            ? container
+            : origin;
 
-          if (origin !== container) {
-            // Bind a fake factory with actual options to make onRemoved() works.
-            origin.bindFactory(token, FAKE_FACTORY, factoryContext.options);
+          if (container === scope && hasValue) {
+            return value;
+          } else {
+            // Create a value within the scope container and cache it.
+            const value = factoryContext.factory(scope);
+            scope.bindValue(token, value);
+
+            if (scope !== container) {
+              // Bind a fake factory with actual options to make onRemoved() works.
+              scope.bindFactory(token, FAKE_FACTORY, factoryContext.options);
+            }
+
+            return value;
           }
-
-          return value;
         }
 
         case 'transient': {
@@ -290,7 +318,10 @@ export function createContainer(parentContainer?: Container): Container {
 
     const parentResolver = parentContainer?.get(RESOLVER);
     if (parentResolver) {
-      return parentResolver(token, origin);
+      const bubbledScopeRoot =
+        !scopeRoot && container.type === 'scope' ? container : scopeRoot;
+
+      return parentResolver(token, origin, bubbledScopeRoot);
     }
 
     return NOT_FOUND;

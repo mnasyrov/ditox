@@ -6,8 +6,8 @@ import {
   PARENT_CONTAINER,
   ResolverError,
 } from './container';
-import {injectable} from './utils';
 import {optional, token} from './tokens';
+import {injectable} from './utils';
 
 const NUMBER = token<number>('number');
 const STRING = token<string>('string');
@@ -158,6 +158,27 @@ describe('Container', () => {
       expect(container.get(NUMBER)).toBe(11);
 
       expect(factory).toBeCalledTimes(1);
+    });
+
+    it('should bind once a factory with "scoped" scope', async () => {
+      let counter = 0;
+      const factory = jest.fn(() => ++counter);
+
+      const root = createContainer();
+      root.bindFactory(NUMBER, factory);
+      expect(root.get(NUMBER)).toBe(1);
+      expect(factory).toBeCalledTimes(1);
+
+      const scopeContainer = createContainer(root, {type: 'scope'});
+      scopeContainer.bindFactory(NUMBER, factory, {scope: 'scoped'});
+      factory.mockClear();
+      expect(scopeContainer.get(NUMBER)).toBe(2);
+      expect(factory).toBeCalledTimes(1);
+
+      const child = createContainer(scopeContainer);
+      factory.mockClear();
+      expect(child.get(NUMBER)).toBe(2);
+      expect(factory).toBeCalledTimes(0);
     });
 
     test('order of scoped containers', () => {
