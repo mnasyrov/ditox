@@ -126,7 +126,7 @@ export const FACTORIES_MAP: Token<FactoriesMap> = token('ditox.FactoriesMap');
 type Resolver = <T>(
   token: Token<T>,
   origin: Container,
-  scopeRoot?: Container,
+  scopeContainer?: Container,
 ) => T | typeof NOT_FOUND;
 
 /** @internal */
@@ -255,7 +255,7 @@ export function createContainer(
   function resolver<T>(
     token: Token<T>,
     origin: Container,
-    scopeRoot?: Container,
+    scopeContainer?: Container,
   ): T | typeof NOT_FOUND {
     const value = values.get(token.symbol);
     const hasValue = value !== undefined || values.has(token.symbol);
@@ -283,8 +283,8 @@ export function createContainer(
         }
 
         case 'scoped': {
-          const scope = scopeRoot
-            ? scopeRoot
+          const scope = scopeContainer
+            ? scopeContainer
             : container.type === 'scope'
             ? container
             : origin;
@@ -318,10 +318,12 @@ export function createContainer(
 
     const parentResolver = parentContainer?.get(RESOLVER);
     if (parentResolver) {
-      const bubbledScopeRoot =
-        !scopeRoot && container.type === 'scope' ? container : scopeRoot;
+      const bubbledScopeContainer =
+        !scopeContainer && container.type === 'scope'
+          ? container
+          : scopeContainer;
 
-      return parentResolver(token, origin, bubbledScopeRoot);
+      return parentResolver(token, origin, bubbledScopeContainer);
     }
 
     return NOT_FOUND;
