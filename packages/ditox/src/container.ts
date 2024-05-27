@@ -265,16 +265,14 @@ export function createContainer(parentContainer?: Container): Container {
         }
 
         case 'scoped': {
-          // Create a value within the origin container and cache it.
-          const value = factoryContext.factory(origin);
-          origin.bindValue(token, value);
-
-          if (origin !== container) {
-            // Bind a fake factory with actual options to make onRemoved() works.
-            origin.bindFactory(token, FAKE_FACTORY, factoryContext.options);
+          if (hasValue) {
+            return value;
+          } else {
+            // Create a value within the origin container and cache it.
+            const value = factoryContext.factory(container);
+            container.bindValue(token, value);
+            return value;
           }
-
-          return value;
         }
 
         case 'transient': {

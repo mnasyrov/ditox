@@ -2,7 +2,6 @@ import {
   CONTAINER,
   createContainer,
   FACTORIES_MAP,
-  FAKE_FACTORY,
   PARENT_CONTAINER,
   ResolverError,
 } from './container';
@@ -120,24 +119,40 @@ describe('Container', () => {
         scope: 'scoped',
       });
 
-      expect(container.get(NUMBER)).toBe(21);
-      expect(container.get(NUMBER)).toBe(21);
-      expect(parent.get(NUMBER)).toBe(12);
-      expect(container.get(NUMBER)).toBe(21);
+      expect(container.get(NUMBER)).toBe(11);
+      expect(container.get(NUMBER)).toBe(11);
+      expect(parent.get(NUMBER)).toBe(11);
+      expect(container.get(NUMBER)).toBe(11);
+
+      expect(factory).toBeCalledTimes(1);
+    });
+
+    it('should inherit a factory with "scoped" scope', async () => {
+      const parentParent = createContainer();
+      let counter = 0;
+      const factory = jest.fn(() => ++counter);
+
+      parentParent.bindFactory(NUMBER, factory);
+
+      expect(parentParent.get(NUMBER)).toBe(1);
+
+      const parent = createContainer(parentParent);
+
+      parent.bindFactory(NUMBER, injectable(factory), {
+        scope: 'scoped',
+      });
+
+      expect(parent.get(NUMBER)).toBe(2);
+
+      const container = createContainer(parent);
+
+      expect(container.get(NUMBER)).toBe(2);
+      expect(parent.get(NUMBER)).toBe(2);
 
       expect(factory).toBeCalledTimes(2);
 
-      // Check for using the internal FAKE_FACTORY
-      const internalFactories = container.resolve(FACTORIES_MAP);
-      const fakeContext = internalFactories.get(NUMBER.symbol);
-      expect(fakeContext?.factory).toBe(FAKE_FACTORY);
-      expect(() => fakeContext?.factory?.(container)).toThrowError(
-        'FAKE_FACTORY',
-      );
-      const internalOnRemoved =
-        fakeContext?.options?.scope === 'scoped' &&
-        fakeContext?.options?.onRemoved;
-      expect(internalOnRemoved).toBeUndefined();
+      container.removeAll();
+      expect(parent.get(NUMBER)).toBe(2);
     });
 
     it('should bind a factory with "singleton" scope by default', () => {
@@ -165,6 +180,9 @@ describe('Container', () => {
       const container1 = createContainer(parent);
       const container2 = createContainer(parent);
       const container3 = createContainer(parent);
+      const childContainer1 = createContainer(container1);
+      const childContainer2 = createContainer(container2);
+      const childContainer3 = createContainer(container3);
 
       const START = token<number>();
       parent.bindValue(START, 0);
@@ -178,13 +196,33 @@ describe('Container', () => {
         scope: 'scoped',
       });
 
-      expect(container1.get(NUMBER)).toBe(11);
+      container1.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'scoped',
+      });
+
+      container2.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'scoped',
+      });
+
+      container3.bindFactory(NUMBER, injectable(factory, START), {
+        scope: 'scoped',
+      });
+
+      childContainer1.bindValue(START, 1);
+      childContainer2.bindValue(START, 2);
+      childContainer3.bindValue(START, 3);
+
       expect(container1.get(NUMBER)).toBe(11);
       expect(container2.get(NUMBER)).toBe(22);
-      expect(parent.get(NUMBER)).toBe(3);
+      expect(container3.get(NUMBER)).toBe(33);
+      expect(parent.get(NUMBER)).toBe(4);
       expect(container1.get(NUMBER)).toBe(11);
       expect(container2.get(NUMBER)).toBe(22);
-      expect(container3.get(NUMBER)).toBe(34);
+      expect(container3.get(NUMBER)).toBe(33);
+
+      expect(childContainer1.get(NUMBER)).toBe(11);
+      expect(childContainer2.get(NUMBER)).toBe(22);
+      expect(childContainer3.get(NUMBER)).toBe(33);
 
       expect(factory).toBeCalledTimes(4);
     });
@@ -284,25 +322,21 @@ describe('Container', () => {
       parent.bindFactory(NUMBER, factory, {scope: 'scoped', onRemoved});
 
       expect(parent.get(NUMBER)).toBe(1);
-      expect(container.get(NUMBER)).toBe(2);
+      expect(container.get(NUMBER)).toBe(1);
 
       // Check for using the internal FAKE_FACTORY
       const internalFactories = container.resolve(FACTORIES_MAP);
       const fakeContext = internalFactories.get(NUMBER.symbol);
-      expect(fakeContext?.factory).toBe(FAKE_FACTORY);
-      expect(() => fakeContext?.factory?.(container)).toThrowError(
-        'FAKE_FACTORY',
-      );
       const internalOnRemoved =
         fakeContext?.options?.scope === 'scoped' &&
         fakeContext?.options?.onRemoved;
-      expect(internalOnRemoved).toBe(onRemoved);
+      expect(internalOnRemoved).toBeFalsy();
 
       // Continue the main test
       parent.remove(NUMBER);
       container.remove(NUMBER);
       expect(onRemoved).toHaveBeenNthCalledWith(1, 1);
-      expect(onRemoved).toHaveBeenNthCalledWith(2, 2);
+      expect(onRemoved).toHaveBeenCalledTimes(1);
     });
 
     it('should remove "transient" factory in case its value has never been resolved', () => {
