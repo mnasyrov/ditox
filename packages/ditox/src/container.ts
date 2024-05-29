@@ -20,8 +20,8 @@ export type FactoryScope = 'scoped' | 'singleton' | 'transient';
  * Options for factory binding.
  *
  * `scope` types:
- *   - `singleton` - **This is the default**. The value is created and cached by the container which registered the factory.
- *   - `scoped` - The value is created and cached by the container which starts resolving.
+ *   - `singleton` - **This is the default**. The value is created and cached by the most distant parent container which owns the factory function.
+ *   - `scoped` - The value is created and cached by the nearest container which owns the factory function.
  *   - `transient` - The value is created every time it is resolved.
  *
  * `scoped` and `singleton` scopes can have `onRemoved` callback. It is called when a token is removed from the container.

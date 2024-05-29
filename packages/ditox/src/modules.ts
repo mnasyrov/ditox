@@ -73,8 +73,8 @@ export type AnyModuleDeclaration = ModuleDeclaration<Module<AnyObject>>;
  * Options for module binding.
  *
  * `scope` types:
- *   - `singleton` - **This is the default**. The module is created and cached by the container which registered the factory.
- *   - `scoped` - The module is created and cached by the container which starts resolving.
+ *   - `singleton` - **This is the default**. The value is created and cached by the most distant parent container which owns the factory function.
+ *   - `scoped` - The value is created and cached by the nearest container which owns the factory function.
  */
 export type BindModuleOptions = {
   scope?: 'scoped' | 'singleton';

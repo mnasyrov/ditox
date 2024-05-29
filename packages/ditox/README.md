@@ -79,7 +79,7 @@ class UserService {
 }
 
 // Define tokens for injections.
-const STORAGE_TOKEN = token<UserService>('Token description for debugging');
+const STORAGE_TOKEN = token < UserService > 'Token description for debugging';
 const LOGGER_TOKEN = token();
 const USER_SERVICE_TOKEN = token();
 
@@ -164,15 +164,15 @@ Ditox.js supports managing the lifetime of values which are produced by
 factories. There are the following types:
 
 - `singleton` - **This is the default**. The value is created and cached by the
-  container which registered the factory.
-- `scoped` - The value is created and cached by the container which starts
-  resolving.
+  most distant parent container which owns the factory function.
+- `scoped` - The value is created and cached by the nearest container which owns
+  the factory function.
 - `transient` - The value is created every time it is resolved.
 
 ### `singleton`
 
 **This is the default scope**. "Singleton" allows to cache a produced value by a
-parent container which registered the factory:
+most distant parent container which registered the factory function:
 
 ```js
 import {creatContainer, token} from 'ditox';
