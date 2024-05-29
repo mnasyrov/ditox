@@ -1,12 +1,11 @@
 import {
   CONTAINER,
   createContainer,
-  FACTORIES_MAP,
   PARENT_CONTAINER,
   ResolverError,
 } from './container';
-import {injectable} from './utils';
 import {optional, token} from './tokens';
+import {injectable} from './utils';
 
 const NUMBER = token<number>('number');
 const STRING = token<string>('string');
@@ -323,14 +322,6 @@ describe('Container', () => {
 
       expect(parent.get(NUMBER)).toBe(1);
       expect(container.get(NUMBER)).toBe(1);
-
-      // Check for using the internal FAKE_FACTORY
-      const internalFactories = container.resolve(FACTORIES_MAP);
-      const fakeContext = internalFactories.get(NUMBER.symbol);
-      const internalOnRemoved =
-        fakeContext?.options?.scope === 'scoped' &&
-        fakeContext?.options?.onRemoved;
-      expect(internalOnRemoved).toBeFalsy();
 
       // Continue the main test
       parent.remove(NUMBER);

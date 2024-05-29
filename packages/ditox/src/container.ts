@@ -92,11 +92,6 @@ export const RESOLVER: Token<Resolver> = token('ditox.Resolver');
 const NOT_FOUND = Symbol();
 
 /** @internal */
-export const FAKE_FACTORY = (): never => {
-  throw new Error('FAKE_FACTORY');
-};
-
-/** @internal */
 const DEFAULT_SCOPE: FactoryScope = 'singleton';
 
 /** @internal */
@@ -247,7 +242,7 @@ export function createContainer(parentContainer?: Container): Container {
     }
 
     const factoryContext = factories.get(token.symbol);
-    if (factoryContext && factoryContext.factory !== FAKE_FACTORY) {
+    if (factoryContext) {
       const scope = getScope(factoryContext.options);
 
       switch (scope) {
