@@ -7,8 +7,8 @@ import {
   Module,
   ModuleDeclaration,
 } from './modules';
-import {injectable} from './utils';
 import {token} from './tokens';
+import {injectable} from './utils';
 
 describe('bindModule()', () => {
   type TestQueries = {getValue: () => number};
@@ -107,8 +107,8 @@ describe('bindModule()', () => {
     const container = createContainer(parent);
 
     bindModule(parent, MODULE, {scope: 'scoped'});
-    expect(parent.get(MODULE_TOKEN)).not.toBe(container.get(MODULE_TOKEN));
-    expect(parent.get(QUERIES_TOKEN)).not.toBe(container.get(QUERIES_TOKEN));
+    expect(parent.get(MODULE_TOKEN)).toBe(container.get(MODULE_TOKEN));
+    expect(parent.get(QUERIES_TOKEN)).toBe(container.get(QUERIES_TOKEN));
   });
 
   it('should remove "singleton" module when a container is cleaning', () => {
@@ -149,11 +149,12 @@ describe('bindModule()', () => {
     parent.resolve(MODULE_TOKEN);
     container.resolve(MODULE_TOKEN);
 
-    parent.removeAll();
-    expect(destroy).toBeCalledTimes(1);
-
     destroy.mockClear();
     container.removeAll();
+    expect(destroy).toBeCalledTimes(0);
+
+    destroy.mockClear();
+    parent.removeAll();
     expect(destroy).toBeCalledTimes(1);
   });
 
