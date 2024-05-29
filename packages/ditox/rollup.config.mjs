@@ -8,21 +8,8 @@ const UMD_LIB_NAME = 'Ditox';
 export default [
   {
     input: 'src/index.ts',
-    output: [
-      {file: 'lib-deno/index.d.ts'},
-      {file: 'dist/browser/index.d.ts'},
-      {file: 'dist/umd/index.d.ts'},
-    ],
+    output: [{file: 'dist/browser/index.d.ts'}, {file: 'dist/umd/index.d.ts'}],
     plugins: [dts()],
-  },
-  {
-    input: 'src/index.ts',
-    output: [{file: 'lib-deno/index.js', format: 'es', sourcemap: true}],
-    plugins: [
-      typescript({
-        declaration: false,
-      }),
-    ],
   },
   {
     input: 'src/index.ts',

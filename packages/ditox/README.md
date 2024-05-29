@@ -31,14 +31,6 @@ The package can be used as [UMD](https://github.com/umdjs/umd) module. Use
 </script>
 ```
 
-Using in Deno environment:
-
-```ts
-import {createContainer} from 'https://deno.land/x/ditox/mod.ts';
-
-const container = createContainer();
-```
-
 ## General description
 
 DI pattern in general allows to declare and construct a code graph of an

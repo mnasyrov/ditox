@@ -45,7 +45,6 @@
   ],
   "scripts": {
     "clean": "shx rm -rf dist lib",
-    "test-deno": "npm run build:rollup && deno test test-deno",
     "build": "npm run build:cjs && npm run build:esm && npm run build:rollup",
     "build:cjs": "tsc -p tsconfig.build.json --outDir dist/cjs --module commonjs",
     "build:esm": "tsc -p tsconfig.build.json --outDir dist/esm --module es2015",

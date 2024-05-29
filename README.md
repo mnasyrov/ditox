@@ -65,14 +65,6 @@ Packages can be used as [UMD](https://github.com/umdjs/umd) modules. Use
 </script>
 ```
 
-`ditox` package is available for Deno environment:
-
-```typescript
-import {createContainer} from 'https://deno.land/x/ditox/mod.ts';
-
-const container = createContainer();
-```
-
 ### Basic concepts
 
 - **Token** specifies a future injection of an "internal" implementation with a

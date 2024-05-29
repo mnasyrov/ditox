@@ -35,7 +35,6 @@
     "lint:eslint": "eslint \"packages/*/{src,test*}/**\"",
     "lint:tsc": "tsc --noEmit --jsx react",
     "test": "jest",
-    "test-deno": "npm run -w ditox test-deno",
     "build": "npm run -ws build",
     "build-docs": "npm run build && typedoc",
     "pack": "npm run build && mkdir -p dist && npm exec -ws -c 'npm pack --pack-destination ../../dist'",
