@@ -268,7 +268,7 @@ export function createContainer(parentContainer?: Container): Container {
           if (hasValue) {
             return value;
           } else {
-            // Create a value within the origin container and cache it.
+            // Create a value within the factory's container and cache it.
             const value = factoryContext.factory(container);
             container.bindValue(token, value);
             return value;
