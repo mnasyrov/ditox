@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-dev.1](https://github.com/mnasyrov/ditox/compare/v2.4.1...v3.0.0-dev.1) (2024-05-31)
+
+### Bug Fixes
+
+- Changed resolution of "scoped" bindings to keep a created value in the
+  container which owns the factory
+  ([#40](https://github.com/mnasyrov/ditox/issues/40))
+  ([736ef2f](https://github.com/mnasyrov/ditox/commit/736ef2f927d43c91f027c68e230371cce3f50131))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [2.4.1](https://github.com/mnasyrov/ditox/compare/v2.4.0...v2.4.1) (2023-10-27)
 
 ### Bug Fixes
