@@ -228,6 +228,68 @@ describe('bindModule()', () => {
     expect(container.resolve(ARG_TOKEN)).toBe('12');
     expect(container.resolve(RESULT_TOKEN)).toBe('123');
   });
+
+  it('should call beforeBinding() and afterBinding() in deep-first order', () => {
+    const route: string[] = [];
+
+    const declareTestModule = (
+      id: string,
+      imports?: ModuleDeclaration<Record<string, any>>[],
+    ) =>
+      declareModule({
+        imports,
+        beforeBinding: () => route.push(`${id}:before`),
+        factory: (container) => {
+          imports?.forEach((m) => container.resolve(m.token));
+          route.push(`${id}:factory`);
+          return {};
+        },
+        afterBinding: () => route.push(`${id}:after`),
+      });
+
+    /**
+     *       m1
+     *     / | \
+     *   m2 m3 m4
+     *  / \  \ |
+     * m5 m6  m7
+     */
+    const m7 = declareTestModule('m7');
+    const m6 = declareTestModule('m6');
+    const m5 = declareTestModule('m5');
+    const m4 = declareTestModule('m4', [m7]);
+    const m3 = declareTestModule('m3', [m7]);
+    const m2 = declareTestModule('m2', [m5, m6]);
+    const m1 = declareTestModule('m1', [m2, m3, m4]);
+
+    const container = createContainer();
+    bindModule(container, m1);
+    container.resolve(m1.token);
+
+    expect(route).toEqual([
+      'm1:before',
+      'm2:before',
+      'm3:before',
+      'm4:before',
+      'm5:before',
+      'm6:before',
+      'm7:before',
+      'm7:after',
+      'm6:after',
+      'm5:after',
+      'm4:after',
+      'm3:after',
+      'm2:after',
+      'm1:after',
+      'm5:factory',
+      'm6:factory',
+      'm2:factory',
+      'm7:factory',
+      'm3:factory',
+      'm4:factory',
+      'm1:factory',
+    ]);
+  });
 });
 
 describe('bindModules()', () => {

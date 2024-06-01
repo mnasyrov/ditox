@@ -1,6 +1,6 @@
 import {Container} from './container';
-import {injectable} from './utils';
 import {Token, token} from './tokens';
+import {injectable} from './utils';
 
 type AnyObject = Record<string, any>;
 type EmptyObject = Record<string, never>;
@@ -80,12 +80,14 @@ export type BindModuleOptions = {
   scope?: 'scoped' | 'singleton';
 };
 
+type ModuleDeclarationWithOptions = {
+  module: ModuleDeclaration<AnyObject>;
+  options: BindModuleOptions;
+};
+
 export type ModuleBindingEntry =
   | ModuleDeclaration<AnyObject>
-  | {
-      module: ModuleDeclaration<AnyObject>;
-      options: BindModuleOptions;
-    };
+  | ModuleDeclarationWithOptions;
 
 /**
  * Binds the dependency module to the container
@@ -103,54 +105,94 @@ export function bindModule<T extends Module<AnyObject>>(
   moduleDeclaration: ModuleDeclaration<T>,
   options?: BindModuleOptions,
 ): void {
-  const {token, imports, factory, beforeBinding, afterBinding} =
-    moduleDeclaration;
-  const exports = moduleDeclaration.exports;
+  const rootEntry: ModuleBindingEntry = {
+    module: moduleDeclaration,
+    options: options ?? {},
+  };
+
+  const bfsVisits = new Set<ModuleBindingEntry>([rootEntry]);
+  const bfsQueue: ModuleBindingEntry[] = [rootEntry];
+
+  let bfsIndex = 0;
+  while (bfsIndex < bfsQueue.length) {
+    const entry = bfsQueue[bfsIndex];
+
+    const m = 'module' in entry ? entry.module : entry;
+
+    m.imports?.forEach((depEntry) => {
+      if (!bfsVisits.has(depEntry)) {
+        bfsVisits.add(depEntry);
+        bfsQueue.push(depEntry);
+      }
+    });
+
+    bfsIndex++;
+  }
+
+  for (let i = 0; i < bfsQueue.length; i++) {
+    const entry = bfsQueue[i];
+    const m = 'module' in entry ? entry.module : entry;
+    m.beforeBinding?.(container);
+  }
+
+  for (let i = 0; i < bfsQueue.length; i++) {
+    const entry = bfsQueue[i];
+    bindModuleEntry(container, entry);
+  }
+
+  for (let i = bfsQueue.length - 1; i >= 0; i--) {
+    const entry = bfsQueue[i];
+    const m = 'module' in entry ? entry.module : entry;
+    m.afterBinding?.(container);
+  }
+}
+
+function bindModuleEntry(
+  container: Container,
+  entry: ModuleBindingEntry,
+): void {
+  let module: ModuleDeclaration<AnyObject>;
+  let options: BindModuleOptions | undefined;
+
+  if ('module' in entry) {
+    module = entry.module;
+    options = entry.options;
+  } else {
+    module = entry;
+  }
 
   const scope = options?.scope;
-
-  if (beforeBinding) {
-    beforeBinding(container);
-  }
-
-  if (imports) {
-    bindModules(container, imports);
-  }
-
   const exportedValueTokens = new Set<Token<unknown>>();
+  const moduleExports = module.exports;
 
-  if (exports) {
-    const keys = Object.keys(exports);
+  if (moduleExports) {
+    const keys = Object.keys(moduleExports);
 
     keys.forEach((valueKey) => {
-      const valueToken = exports[valueKey];
+      const valueToken = moduleExports[valueKey];
       if (valueToken) {
         exportedValueTokens.add(valueToken);
 
         container.bindFactory(
           valueToken,
-          injectable((module) => module[valueKey], token),
+          injectable((module) => module[valueKey], module.token),
           {scope},
         );
       }
     });
   }
 
-  container.bindFactory(token, factory, {
+  container.bindFactory(module.token, module.factory, {
     scope,
-    onRemoved: (module) => {
-      if (module.destroy) {
-        module.destroy();
+    onRemoved: (moduleInstance) => {
+      if (moduleInstance.destroy) {
+        moduleInstance.destroy();
       }
 
       exportedValueTokens.forEach((valueToken) => container.remove(valueToken));
       exportedValueTokens.clear();
     },
   });
-
-  if (afterBinding) {
-    afterBinding(container);
-  }
 }
 
 /**
