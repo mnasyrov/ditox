@@ -39,7 +39,7 @@
     "build-docs": "npm run build && typedoc",
     "pack": "npm run build && mkdir -p dist && npm exec -ws -c 'npm pack --pack-destination ../../dist'",
     "preversion": "npm run build && npm run lint && npm run test && git add --all",
-    "release-version": "lerna version",
+    "release-version": "lerna version --no-push",
     "release-publish": "lerna publish from-git"
   },
   "devDependencies": {
