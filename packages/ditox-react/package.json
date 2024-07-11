@@ -1,6 +1,6 @@
 {
   "name": "ditox-react",
-  "version": "3.0.0-dev.1",
+  "version": "3.0.0-dev.2",
   "description": "Dependency injection container for React.js",
   "publishConfig": {
     "access": "public"
@@ -57,7 +57,7 @@
     "typedoc": "typedoc"
   },
   "dependencies": {
-    "ditox": "3.0.0-dev.1"
+    "ditox": "3.0.0-dev.2"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0"

@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-dev.2](https://github.com/mnasyrov/ditox/compare/v3.0.0-dev.1...v3.0.0-dev.2) (2024-07-11)
+
+### Bug Fixes
+
+- Fixed binding modules
+  ([997ca44](https://github.com/mnasyrov/ditox/commit/997ca44b09446a6e4d524ba9c16ce0c9cd7995d8))
+- New factory binding doesn't reset a cached value
+  ([7a33dc6](https://github.com/mnasyrov/ditox/commit/7a33dc63d5b95588c5ed5e7ad4e1e748230bcc2e))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [3.0.0-dev.1](https://github.com/mnasyrov/ditox/compare/v2.4.1...v3.0.0-dev.1) (2024-05-31)
 
 ### Bug Fixes
