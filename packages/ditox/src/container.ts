@@ -164,17 +164,7 @@ export function createContainer(parentContainer?: Container): Container {
         return;
       }
 
-      const prev = factories.get(token.symbol);
-      const next = {factory, options};
-
-      const isSame =
-        prev && prev.factory === next.factory && prev.options === options;
-
-      if (!isSame) {
-        values.delete(token.symbol);
-      }
-
-      factories.set(token.symbol, next);
+      factories.set(token.symbol, {factory, options});
     },
 
     remove<T>(token: Token<T>): void {

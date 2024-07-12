@@ -272,46 +272,6 @@ describe('Container', () => {
       expect(container.get(CONTAINER)).toBe(container);
       expect(container.get(PARENT_CONTAINER)).toBe(parent);
     });
-
-    it('should rebind a value binding by the same token', () => {
-      const container = createContainer();
-
-      container.bindValue(NUMBER, 1);
-      container.bindFactory(NUMBER, () => 2);
-      expect(container.get(NUMBER)).toBe(2);
-    });
-
-    it('should rebind a factory binding by the same token', () => {
-      const container = createContainer();
-
-      container.bindFactory(NUMBER, () => 1);
-      container.bindFactory(NUMBER, () => 2);
-      expect(container.get(NUMBER)).toBe(2);
-    });
-
-    it('should reset a cached value during rebinding a factory', () => {
-      const container = createContainer();
-
-      container.bindFactory(NUMBER, () => 1);
-      expect(container.get(NUMBER)).toBe(1);
-
-      container.bindFactory(NUMBER, () => 2);
-      expect(container.get(NUMBER)).toBe(2);
-    });
-
-    it('should not reset a cached value if the factory is the same', () => {
-      const container = createContainer();
-
-      let value = 1;
-      const factory = () => value;
-
-      container.bindFactory(NUMBER, factory);
-      expect(container.get(NUMBER)).toBe(1);
-
-      value = 2;
-      container.bindFactory(NUMBER, factory);
-      expect(container.get(NUMBER)).toBe(1);
-    });
   });
 
   describe('remove()', () => {
