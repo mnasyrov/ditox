@@ -150,6 +150,36 @@ container.resolve(V1_TOKEN); // 10
 container.resolve(V2_TOKEN); // 21
 ```
 
+### Multiple parent containers
+
+A container can have multiple parent containers. Pass an array of parents when
+creating a container. During resolution, parents are queried from left to right,
+and the first parent that provides the token wins.
+
+```js
+import {createContainer, token} from 'ditox';
+
+const VALUE = token();
+
+// Create two parents
+const p1 = createContainer();
+const p2 = createContainer();
+
+// Case 1: Only the second parent provides the token
+p2.bindValue(VALUE, 'from-p2');
+const child = createContainer([p1, p2]);
+child.get(VALUE); // 'from-p2' (found in the second parent)
+
+// Case 2: Both parents provide the token — order matters (left-to-right)
+p1.bindValue(VALUE, 'from-p1');
+const child2 = createContainer([p1, p2]);
+child2.resolve(VALUE); // 'from-p1' (first parent wins)
+
+// The child can still override parents
+child2.bindValue(VALUE, 'from-child');
+child2.resolve(VALUE); // 'from-child'
+```
+
 ## Factory Lifetimes
 
 Ditox.js supports managing the lifetime of values which are produced by

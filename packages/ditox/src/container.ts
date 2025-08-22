@@ -64,7 +64,7 @@ export type Container = {
   get<T>(token: Token<T>): T | undefined;
 
   /**
-   * Returns a resolved value by the token, or throws `ResolverError` in case the token is not found.
+   * Returns a resolved value by the token or throws `ResolverError` in case the token is not found.
    */
   resolve<T>(token: Token<T>): T;
 
@@ -82,7 +82,7 @@ export type Container = {
 /** @internal */
 export const CONTAINER: Token<Container> = token('ditox.Container');
 /** @internal */
-export const PARENT_CONTAINER: Token<Container> = token(
+export const PARENT_CONTAINERS: Token<ReadonlyArray<Container>> = token(
   'ditox.ParentContainer',
 );
 /** @internal */
@@ -130,7 +130,7 @@ function getOnRemoved<T>(options: FactoryOptions<T>) {
 function isInternalToken<T>(token: Token<T>): boolean {
   return (
     token.symbol === CONTAINER.symbol ||
-    token.symbol === PARENT_CONTAINER.symbol ||
+    token.symbol === PARENT_CONTAINERS.symbol ||
     token.symbol === RESOLVER.symbol
   );
 }
@@ -140,9 +140,17 @@ function isInternalToken<T>(token: Token<T>): boolean {
  *
  * Container can have an optional parent to chain token resolution. The parent is used in case the current container does not have a registered token.
  *
- * @param parentContainer - Optional parent container.
+ * @param parentArg - Optional parent container or an array of containers.
  */
-export function createContainer(parentContainer?: Container): Container {
+export function createContainer(
+  parentArg?: Container | ReadonlyArray<Container>,
+): Container {
+  const parents: ReadonlyArray<Container> | undefined = parentArg
+    ? Array.isArray(parentArg)
+      ? [...parentArg]
+      : [parentArg]
+    : undefined;
+
   const values: ValuesMap = new Map<symbol, any>();
   const factories: FactoriesMap = new Map<symbol, FactoryContext<any>>();
 
@@ -197,7 +205,7 @@ export function createContainer(parentContainer?: Container): Container {
       return (
         values.has(token.symbol) ||
         factories.has(token.symbol) ||
-        (parentContainer?.hasToken(token) ?? false)
+        parentContainersHaveToken(parents, token)
       );
     },
 
@@ -249,7 +257,7 @@ export function createContainer(parentContainer?: Container): Container {
         case 'singleton': {
           if (hasValue) {
             return value;
-          } else if (parentContainer?.hasToken(token)) {
+          } else if (parentContainersHaveToken(parents, token)) {
             break;
           } else {
             // Cache the value in the same container where the factory is registered.
@@ -281,9 +289,8 @@ export function createContainer(parentContainer?: Container): Container {
       return value;
     }
 
-    const parentResolver = parentContainer?.get(RESOLVER);
-    if (parentResolver) {
-      return parentResolver(token, origin);
+    if (parents) {
+      return parentContainersResolveToken(parents, token, origin);
     }
 
     return NOT_FOUND;
@@ -307,11 +314,44 @@ export function createContainer(parentContainer?: Container): Container {
     values.set(RESOLVER.symbol, resolver);
     values.set(FACTORIES_MAP.symbol, factories);
 
-    if (parentContainer) {
-      values.set(PARENT_CONTAINER.symbol, parentContainer);
+    if (parents) {
+      values.set(PARENT_CONTAINERS.symbol, parents);
     }
   }
 
   bindInternalTokens();
   return container;
+}
+
+function parentContainersHaveToken<T>(
+  parents: ReadonlyArray<Container> | undefined,
+  token: Token<T>,
+): boolean {
+  if (!parents) return false;
+
+  for (let i = 0; i < parents.length; i++) {
+    if (parents[i].hasToken(token)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function parentContainersResolveToken<T>(
+  parents: ReadonlyArray<Container>,
+  token: Token<T>,
+  origin: Container,
+): T | typeof NOT_FOUND {
+  for (const parentContainer of parents) {
+    const parentResolver = parentContainer.get(RESOLVER);
+    if (parentResolver) {
+      const resolved = parentResolver(token, origin);
+      if (resolved !== NOT_FOUND) {
+        return resolved;
+      }
+    }
+  }
+
+  return NOT_FOUND;
 }

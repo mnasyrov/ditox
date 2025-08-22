@@ -1,7 +1,7 @@
 import {
   CONTAINER,
   createContainer,
-  PARENT_CONTAINER,
+  PARENT_CONTAINERS,
   ResolverError,
 } from './container';
 import {optional, token} from './tokens';
@@ -42,10 +42,10 @@ describe('Container', () => {
 
       const custom = createContainer();
       container.bindValue(CONTAINER, custom);
-      container.bindValue(PARENT_CONTAINER, custom);
+      container.bindValue(PARENT_CONTAINERS, [custom]);
 
       expect(container.get(CONTAINER)).toBe(container);
-      expect(container.get(PARENT_CONTAINER)).toBe(parent);
+      expect(container.get(PARENT_CONTAINERS)).toEqual([parent]);
     });
   });
 
@@ -265,12 +265,11 @@ describe('Container', () => {
       const parent = createContainer();
       const container = createContainer(parent);
 
-      const factory = () => createContainer();
-      container.bindFactory(CONTAINER, factory);
-      container.bindFactory(PARENT_CONTAINER, factory);
+      container.bindFactory(CONTAINER, () => createContainer());
+      container.bindFactory(PARENT_CONTAINERS, () => [createContainer()]);
 
       expect(container.get(CONTAINER)).toBe(container);
-      expect(container.get(PARENT_CONTAINER)).toBe(parent);
+      expect(container.get(PARENT_CONTAINERS)).toEqual([parent]);
     });
   });
 
@@ -358,10 +357,10 @@ describe('Container', () => {
       const container = createContainer(parent);
 
       container.remove(CONTAINER);
-      container.remove(PARENT_CONTAINER);
+      container.remove(PARENT_CONTAINERS);
 
       expect(container.get(CONTAINER)).toBe(container);
-      expect(container.get(PARENT_CONTAINER)).toBe(parent);
+      expect(container.get(PARENT_CONTAINERS)).toEqual([parent]);
     });
   });
 
@@ -414,7 +413,7 @@ describe('Container', () => {
       container.removeAll();
 
       expect(container.get(CONTAINER)).toBe(container);
-      expect(container.get(PARENT_CONTAINER)).toBe(parent);
+      expect(container.get(PARENT_CONTAINERS)).toEqual([parent]);
     });
   });
 
@@ -502,13 +501,13 @@ describe('Container', () => {
     it('should return the parent container for PARENT_CONTAINER token', () => {
       const parent = createContainer();
       const container = createContainer(parent);
-      const result = container.get(PARENT_CONTAINER);
-      expect(result).toBe(parent);
+      const result = container.get(PARENT_CONTAINERS);
+      expect(result).toEqual([parent]);
     });
 
     it('should return "undefined" for PARENT_CONTAINER token in case there is no parent container', () => {
       const container = createContainer();
-      const result = container.get(PARENT_CONTAINER);
+      const result = container.get(PARENT_CONTAINERS);
       expect(result).toBeUndefined();
     });
 
@@ -597,15 +596,15 @@ describe('Container', () => {
     it('should resolve PARENT_CONTAINER as the parent container', () => {
       const parent = createContainer();
       const container = createContainer(parent);
-      const result = container.get(PARENT_CONTAINER);
-      expect(result).toBe(parent);
+      const result = container.get(PARENT_CONTAINERS);
+      expect(result).toEqual([parent]);
     });
 
     it('should throw ResolverError for PARENT_CONTAINER token in case there is no parent container', () => {
       const container = createContainer();
-      expect(() => container.resolve(PARENT_CONTAINER)).toThrowError(
+      expect(() => container.resolve(PARENT_CONTAINERS)).toThrowError(
         new ResolverError(
-          `Token "${PARENT_CONTAINER.symbol.description}" is not provided`,
+          `Token "${PARENT_CONTAINERS.symbol.description}" is not provided`,
         ),
       );
     });
@@ -631,6 +630,62 @@ describe('Container', () => {
 
       expect(container.resolve(t1)).toBe(1);
       expect(container.resolve(t2)).toBe(1);
+    });
+  });
+
+  describe('multiple parent containers', () => {
+    it('should expose all parent containers in order via PARENT_CONTAINERS', () => {
+      const p1 = createContainer();
+      const p2 = createContainer();
+      const child = createContainer([p1, p2]);
+
+      expect(child.get(PARENT_CONTAINERS)).toEqual([p1, p2]);
+    });
+
+    it('get(): should return a value from the first parent that provides it', () => {
+      const p1 = createContainer();
+      const p2 = createContainer();
+      p1.bindValue(NUMBER, 1);
+      p2.bindValue(NUMBER, 2);
+
+      const child = createContainer([p1, p2]);
+      expect(child.get(NUMBER)).toBe(1);
+    });
+
+    it('get(): should return a value from the next parent when previous parents do not provide it', () => {
+      const p1 = createContainer();
+      const p2 = createContainer();
+      p2.bindValue(NUMBER, 2);
+
+      const child = createContainer([p1, p2]);
+      expect(child.get(NUMBER)).toBe(2);
+    });
+
+    it('resolve(): should resolve a value from the first parent that provides it', () => {
+      const p1 = createContainer();
+      const p2 = createContainer();
+      p1.bindValue(NUMBER, 1);
+      p2.bindValue(NUMBER, 2);
+
+      const child = createContainer([p1, p2]);
+      expect(child.resolve(NUMBER)).toBe(1);
+    });
+
+    it('resolve(): should resolve a value from the next parent when previous parents do not provide it', () => {
+      const p1 = createContainer();
+      const p2 = createContainer();
+      p2.bindValue(NUMBER, 2);
+
+      const child = createContainer([p1, p2]);
+      expect(child.resolve(NUMBER)).toBe(2);
+    });
+
+    it('resolve(): should throw if none of the parents provide the value', () => {
+      const p1 = createContainer();
+      const p2 = createContainer();
+      const child = createContainer([p1, p2]);
+
+      expect(() => child.resolve(NUMBER)).toThrow(ResolverError);
     });
   });
 });
