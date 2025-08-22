@@ -1,6 +1,6 @@
 {
   "name": "ditox",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Dependency injection for modular web applications",
   "license": "MIT",
   "author": "Mikhail Nasyrov <mikhail@mnasyrov.com> (https://github.com/mnasyrov)",

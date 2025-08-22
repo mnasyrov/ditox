@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/mnasyrov/ditox/compare/v3.0.1...v3.1.0) (2025-08-22)
+
+### Features
+
+- Support multiple parent containers in container creation and token resolution
+  ([5bf07ea](https://github.com/mnasyrov/ditox/commit/5bf07ea8dd2ffe1a4872e8f00d4f2c6e9170368e))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [3.0.0](https://github.com/mnasyrov/ditox/compare/v2.4.1...v3.0.0) (2024-07-12)
 
 ### Bug Fixes
