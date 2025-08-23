@@ -71,7 +71,7 @@ class UserService {
 }
 
 // Define tokens for injections.
-const STORAGE_TOKEN = token < UserService > 'Token description for debugging';
+const STORAGE_TOKEN = token('Token description for debugging');
 const LOGGER_TOKEN = token();
 const USER_SERVICE_TOKEN = token();
 
@@ -130,11 +130,11 @@ container.removeAll();
 
 ## Container Hierarchy
 
-Ditox.js supports "parent-child" hierarchy. If the child container cannot to
+Ditox.js supports a "parent-child" hierarchy. If the child container cannot
 resolve a token, it asks the parent container to resolve it:
 
 ```js
-import {creatContainer, token} from 'ditox';
+import {createContainer, token} from 'ditox';
 
 const V1_TOKEN = token();
 const V2_TOKEN = token();
@@ -197,7 +197,7 @@ factories. There are the following types:
 most distant parent container which registered the factory function:
 
 ```js
-import {creatContainer, token} from 'ditox';
+import {createContainer, token} from 'ditox';
 
 const TAG_TOKEN = token();
 const LOGGER_TOKEN = token();
@@ -228,7 +228,7 @@ services which can be disposed. For example, a context during HTTP request
 handling, or other unit of work:
 
 ```js
-import {creatContainer, token} from 'ditox';
+import {createContainer, token} from 'ditox';
 
 const TAG_TOKEN = token();
 const LOGGER_TOKEN = token();
@@ -257,7 +257,7 @@ container1.removeAll();
 
 ### `transient`
 
-"Transient" makes to a produce values by the factory for each resolving:
+"Transient" makes the factory produce a new value for each resolution:
 
 ```js
 import {createContainer, token} from 'ditox';
@@ -329,7 +329,7 @@ const container = createContainer();
 // bind a single module
 bindModule(container, LOGGER_MODULE);
 
-// or bind multiple depenendency modules
+// or bind multiple dependency modules
 bindModules(container, [DATABASE_MODULE, CONFIG_MODULE, API_MODULE]);
 ```
 
@@ -350,7 +350,7 @@ const LOGGER_MODULE = declareModule<LoggerModule>({
   },
 });
 
-const APP_MODULE = declareModuleBinding([LOGGER_MODULE, DATABASE_MODULE]);
+const APP_MODULE = declareModuleBindings([LOGGER_MODULE, DATABASE_MODULE]);
 ```
 
 ---
