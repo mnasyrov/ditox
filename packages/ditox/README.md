@@ -9,7 +9,7 @@ Please see the documentation at [ditox.js.org](https://ditox.js.org)
 [![npm](https://img.shields.io/npm/v/ditox)](https://www.npmjs.com/package/ditox)
 [![stars](https://img.shields.io/github/stars/mnasyrov/ditox)](https://github.com/mnasyrov/ditox/stargazers)
 [![types](https://img.shields.io/npm/types/ditox)](https://www.npmjs.com/package/ditox)
-[![licence](https://img.shields.io/github/license/mnasyrov/ditox)](https://github.com/mnasyrov/ditox/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/mnasyrov/ditox)](https://github.com/mnasyrov/ditox/blob/master/LICENSE)
 [![coverage](https://coveralls.io/repos/github/mnasyrov/ditox/badge)](https://coveralls.io/github/mnasyrov/ditox)
 
 ## Installation
@@ -25,7 +25,7 @@ The package can be used as [UMD](https://github.com/umdjs/umd) module. Use
 [ditox](https://www.jsdelivr.com/package/npm/ditox):
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/ditox/dist/umd/index.js" />
+<script src="//cdn.jsdelivr.net/npm/ditox/dist/umd/index.js"></script>
 <script>
   const container = Ditox.createContainer();
 </script>
@@ -352,6 +352,87 @@ const LOGGER_MODULE = declareModule<LoggerModule>({
 
 const APP_MODULE = declareModuleBindings([LOGGER_MODULE, DATABASE_MODULE]);
 ```
+
+## API Reference
+
+- Tokens
+
+  - token<T>(options?: { key?: string; description?: string } | string):
+    Token<T>
+    - Creates a new binding token. Use `key` to create shareable tokens via
+      `Symbol.for(key)`; otherwise a descriptive `Symbol(description)` is
+      created
+  - optional<T>(token: Token<T>, optionalValue?: T): OptionalToken<T |
+    undefined>
+    - Marks the token as optional and provides a default value for resolution
+      when not bound
+  - Types: Token<T>, RequiredToken<T>, OptionalToken<T>
+
+- Container
+
+  - createContainer(parent?: Container | ReadonlyArray<Container>): Container
+    - Creates a new container optionally linked to one or more parents; parents
+      are queried left-to-right
+  - class ResolverError extends Error
+    - Thrown by `resolve()` when a token is not found and no optional default
+      exists
+  - type FactoryScope = 'scoped' | 'singleton' | 'transient'
+  - type FactoryOptions<T>
+    - For 'scoped' | 'singleton': { scope?: 'scoped' | 'singleton'; onRemoved?:
+      (value: T) => void }
+    - For 'transient': { scope: 'transient' }
+  - type Container API
+    - bindValue<T>(token: Token<T>, value: T): void — bind a concrete value
+    - bindFactory<T>(token: Token<T>, factory: (container: Container) => T,
+      options?: FactoryOptions<T>): void — bind a factory with lifetime options
+    - hasToken(token: Token<unknown>): boolean — check token presence in
+      hierarchy
+    - get<T>(token: Token<T>): T | undefined — try resolve or return undefined;
+      optional tokens return their default
+    - resolve<T>(token: Token<T>): T — resolve or throw ResolverError; optional
+      tokens return their default
+    - remove<T>(token: Token<T>): void — remove binding; for scoped/singleton
+      factories calls `onRemoved` if provided
+    - removeAll(): void — remove all bindings and call `onRemoved` for
+      applicable factories
+
+- Utilities
+
+  - isToken<T>(value: unknown): value is Token<T> — checks if a value looks like
+    a token
+  - bindMultiValue<T>(container: Container, token: Token<ReadonlyArray<T>>,
+    value: T): void — appends a value to an array token
+  - tryResolveValue(container: Container, tokenOrMap): value | object — resolves
+    or returns undefined for missing tokens; supports an object map of tokens
+  - tryResolveValues(container: Container, ...tokenOrMaps): array — batched
+    variant of tryResolveValue
+  - resolveValue(container: Container, tokenOrMap): value | object — resolves or
+    throws on missing tokens; supports an object map of tokens
+  - resolveValues(container: Container, ...tokenOrMaps): array — batched variant
+    of resolveValue
+  - injectable(factory, ...tokens): (container: Container) => Result — decorates
+    a factory to receive resolved values as arguments
+  - injectableClass(Class, ...tokens): (container: Container) => Instance —
+    decorates a class constructor to receive resolved values
+
+- Modules
+  - Types
+    - Module<Props = {}> — a module object: exported values plus optional
+      destroy(): void
+    - ModuleDeclaration<T extends Module> — declarative description of a module
+    - BindModuleOptions — { scope?: 'scoped' | 'singleton' }
+    - ModuleBindingEntry — ModuleDeclaration or { module, options }
+  - bindModule(container: Container, module: ModuleDeclaration<T>, options?:
+    BindModuleOptions): void
+    - Binds a module; exported values are bound via factories; module factory
+      respects scope; calls destroy() and removes exports on unbind
+  - bindModules(container: Container, modules:
+    ReadonlyArray<ModuleBindingEntry>): void — binds multiple modules
+  - declareModule(declaration): ModuleDeclaration<T>
+    - Creates a module declaration; generates a token if not provided
+  - declareModuleBindings(modules: ReadonlyArray<ModuleBindingEntry>):
+    ModuleDeclaration<Module>
+    - Declares an anonymous module that binds the provided modules
 
 ---
 

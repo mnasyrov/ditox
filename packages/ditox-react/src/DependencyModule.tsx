@@ -9,7 +9,7 @@ import {
 /**
  * Binds the module to a new dependency container.
  *
- * If a parent container is exist, it is connected to the current one by default.
+ * If a parent container exists, it is connected to the current one by default.
  *
  * @param params.module - Module declaration for binding
  * @param params.scope - Optional scope for binding: `singleton` (default) or `scoped`.

@@ -19,8 +19,8 @@ export const DependencyContainerContext = createContext<Container | undefined>(
 export type DependencyContainerBinder = (container: Container) => unknown;
 
 /**
- * Specifies an existed container or options for a new container:
- * @property binder - A callback which setup bindings to the container.
+ * Specifies options for a new container:
+ * @property binder - A callback which sets up bindings for the container.
  * @property root - If `true` then a new container does not depend on any parent containers
  */
 export type DependencyContainerParams = {
@@ -32,16 +32,16 @@ export type DependencyContainerParams = {
 /**
  * Provides a new dependency container to React app
  *
- * This component creates a new container and provides it down to React children.
+ * This component creates a new container and provides it to React children.
  *
- * If `binder` callback is specified, it will be called for a new container
- * to binds it with dependencies.
+ * If a `binder` callback is specified, it will be called for the new container
+ * to bind it with dependencies.
  *
- * If a parent container is exist, it is connected to the current one by default.
- * For making a new root container specify `root` parameter as `true`,
+ * If a parent container exists, it is connected to the current one by default.
+ * To create a root container specify `root` parameter as `true`,
  * and the container will not depend on any parent container.
  *
- * @param params.binder - A callback which setup bindings to the container.
+ * @param params.binder - A callback which sets up bindings for the container.
  * @param params.root - If `true` then a new container does not depend on any parent containers
  *
  * @example
