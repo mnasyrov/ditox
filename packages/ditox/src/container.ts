@@ -79,6 +79,12 @@ export type Container = {
   removeAll(): void;
 };
 
+/**
+ * A subset of Container interface that provides read-only access to dependency resolution.
+ * This type is used for parent containers to allow token resolution without exposing mutation methods.
+ */
+export type ContainerResolver = Pick<Container, 'hasToken' | 'get' | 'resolve'>;
+
 /** @internal */
 export const CONTAINER: Token<Container> = token('ditox.Container');
 /** @internal */
@@ -143,9 +149,9 @@ function isInternalToken<T>(token: Token<T>): boolean {
  * @param parentArg - Optional parent container or an array of containers.
  */
 export function createContainer(
-  parentArg?: Container | ReadonlyArray<Container>,
+  parentArg?: ContainerResolver | ReadonlyArray<ContainerResolver>,
 ): Container {
-  const parents: ReadonlyArray<Container> | undefined = parentArg
+  const parents: ReadonlyArray<ContainerResolver> | undefined = parentArg
     ? Array.isArray(parentArg)
       ? [...parentArg]
       : [parentArg]
@@ -324,7 +330,7 @@ export function createContainer(
 }
 
 function parentContainersHaveToken<T>(
-  parents: ReadonlyArray<Container> | undefined,
+  parents: ReadonlyArray<ContainerResolver> | undefined,
   token: Token<T>,
 ): boolean {
   if (!parents) return false;
@@ -339,7 +345,7 @@ function parentContainersHaveToken<T>(
 }
 
 function parentContainersResolveToken<T>(
-  parents: ReadonlyArray<Container>,
+  parents: ReadonlyArray<ContainerResolver>,
   token: Token<T>,
   origin: Container,
 ): T | typeof NOT_FOUND {

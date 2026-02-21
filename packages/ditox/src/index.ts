@@ -2,7 +2,12 @@ export {token, optional} from './tokens';
 export type {RequiredToken, OptionalToken, Token} from './tokens';
 
 export {ResolverError, createContainer} from './container';
-export type {FactoryScope, FactoryOptions, Container} from './container';
+export type {
+  FactoryScope,
+  FactoryOptions,
+  Container,
+  ContainerResolver,
+} from './container';
 
 export {
   isToken,
