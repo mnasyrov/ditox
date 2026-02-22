@@ -30,14 +30,14 @@
   "type": "module",
   "scripts": {
     "prepare": "husky install",
-    "clean": "npm run -ws clean && rm -rf build coverage docs/api dist",
+    "clean": "npm run --workspaces clean && rm -rf build coverage docs/api dist",
     "lint": "npm run lint:eslint && npm run lint:tsc",
     "lint:eslint": "eslint \"packages/*/{src,test*}/**\"",
     "lint:tsc": "tsc --noEmit --jsx react",
     "test": "jest",
-    "build": "npm run -ws build",
+    "build": "npm run --workspaces build",
     "build-docs": "npm run build && typedoc",
-    "pack": "npm run build && mkdir -p dist && npm exec -ws -c 'npm pack --pack-destination ../../dist'",
+    "pack": "npm run build && mkdir -p dist && npm exec --workspaces -c 'npm pack --pack-destination ../../dist'",
     "preversion": "npm run build && npm run lint && npm run test && git add --all",
     "release-version": "lerna version --no-push",
     "release-publish": "lerna publish from-git"
