@@ -5,6 +5,7 @@ import {
   declareModule,
   declareModuleBindings,
   Module,
+  ModuleBindingEntry,
   ModuleDeclaration,
 } from './modules';
 import {token} from './tokens';
@@ -84,6 +85,139 @@ describe('bindModule()', () => {
 
     expect(container.resolve(token1)).toBe('foo');
     expect(container.resolve(token2)).toBe(10);
+  });
+
+  it('should support "eager" strategy', () => {
+    const container = createContainer();
+    const factory = jest.fn(() => ({}));
+
+    const MODULE = declareModule({
+      factory,
+      strategy: 'eager',
+    });
+
+    bindModule(container, MODULE);
+    expect(factory).toBeCalledTimes(1);
+  });
+
+  it('should support "lazy" strategy by default', () => {
+    const container = createContainer();
+    const factory = jest.fn(() => ({}));
+
+    const MODULE = declareModule({
+      factory,
+    });
+
+    bindModule(container, MODULE);
+    expect(factory).toBeCalledTimes(0);
+
+    container.resolve(MODULE.token);
+    expect(factory).toBeCalledTimes(1);
+  });
+
+  it('should support "eager" strategy in imports', () => {
+    const container = createContainer();
+    const factory1 = jest.fn(() => ({}));
+    const factory2 = jest.fn(() => ({}));
+
+    const MODULE1 = declareModule({
+      factory: factory1,
+      strategy: 'eager',
+    });
+
+    const MODULE2 = declareModule({
+      factory: factory2,
+      imports: [MODULE1],
+    });
+
+    bindModule(container, MODULE2);
+    expect(factory1).toBeCalledTimes(1);
+    expect(factory2).toBeCalledTimes(0);
+  });
+
+  it('should throw an error during binding if "eager" factory fails', () => {
+    const container = createContainer();
+    const error = new Error('Eager factory failed');
+    const factory = jest.fn(() => {
+      throw error;
+    });
+
+    const MODULE = declareModule({
+      factory,
+      strategy: 'eager',
+    });
+
+    expect(() => bindModule(container, MODULE)).toThrow(error);
+  });
+
+  it('should throw an error during binding if imported "eager" factory fails', () => {
+    const container = createContainer();
+    const error = new Error('Eager factory failed');
+    const factory1 = jest.fn(() => {
+      throw error;
+    });
+
+    const MODULE1 = declareModule({
+      factory: factory1,
+      strategy: 'eager',
+    });
+
+    const MODULE2 = declareModule({
+      factory: () => ({}),
+      imports: [MODULE1],
+    });
+
+    expect(() => bindModule(container, MODULE2)).toThrow(error);
+  });
+
+  it('should execute "eager" factories in reverse BFS order', () => {
+    const route: string[] = [];
+
+    const declareEagerModule = (id: string, imports?: ModuleBindingEntry[]) =>
+      declareModule({
+        imports,
+        strategy: 'eager',
+        factory: () => {
+          route.push(id);
+          return {};
+        },
+      });
+
+    /**
+     * Structure:
+     *       m1
+     *     / | \
+     *   m2 m3 m4
+     *
+     * BFS order: m1, m2, m3, m4
+     * Expected execution order (reverse): m4, m3, m2, m1
+     */
+    const m4 = declareEagerModule('m4');
+    const m3 = declareEagerModule('m3');
+    const m2 = declareEagerModule('m2');
+    const m1 = declareEagerModule('m1', [m2, m3, m4]);
+
+    const container = createContainer();
+    bindModule(container, m1);
+
+    expect(route).toEqual(['m4', 'm3', 'm2', 'm1']);
+  });
+
+  it('should throw an error during resolution if "lazy" factory fails', () => {
+    const container = createContainer();
+    const error = new Error('Lazy factory failed');
+    const factory = jest.fn(() => {
+      throw error;
+    });
+
+    const MODULE = declareModule({
+      factory,
+    });
+
+    bindModule(container, MODULE);
+    expect(factory).toBeCalledTimes(0);
+
+    expect(() => container.resolve(MODULE.token)).toThrow(error);
   });
 
   it('should bind the module as singleton by default', () => {

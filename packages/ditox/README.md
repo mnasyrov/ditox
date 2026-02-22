@@ -293,6 +293,14 @@ Dependencies can be organized as modules in declarative way with
 `ModuleDeclaration`. It is useful for providing pieces of functionality from
 libraries to an app which depends on them.
 
+The `strategy` field determines when the module's factory is executed:
+
+- `lazy` (**default**): The factory is called only when the module or its
+  exported tokens are first resolved.
+- `eager`: The factory is called immediately after the module is bound to the
+  container. This is useful for modules that need to initialize listeners or
+  start background processes right away.
+
 ```typescript
 import {Module, ModuleDeclaration, token} from 'ditox';
 import {TRANSPORT_TOKEN} from './transport';
@@ -307,6 +315,9 @@ const LOGGER_MODULE_TOKEN = token<LoggerModule>();
 const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
   // An optional explicit token for a module itself
   token: LOGGER_MODULE_TOKEN,
+
+  // Use "eager" strategy to initialize the module immediately after binding
+  strategy: 'eager',
 
   factory: (container) => {
     const transport = container.resolve(TRANSPORT_TOKEN).open();
@@ -419,7 +430,14 @@ const APP_MODULE = declareModuleBindings([LOGGER_MODULE, DATABASE_MODULE]);
   - Types
     - Module<Props = {}> — a module object: exported values plus optional
       destroy(): void
-    - ModuleDeclaration<T extends Module> — declarative description of a module
+    - ModuleDeclaration<T extends Module> — declarative description of a module:
+      - token: Token<T> — required token
+      - imports?: ReadonlyArray<ModuleBindingEntry> — optional imports
+      - factory: (container: Container) => T — factory function
+      - exports?: Dictionary — optional exported tokens
+      - beforeBinding?: (container: Container) => void — optional callback
+      - afterBinding?: (container: Container) => void — optional callback
+      - strategy?: 'eager' | 'lazy' — execution strategy (default: 'lazy')
     - BindModuleOptions — { scope?: 'scoped' | 'singleton' }
     - ModuleBindingEntry — ModuleDeclaration or { module, options }
   - bindModule(container: Container, module: ModuleDeclaration<T>, options?:

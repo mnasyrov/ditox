@@ -65,6 +65,13 @@ export type ModuleDeclaration<T extends Module<AnyObject>> = {
 
   /** Callback could be used to export complex dependencies from the module. It is called after binding the module.  */
   afterBinding?: (container: Container) => void;
+
+  /**
+   * Strategy for executing the factory:
+   *   - `lazy` - **This is the default**. The factory is called when the module is resolved.
+   *   - `eager` - The factory is called immediately after the module is bound to the container.
+   */
+  strategy?: 'eager' | 'lazy';
 };
 
 export type AnyModuleDeclaration = ModuleDeclaration<Module<AnyObject>>;
@@ -144,6 +151,14 @@ export function bindModule<T extends Module<AnyObject>>(
     const entry = bfsQueue[i];
     const m = 'module' in entry ? entry.module : entry;
     m.afterBinding?.(container);
+  }
+
+  for (let i = bfsQueue.length - 1; i >= 0; i--) {
+    const entry = bfsQueue[i];
+    const m = 'module' in entry ? entry.module : entry;
+    if (m.strategy === 'eager') {
+      container.resolve(m.token);
+    }
   }
 }
 
@@ -244,6 +259,8 @@ export function declareModule<T extends Module<AnyObject>>(
 }
 
 /**
+ * @deprecated Use `declareModule` instead
+ *
  * Declares bindings of several modules
  *
  * @param modules - module declaration entries
