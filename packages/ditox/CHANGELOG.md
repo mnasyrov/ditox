@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/mnasyrov/ditox/compare/v3.1.0...v3.2.0) (2026-02-22)
+
+### Features
+
+- Introduce `ContainerResolver` type for read-only dependency resolution in
+  parent containers
+  ([cf83a68](https://github.com/mnasyrov/ditox/commit/cf83a686855e65387388b79e0c1581414b31a192))
+
+# Change Log
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 # [3.1.0](https://github.com/mnasyrov/ditox/compare/v3.0.1...v3.1.0) (2025-08-22)
 
 ### Features
