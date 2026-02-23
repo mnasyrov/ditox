@@ -20,11 +20,12 @@ You can use the following command to install this package:
 npm install --save ditox
 ```
 
-The package can be used as [UMD](https://github.com/umdjs/umd) module. Use
+The package can be used as an [UMD](https://github.com/umdjs/umd) module. Use
 [jsdelivr.com](https://jsdelivr.com) CDN site to load
 [ditox](https://www.jsdelivr.com/package/npm/ditox):
 
 ```html
+
 <script src="//cdn.jsdelivr.net/npm/ditox/dist/umd/index.js"></script>
 <script>
   const container = Ditox.createContainer();
@@ -33,8 +34,8 @@ The package can be used as [UMD](https://github.com/umdjs/umd) module. Use
 
 ## General description
 
-DI pattern in general allows to declare and construct a code graph of an
-application. It can be described by following phases:
+DI pattern in general allows declaring and construct a code graph of an
+application. It can be described by the following phases:
 
 1. Code declaration phase:
 
@@ -59,15 +60,18 @@ Diagram:
 ## Usage Example
 
 ```js
-import {createContainer, injectable, optional, token} from 'ditox';
+import { createContainer, injectable, optional, token } from 'ditox';
 
 // This is app code, some factory functions and classes:
-function createStorage(config) {}
+function createStorage(config) {
+}
 
-function createLogger(config) {}
+function createLogger(config) {
+}
 
 class UserService {
-  constructor(storage, logger) {}
+  constructor(storage, logger) {
+  }
 }
 
 // Define tokens for injections.
@@ -76,13 +80,13 @@ const LOGGER_TOKEN = token();
 const USER_SERVICE_TOKEN = token();
 
 // Token can be optional with a default value.
-const STORAGE_CONFIG_TOKEN = optional(token(), {name: 'default storage'});
+const STORAGE_CONFIG_TOKEN = optional(token(), { name: 'default storage' });
 
 // Create the container.
 const container = createContainer();
 
 // Provide a value to the container.
-container.bindValue(STORAGE_CONFIG_TOKEN, {name: 'custom storage'});
+container.bindValue(STORAGE_CONFIG_TOKEN, { name: 'custom storage' });
 
 // Dynamic values are provided by factories.
 
@@ -94,7 +98,7 @@ container.bindFactory(
 );
 
 // A factory can have `transient` lifetime to create a value on each resolving.
-container.bindFactory(LOGGER_TOKEN, createLogger, {scope: 'transient'});
+container.bindFactory(LOGGER_TOKEN, createLogger, { scope: 'transient' });
 
 // A class can be injected by `injectableClass()` which calls its constructor
 // with injected dependencies as arguments.
@@ -134,7 +138,7 @@ Ditox.js supports a "parent-child" hierarchy. If the child container cannot
 resolve a token, it asks the parent container to resolve it:
 
 ```js
-import {createContainer, token} from 'ditox';
+import { createContainer, token } from 'ditox';
 
 const V1_TOKEN = token();
 const V2_TOKEN = token();
@@ -157,7 +161,7 @@ creating a container. During resolution, parents are queried from left to right,
 and the first parent that provides the token wins.
 
 ```js
-import {createContainer, token} from 'ditox';
+import { createContainer, token } from 'ditox';
 
 const VALUE = token();
 
@@ -182,8 +186,8 @@ child2.resolve(VALUE); // 'from-child'
 
 ## Factory Lifetimes
 
-Ditox.js supports managing the lifetime of values which are produced by
-factories. There are the following types:
+Ditox.js supports managing the lifetime of values which factories produce. There
+are the following types:
 
 - `singleton` - **This is the default**. The value is created and cached by the
   most distant parent container which owns the factory function.
@@ -193,11 +197,11 @@ factories. There are the following types:
 
 ### `singleton`
 
-**This is the default scope**. "Singleton" allows to cache a produced value by a
+**This is the default scope**. "Singleton" allows caching a produced value by a
 most distant parent container which registered the factory function:
 
 ```js
-import {createContainer, token} from 'ditox';
+import { createContainer, token } from 'ditox';
 
 const TAG_TOKEN = token();
 const LOGGER_TOKEN = token();
@@ -223,12 +227,12 @@ container2.resolve(LOGGER_TOKEN)('bar'); // [parent] bar
 
 ### `scoped`
 
-"Scoped" lifetime allows to have sub-containers with own instances of some
+"Scoped" lifetime allows having sub-containers with own instances of some
 services which can be disposed. For example, a context during HTTP request
-handling, or other unit of work:
+handling, or another unit of work:
 
 ```js
-import {createContainer, token} from 'ditox';
+import { createContainer, token } from 'ditox';
 
 const TAG_TOKEN = token();
 const LOGGER_TOKEN = token();
@@ -260,7 +264,7 @@ container1.removeAll();
 "Transient" makes the factory produce a new value for each resolution:
 
 ```js
-import {createContainer, token} from 'ditox';
+import { createContainer, token } from 'ditox';
 
 const TAG_TOKEN = token();
 const LOGGER_TOKEN = token();
@@ -302,13 +306,13 @@ The `strategy` field determines when the module's factory is executed:
   start background processes right away.
 
 ```typescript
-import {Module, ModuleDeclaration, token} from 'ditox';
-import {TRANSPORT_TOKEN} from './transport';
+import { Module, ModuleDeclaration, token } from 'ditox';
+import { TRANSPORT_TOKEN } from './transport';
 
-export type Logger = {log: (message: string) => void};
+export type Logger = { log: (message: string) => void };
 export const LOGGER_TOKEN = token<Logger>();
 
-type LoggerModule = Module<{logger: Logger}>;
+type LoggerModule = Module<{ logger: Logger }>;
 
 const LOGGER_MODULE_TOKEN = token<LoggerModule>();
 
@@ -322,7 +326,7 @@ const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
   factory: (container) => {
     const transport = container.resolve(TRANSPORT_TOKEN).open();
     return {
-      logger: {log: (message) => transport.write(message)},
+      logger: { log: (message) => transport.write(message) },
       destroy: () => transport.close(),
     };
   },
@@ -443,7 +447,7 @@ const APP_MODULE = declareModuleBindings([LOGGER_MODULE, DATABASE_MODULE]);
   - bindModule(container: Container, module: ModuleDeclaration<T>, options?:
     BindModuleOptions): void
     - Binds a module; exported values are bound via factories; module factory
-      respects scope; calls destroy() and removes exports on unbind
+      respects scope; calls destroy() and removes exports on unbinding
   - bindModules(container: Container, modules:
     ReadonlyArray<ModuleBindingEntry>): void — binds multiple modules
   - declareModule(declaration): ModuleDeclaration<T>

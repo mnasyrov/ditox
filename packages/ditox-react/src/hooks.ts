@@ -1,6 +1,6 @@
-import {Container, Token} from 'ditox';
-import {useContext, useMemo} from 'react';
-import {DependencyContainerContext} from './DependencyContainer';
+import { Container, Token } from 'ditox';
+import { useContext, useMemo } from 'react';
+import { DependencyContainerContext } from './DependencyContainer';
 
 /**
  * @category Hook

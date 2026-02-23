@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import {
   bindModule,
   createContainer,
@@ -7,12 +7,13 @@ import {
   token,
 } from 'ditox';
 import React from 'react';
-import {CustomDependencyContainer} from './DependencyContainer';
-import {DependencyModule} from './DependencyModule';
-import {useDependency} from './hooks';
+import { describe, expect, it } from 'vitest';
+import { CustomDependencyContainer } from './DependencyContainer';
+import { DependencyModule } from './DependencyModule';
+import { useDependency } from './hooks';
 
 describe('DependencyModule', () => {
-  type TestModule = Module<{value: number}>;
+  type TestModule = Module<{ value: number }>;
 
   const MODULE_TOKEN = token<TestModule>();
   const VALUE_TOKEN = token<number>();
@@ -28,8 +29,8 @@ describe('DependencyModule', () => {
   };
 
   it('should bind a module and its provided values', () => {
-    const {result} = renderHook(() => useDependency(VALUE_TOKEN), {
-      wrapper: ({children}) => (
+    const { result } = renderHook(() => useDependency(VALUE_TOKEN), {
+      wrapper: ({ children }) => (
         <DependencyModule module={MODULE}>{children}</DependencyModule>
       ),
     });
@@ -42,8 +43,8 @@ describe('DependencyModule', () => {
     bindModule(parent, MODULE);
     const parentModule = parent.resolve(MODULE_TOKEN);
 
-    const {result} = renderHook(() => useDependency(MODULE_TOKEN), {
-      wrapper: ({children}) => (
+    const { result } = renderHook(() => useDependency(MODULE_TOKEN), {
+      wrapper: ({ children }) => (
         <CustomDependencyContainer container={parent}>
           <DependencyModule module={MODULE} scope="scoped">
             {children}

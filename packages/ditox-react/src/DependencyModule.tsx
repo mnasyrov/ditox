@@ -1,6 +1,6 @@
-import type {Module, ModuleDeclaration} from 'ditox';
-import {bindModule} from 'ditox';
-import React, {ReactElement, ReactNode, useCallback} from 'react';
+import type { Module, ModuleDeclaration } from 'ditox';
+import { bindModule } from 'ditox';
+import React, { ReactElement, ReactNode, useCallback } from 'react';
 import {
   DependencyContainer,
   DependencyContainerBinder,
@@ -17,7 +17,7 @@ import {
  * @example
  *
  * ```tsx
- * const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {
+ * const LOGGER_MODULE: ModuleDeclaration<LoggerModule> = {};
  *
  * function App() {
  *   return (
@@ -33,10 +33,10 @@ export function DependencyModule(params: {
   module: ModuleDeclaration<Module<Record<string, unknown>>>;
   scope?: 'scoped' | 'singleton';
 }): ReactElement {
-  const {children, module, scope} = params;
+  const { children, module, scope } = params;
 
   const binder: DependencyContainerBinder = useCallback(
-    (container) => bindModule(container, module, {scope}),
+    (container) => bindModule(container, module, { scope }),
     [module, scope],
   );
 

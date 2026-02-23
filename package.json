@@ -3,8 +3,67 @@
   "name": "ditox-root",
   "version": "0.0.0",
   "license": "MIT",
-  "author": "Mikhail Nasyrov <mikhail@mnasyrov.com> (https://github.com/mnasyrov)",
-  "description": "Dependency injection for modular web applications",
+  "author": "Mikhail Nasyrov (https://github.com/mnasyrov)",
+  "description": "Dependency injection for web applications",
+  "homepage": "https://github.com/mnasyrov/ditox",
+  "bugs": "https://github.com/mnasyrov/ditox/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mnasyrov/ditox.git"
+  },
+  "workspaces": ["packages/*"],
+  "type": "module",
+  "scripts": {
+    "prepare": "test -d .git && husky || true",
+    "husky-precommit": "biome check --staged --write --no-errors-on-unmatched",
+    "deps-check": "npx -y npm-check-updates --format 'group,repo,time'",
+    "deps-upgrade": "npm run deps-check -- --upgrade",
+    "clean": "rm -rf build coverage docs/api dist && npm run --workspaces clean",
+    "format": "biome check --write",
+    "check": "npm run check-sources && npm run check-types",
+    "check-sources": "biome check",
+    "check-types": "tsc --noEmit",
+    "test": "vitest --run",
+    "test-watch": "vitest --watch",
+    "test-coverage": "vitest --run --coverage",
+    "build": "npm run --workspaces build",
+    "build-docs": "npm run build && typedoc",
+    "pack": "npm run build && mkdir -p dist && cd dist && npm pack --workspaces",
+    "preversion": "npm run check && npm run build && npm run test && git add --all",
+    "release-version": "lerna version --no-push",
+    "release-publish": "lerna publish from-git"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/core": "0.18.2",
+    "@biomejs/biome": "2.3.15",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@types/react": "19.2.14",
+    "@vitest/coverage-v8": "4.0.18",
+    "happy-dom": "20.6.1",
+    "husky": "9.1.7",
+    "lerna": "9.0.4",
+    "publint": "0.3.17",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-test-renderer": "19.2.4",
+    "rxjs": "7.8.2",
+    "tsdown": "0.20.3",
+    "typedoc": "0.28.17",
+    "typedoc-plugin-extras": "4.0.1",
+    "typedoc-plugin-replace-text": "4.2.0",
+    "typescript": "5.9.3",
+    "vitest": "4.0.18"
+  },
+  "attributions": [
+    {
+      "lemon.svg": [
+        "Vincent Le Moign, CC BY 4.0 <https://creativecommons.org/licenses/by/4.0>, via Wikimedia Commons",
+        "https://commons.wikimedia.org/wiki/File:526-lemon.svg"
+      ]
+    }
+  ],
   "keywords": [
     "dependency container",
     "dependency injection",
@@ -17,72 +76,5 @@
     "module",
     "ioc",
     "di"
-  ],
-  "homepage": "https://github.com/mnasyrov/ditox",
-  "bugs": "https://github.com/mnasyrov/ditox/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mnasyrov/ditox.git"
-  },
-  "workspaces": [
-    "packages/*"
-  ],
-  "type": "module",
-  "scripts": {
-    "prepare": "husky install",
-    "clean": "npm run --workspaces clean && rm -rf build coverage docs/api dist",
-    "lint": "npm run lint:eslint && npm run lint:tsc",
-    "lint:eslint": "eslint \"packages/*/{src,test*}/**\"",
-    "lint:tsc": "tsc --noEmit --jsx react",
-    "test": "jest",
-    "build": "npm run --workspaces build",
-    "build-docs": "npm run build && typedoc",
-    "pack": "npm run build && mkdir -p dist && npm exec --workspaces -c 'npm pack --pack-destination ../../dist'",
-    "preversion": "npm run build && npm run lint && npm run test && git add --all",
-    "release-version": "lerna version --no-push",
-    "release-publish": "lerna publish from-git"
-  },
-  "devDependencies": {
-    "@rollup/plugin-terser": "0.2.1",
-    "@rollup/plugin-typescript": "10.0.1",
-    "@types/jest": "29.2.4",
-    "@typescript-eslint/eslint-plugin": "5.47.0",
-    "@typescript-eslint/parser": "5.47.0",
-    "eslint": "8.30.0",
-    "eslint-plugin-jest": "27.1.7",
-    "eslint-plugin-react-hooks": "4.6.0",
-    "fast-glob": "3.2.12",
-    "husky": "8.0.2",
-    "jest": "29.3.1",
-    "jest-environment-jsdom": "29.3.1",
-    "lerna": "9.0.4",
-    "lint-staged": "13.1.0",
-    "prettier": "2.8.1",
-    "rollup": "3.7.5",
-    "rollup-plugin-dts": "5.0.0",
-    "shx": "0.3.4",
-    "ts-jest": "29.0.3",
-    "typedoc": "0.23.28",
-    "typedoc-plugin-extras": "2.3.2",
-    "typedoc-plugin-replace-text": "2.1.0",
-    "typedoc-plugin-resolve-crossmodule-references": "0.3.3",
-    "typescript": "4.9.4"
-  },
-  "lint-staged": {
-    "{packages,scripts}/**/*.{ts,tsx}": [
-      "eslint --max-warnings 0 --fix",
-      "prettier --write"
-    ],
-    "*.{css,json,md,html,yml}": [
-      "prettier --write"
-    ]
-  },
-  "attributions": [
-    {
-      "lemon.svg": [
-        "Vincent Le Moign, CC BY 4.0 <https://creativecommons.org/licenses/by/4.0>, via Wikimedia Commons",
-        "https://commons.wikimedia.org/wiki/File:526-lemon.svg"
-      ]
-    }
   ]
 }

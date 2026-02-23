@@ -6,11 +6,9 @@ export {
   CustomDependencyContainer,
   DependencyContainer,
 } from './DependencyContainer';
-
+export { DependencyModule } from './DependencyModule';
 export {
-  useDependencyContainer,
   useDependency,
+  useDependencyContainer,
   useOptionalDependency,
 } from './hooks';
-
-export {DependencyModule} from './DependencyModule';

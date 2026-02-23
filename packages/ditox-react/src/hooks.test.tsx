@@ -1,7 +1,8 @@
-import {renderHook} from '@testing-library/react';
-import {createContainer, token} from 'ditox';
+import { renderHook } from '@testing-library/react';
+import { createContainer, token } from 'ditox';
 import React from 'react';
-import {CustomDependencyContainer} from './DependencyContainer';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { CustomDependencyContainer } from './DependencyContainer';
 import {
   useDependency,
   useDependencyContainer,
@@ -9,15 +10,15 @@ import {
 } from './hooks';
 
 beforeAll(() => {
-  jest.spyOn(console, 'error').mockImplementation();
+  vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 
 describe('useDependencyContainer()', () => {
   it('should return a provided container in "strict" mode', () => {
     const container = createContainer();
 
-    const {result} = renderHook(() => useDependencyContainer('strict'), {
-      wrapper: ({children}) => (
+    const { result } = renderHook(() => useDependencyContainer('strict'), {
+      wrapper: ({ children }) => (
         <CustomDependencyContainer container={container}>
           {children}
         </CustomDependencyContainer>
@@ -36,8 +37,8 @@ describe('useDependencyContainer()', () => {
   it('should return a provided container in "optional" mode', () => {
     const container = createContainer();
 
-    const {result} = renderHook(() => useDependencyContainer(), {
-      wrapper: ({children}) => (
+    const { result } = renderHook(() => useDependencyContainer(), {
+      wrapper: ({ children }) => (
         <CustomDependencyContainer container={container}>
           {children}
         </CustomDependencyContainer>
@@ -48,7 +49,7 @@ describe('useDependencyContainer()', () => {
   });
 
   it('should return "undefined" in "optional" mode in case a container is not provided', () => {
-    const {result} = renderHook(() => useDependencyContainer());
+    const { result } = renderHook(() => useDependencyContainer());
     expect(result.current).toBeUndefined();
   });
 });
@@ -59,8 +60,8 @@ describe('useDependency()', () => {
     const container = createContainer();
     container.bindValue(TOKEN, 'value');
 
-    const {result} = renderHook(() => useDependency(TOKEN), {
-      wrapper: ({children}) => (
+    const { result } = renderHook(() => useDependency(TOKEN), {
+      wrapper: ({ children }) => (
         <CustomDependencyContainer container={container}>
           {children}
         </CustomDependencyContainer>
@@ -84,7 +85,7 @@ describe('useDependency()', () => {
 
     expect(() => {
       renderHook(() => useDependency(TOKEN), {
-        wrapper: ({children}) => (
+        wrapper: ({ children }) => (
           <CustomDependencyContainer container={container}>
             {children}
           </CustomDependencyContainer>
@@ -100,8 +101,8 @@ describe('useOptionalDependency()', () => {
     const container = createContainer();
     container.bindValue(TOKEN, 'value');
 
-    const {result} = renderHook(() => useOptionalDependency(TOKEN), {
-      wrapper: ({children}) => (
+    const { result } = renderHook(() => useOptionalDependency(TOKEN), {
+      wrapper: ({ children }) => (
         <CustomDependencyContainer container={container}>
           {children}
         </CustomDependencyContainer>
@@ -114,7 +115,7 @@ describe('useOptionalDependency()', () => {
   it('should return "undefined" in case a container is not provided', () => {
     const TOKEN = token('token');
 
-    const {result} = renderHook(() => useOptionalDependency(TOKEN));
+    const { result } = renderHook(() => useOptionalDependency(TOKEN));
 
     expect(result.current).toBeUndefined();
   });
@@ -123,8 +124,8 @@ describe('useOptionalDependency()', () => {
     const TOKEN = token('token');
     const container = createContainer();
 
-    const {result} = renderHook(() => useOptionalDependency(TOKEN), {
-      wrapper: ({children}) => (
+    const { result } = renderHook(() => useOptionalDependency(TOKEN), {
+      wrapper: ({ children }) => (
         <CustomDependencyContainer container={container}>
           {children}
         </CustomDependencyContainer>

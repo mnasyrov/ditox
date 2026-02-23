@@ -1,6 +1,6 @@
-import {Container} from './container';
-import {Token, token} from './tokens';
-import {injectable} from './utils';
+import { Container } from './container';
+import { Token, token } from './tokens';
+import { injectable } from './utils';
 
 type AnyObject = Record<string, any>;
 type EmptyObject = Record<string, never>;
@@ -191,7 +191,7 @@ function bindModuleEntry(
         container.bindFactory(
           valueToken,
           injectable((module) => module[valueKey], module.token),
-          {scope},
+          { scope },
         );
       }
     });
@@ -255,7 +255,7 @@ export function declareModule<T extends Module<AnyObject>>(
   declaration: Omit<ModuleDeclaration<T>, 'token'> &
     Partial<Pick<ModuleDeclaration<T>, 'token'>>,
 ): ModuleDeclaration<T> {
-  return {...declaration, token: declaration.token ?? token()};
+  return { ...declaration, token: declaration.token ?? token() };
 }
 
 /**

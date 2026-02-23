@@ -1,10 +1,11 @@
-import {optional, token} from './tokens';
+import { describe, expect, it } from 'vitest';
+import { optional, token } from './tokens';
 
 describe('token()', () => {
   it('should return a token with description it is specified', () => {
     expect(token().symbol.description).toBeUndefined();
     expect(token('text1').symbol.description).toBe('text1');
-    expect(token({description: 'text2'}).symbol.description).toBe('text2');
+    expect(token({ description: 'text2' }).symbol.description).toBe('text2');
   });
 
   it('should return independent tokens if key is not specified', () => {
@@ -17,9 +18,9 @@ describe('token()', () => {
   });
 
   it('should return tokens with the same symbol if key is specified', () => {
-    const source = token({key: 'test-token'});
-    const clone = token({key: 'test-token'});
-    const something = token({key: 'something-else'});
+    const source = token({ key: 'test-token' });
+    const clone = token({ key: 'test-token' });
+    const something = token({ key: 'something-else' });
 
     expect(source).not.toBe(clone);
     expect(source.symbol).toBe(clone.symbol);
@@ -44,9 +45,9 @@ describe('optional()', () => {
     expect(o2.optionalValue).toBe(-1);
   });
 
-  it('should reuse symbol from a source token ifits key is specified', () => {
-    const source = token({key: 'token-key'});
-    const clone = token({key: 'token-key'});
+  it('should reuse symbol from a source token if its key is specified', () => {
+    const source = token({ key: 'token-key' });
+    const clone = token({ key: 'token-key' });
     const optClone = optional(clone);
 
     expect(optClone.symbol).toBe(source.symbol);

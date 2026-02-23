@@ -1,20 +1,17 @@
-/**
- * @jest-environment jsdom
- */
-
-import {render, renderHook} from '@testing-library/react';
-import {Container, createContainer, Token, token} from 'ditox';
-import React, {useEffect} from 'react';
+import { render, renderHook } from '@testing-library/react';
+import { Container, createContainer, Token, token } from 'ditox';
+import React, { useEffect } from 'react';
+import { describe, expect, it, Mock, vi } from 'vitest';
 import {
   CustomDependencyContainer,
   DependencyContainer,
 } from './DependencyContainer';
-import {useDependencyContainer} from './hooks';
+import { useDependencyContainer } from './hooks';
 
 describe('DependencyContainer', () => {
   it('should provide a new container', () => {
-    const {result} = renderHook(useDependencyContainer, {
-      wrapper: ({children}) => (
+    const { result } = renderHook(useDependencyContainer, {
+      wrapper: ({ children }) => (
         <DependencyContainer>{children}</DependencyContainer>
       ),
     });
@@ -33,8 +30,8 @@ describe('DependencyContainer', () => {
       container.bindValue(BAR, 'bar');
     };
 
-    const {result} = renderHook(() => useDependencyContainer('strict'), {
-      wrapper: ({children}) => (
+    const { result } = renderHook(() => useDependencyContainer('strict'), {
+      wrapper: ({ children }) => (
         <CustomDependencyContainer container={parentContainer}>
           <DependencyContainer binder={binder}>{children}</DependencyContainer>
         </CustomDependencyContainer>
@@ -56,8 +53,8 @@ describe('DependencyContainer', () => {
       container.bindValue(BAR, 'bar');
     };
 
-    const {result} = renderHook(() => useDependencyContainer('strict'), {
-      wrapper: ({children}) => (
+    const { result } = renderHook(() => useDependencyContainer('strict'), {
+      wrapper: ({ children }) => (
         <CustomDependencyContainer container={parentContainer}>
           <DependencyContainer root binder={binder}>
             {children}
@@ -82,7 +79,7 @@ describe('DependencyContainer', () => {
     const [FooMonitor, fooCallback] = createMonitor(FOO);
     const [BarMonitor, barCallback] = createMonitor(BAR);
 
-    const {rerender} = render(
+    const { rerender } = render(
       <CustomDependencyContainer container={parentContainer}>
         <DependencyContainer root={false} binder={binder}>
           <FooMonitor />
@@ -126,7 +123,7 @@ describe('DependencyContainer', () => {
     const [FooMonitor, fooCallback] = createMonitor(FOO);
     const [BarMonitor, barCallback] = createMonitor(BAR);
 
-    const {rerender} = render(
+    const { rerender } = render(
       <CustomDependencyContainer container={parentContainer}>
         <DependencyContainer root={true} binder={binder}>
           <FooMonitor />
@@ -163,8 +160,8 @@ describe('DependencyContainer', () => {
 
     const binder = (container: Container) => container.bindValue(FOO, 'foo');
 
-    const {result} = renderHook(() => useDependencyContainer('strict'), {
-      wrapper: ({children}) => (
+    const { result } = renderHook(() => useDependencyContainer('strict'), {
+      wrapper: ({ children }) => (
         <DependencyContainer binder={binder}>{children}</DependencyContainer>
       ),
     });
@@ -175,17 +172,17 @@ describe('DependencyContainer', () => {
   it('should remove all bindings from a previous container in case "binder" is changed', () => {
     const FOO = token('FOO');
 
-    const removeHandler1 = jest.fn();
+    const removeHandler1 = vi.fn();
     const binder1 = (container: Container) =>
-      container.bindFactory(FOO, () => 'foo1', {onRemoved: removeHandler1});
+      container.bindFactory(FOO, () => 'foo1', { onRemoved: removeHandler1 });
 
-    const removeHandler2 = jest.fn();
+    const removeHandler2 = vi.fn();
     const binder2 = (container: Container) =>
-      container.bindFactory(FOO, () => 'foo2', {onRemoved: removeHandler2});
+      container.bindFactory(FOO, () => 'foo2', { onRemoved: removeHandler2 });
 
     const [Monitor, monitorCallback] = createMonitor(FOO);
 
-    const {rerender} = render(
+    const { rerender } = render(
       <DependencyContainer binder={binder1}>
         <Monitor />
       </DependencyContainer>,
@@ -220,13 +217,13 @@ describe('DependencyContainer', () => {
   it('should remove all bindings from a previous container in case "root" is changed', () => {
     const FOO = token('FOO');
 
-    const removeHandler1 = jest.fn();
+    const removeHandler1 = vi.fn();
     const binder1 = (container: Container) =>
-      container.bindFactory(FOO, () => 'foo1', {onRemoved: removeHandler1});
+      container.bindFactory(FOO, () => 'foo1', { onRemoved: removeHandler1 });
 
     const [Monitor, monitorCallback] = createMonitor(FOO);
 
-    const {rerender} = render(
+    const { rerender } = render(
       <DependencyContainer binder={binder1} root={false}>
         <Monitor />
       </DependencyContainer>,
@@ -261,8 +258,8 @@ describe('CustomDependencyContainer', () => {
     const container = createContainer();
     container.bindValue(FOO, 'foo');
 
-    const {result} = renderHook(useDependencyContainer, {
-      wrapper: ({children}) => (
+    const { result } = renderHook(useDependencyContainer, {
+      wrapper: ({ children }) => (
         <CustomDependencyContainer container={container}>
           {children}
         </CustomDependencyContainer>
@@ -275,17 +272,17 @@ describe('CustomDependencyContainer', () => {
   it('should not clean a custom container on rerender or unmount', () => {
     const FOO = token('FOO');
 
-    const removeHandler1 = jest.fn();
+    const removeHandler1 = vi.fn();
     const container1 = createContainer();
-    container1.bindFactory(FOO, () => 'foo1', {onRemoved: removeHandler1});
+    container1.bindFactory(FOO, () => 'foo1', { onRemoved: removeHandler1 });
 
-    const removeHandler2 = jest.fn();
+    const removeHandler2 = vi.fn();
     const container2 = createContainer();
-    container2.bindFactory(FOO, () => 'foo2', {onRemoved: removeHandler2});
+    container2.bindFactory(FOO, () => 'foo2', { onRemoved: removeHandler2 });
 
     const [Monitor, monitorCallback] = createMonitor(FOO);
 
-    const {rerender} = render(
+    const { rerender } = render(
       <CustomDependencyContainer container={container1}>
         <Monitor />
       </CustomDependencyContainer>,
@@ -307,8 +304,8 @@ describe('CustomDependencyContainer', () => {
   });
 });
 
-function createMonitor<T>(token: Token<T>): [() => null, jest.Mock] {
-  const callback = jest.fn();
+function createMonitor<T>(token: Token<T>): [() => null, Mock] {
+  const callback = vi.fn();
 
   const Monitor = () => {
     const container = useDependencyContainer();

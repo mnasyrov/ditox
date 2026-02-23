@@ -349,7 +349,7 @@ for commit guidelines.
 
 ### Bug Fixes
 
-- "onUnbind" is available for "singlenton" scope only. Added tests.
+- "onUnbind" is available for "singleton" scope only. Added tests.
   ([0953379](https://github.com/mnasyrov/ditox/commit/0953379aaefd25763ecfdb903761d1e1b5fd8e01))
 
 ### Features

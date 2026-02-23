@@ -1,7 +1,7 @@
-import type {Container} from './container';
-import {Token} from './tokens';
+import type { Container } from './container';
+import { Token } from './tokens';
 
-type ValuesProps = {[key: string]: unknown};
+type ValuesProps = { [key: string]: unknown };
 type TokenProps<Props extends ValuesProps> = {
   [K in keyof Props]: Token<Props[K]>;
 };
@@ -53,12 +53,12 @@ export function bindMultiValue<T>(
  * ```
  */
 export function tryResolveValue<
-  Tokens extends Token<unknown> | {[key: string]: Token<unknown>},
+  Tokens extends Token<unknown> | { [key: string]: Token<unknown> },
   Values extends Tokens extends Token<infer V>
     ? V | undefined
     : Tokens extends TokenProps<infer Props>
-    ? Partial<Props>
-    : never,
+      ? Partial<Props>
+      : never,
 >(container: Container, token: Tokens): Values {
   if (isToken(token)) {
     return container.get(token) as Values;
@@ -87,13 +87,13 @@ export function tryResolveValue<
  * ```
  */
 export function tryResolveValues<
-  Tokens extends (Token<unknown> | {[key: string]: Token<unknown>})[],
+  Tokens extends (Token<unknown> | { [key: string]: Token<unknown> })[],
   Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V>
       ? V | undefined
       : Tokens[K] extends TokenProps<infer Props>
-      ? Partial<Props>
-      : never;
+        ? Partial<Props>
+        : never;
   },
 >(container: Container, ...tokens: Tokens): Values {
   return tokens.map((item) => tryResolveValue(container, item)) as Values;
@@ -117,12 +117,12 @@ export function tryResolveValues<
  * ```
  */
 export function resolveValue<
-  Tokens extends Token<unknown> | {[key: string]: Token<unknown>},
+  Tokens extends Token<unknown> | { [key: string]: Token<unknown> },
   Values extends Tokens extends Token<infer V>
     ? V
     : Tokens extends TokenProps<infer Props>
-    ? Props
-    : never,
+      ? Props
+      : never,
 >(container: Container, token: Tokens): Values {
   if (isToken(token)) {
     return container.resolve(token) as Values;
@@ -153,13 +153,13 @@ export function resolveValue<
  * ```
  */
 export function resolveValues<
-  Tokens extends (Token<unknown> | {[key: string]: Token<unknown>})[],
+  Tokens extends (Token<unknown> | { [key: string]: Token<unknown> })[],
   Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V>
       ? V
       : Tokens[K] extends TokenProps<infer Props>
-      ? Props
-      : never;
+        ? Props
+        : never;
   },
 >(container: Container, ...tokens: Tokens): Values {
   return tokens.map((item) => resolveValue(container, item)) as Values;
@@ -177,13 +177,13 @@ export function resolveValues<
  * @return Decorated factory which takes a dependency container as a single argument.
  */
 export function injectable<
-  Tokens extends (Token<unknown> | {[key: string]: Token<unknown>})[],
+  Tokens extends (Token<unknown> | { [key: string]: Token<unknown> })[],
   Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V>
       ? V
       : Tokens[K] extends TokenProps<infer Props>
-      ? Props
-      : never;
+        ? Props
+        : never;
   },
   Result,
 >(
@@ -210,13 +210,13 @@ export function injectable<
  * and returns a new created class.
  */
 export function injectableClass<
-  Tokens extends (Token<unknown> | {[key: string]: Token<unknown>})[],
+  Tokens extends (Token<unknown> | { [key: string]: Token<unknown> })[],
   Values extends {
     [K in keyof Tokens]: Tokens[K] extends Token<infer V>
       ? V
       : Tokens[K] extends TokenProps<infer Props>
-      ? Props
-      : never;
+        ? Props
+        : never;
   },
   Result,
 >(

@@ -1,14 +1,14 @@
 {
   "name": "ditox",
   "version": "3.2.0",
-  "description": "Dependency injection for modular web applications",
+  "description": "Dependency injection for web applications",
   "license": "MIT",
   "author": "Mikhail Nasyrov <mikhail@mnasyrov.com> (https://github.com/mnasyrov)",
   "homepage": "https://github.com/mnasyrov/ditox",
   "bugs": "https://github.com/mnasyrov/ditox/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mnasyrov/ditox.git"
+    "url": "git+https://github.com/mnasyrov/ditox.git"
   },
   "keywords": [
     "dependency container",
@@ -26,29 +26,26 @@
   "engines": {
     "node": ">=12"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "jsnext:main": "dist/esm/index.js",
-  "unpkg": "dist/umd/index.js",
-  "umd:main": "dist/umd/index.js",
-  "browser": "dist/browser/index.js",
-  "react-native": "dist/browser/index.js",
-  "types": "dist/esm/index.d.ts",
+  "files": ["dist", "docs", "src", "LICENSE", "README.md"],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "unpkg": "dist/index.umd.js",
+  "umd:main": "dist/index.umd.js",
+  "browser": "dist/index.js",
+  "react-native": "dist/index.js",
+  "types": "./dist/index.d.cts",
   "source": "src/index.ts",
-  "sideEffects": false,
-  "files": [
-    "dist",
-    "docs",
-    "src",
-    "LICENSE",
-    "README.md"
-  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
-    "clean": "shx rm -rf dist lib",
-    "build": "npm run build:cjs && npm run build:esm && npm run build:rollup",
-    "build:cjs": "tsc -p tsconfig.build.json --outDir dist/cjs --module commonjs",
-    "build:esm": "tsc -p tsconfig.build.json --outDir dist/esm --module es2015",
-    "build:rollup": "rollup -c",
+    "clean": "rm -rf dist lib",
+    "build": "tsdown",
     "typedoc": "typedoc"
   }
 }

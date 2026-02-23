@@ -56,13 +56,13 @@ export function token<T>(description?: string): Token<T>;
  */ export function token<T>(options?: TokenOptions): Token<T>;
 export function token<T>(options?: TokenOptions | string): Token<T> {
   const normalized: TokenOptions | undefined =
-    typeof options === 'string' ? {description: options} : options;
+    typeof options === 'string' ? { description: options } : options;
 
   const symbol: symbol = normalized?.key
     ? Symbol.for(normalized.key)
     : Symbol(normalized?.description);
 
-  return {symbol};
+  return { symbol };
 }
 
 /**

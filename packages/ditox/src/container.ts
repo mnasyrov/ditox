@@ -1,4 +1,4 @@
-import {Token, token} from './tokens';
+import { Token, token } from './tokens';
 
 /**
  * ResolverError is thrown by the resolver when a token is not found in a container.
@@ -178,7 +178,7 @@ export function createContainer(
         return;
       }
 
-      factories.set(token.symbol, {factory, options});
+      factories.set(token.symbol, { factory, options });
     },
 
     remove<T>(token: Token<T>): void {

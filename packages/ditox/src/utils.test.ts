@@ -1,4 +1,6 @@
-import {createContainer, ResolverError} from './container';
+import { describe, expect, it } from 'vitest';
+import { createContainer, ResolverError } from './container';
+import { optional, token } from './tokens';
 import {
   bindMultiValue,
   injectable,
@@ -8,7 +10,6 @@ import {
   tryResolveValue,
   tryResolveValues,
 } from './utils';
-import {optional, token} from './tokens';
 
 const NUMBER = token<number>('number');
 const STRING = token<string>('string');
@@ -60,19 +61,19 @@ describe('tryResolveValue()', () => {
     container.bindValue(NUMBER, 1);
     container.bindValue(STRING, 'abc');
 
-    const props: {a: number; b: string} = tryResolveValue(container, {
+    const props: { a: number; b: string } = tryResolveValue(container, {
       a: NUMBER,
       b: STRING,
     });
-    expect(props).toEqual({a: 1, b: 'abc'});
+    expect(props).toEqual({ a: 1, b: 'abc' });
   });
 
   it('should return "undefined" item in case a value is not provided', () => {
     const container = createContainer();
     container.bindValue(NUMBER, 1);
 
-    const props = tryResolveValue(container, {a: NUMBER, b: STRING});
-    expect(props).toEqual({a: 1, b: undefined});
+    const props = tryResolveValue(container, { a: NUMBER, b: STRING });
+    expect(props).toEqual({ a: 1, b: undefined });
   });
 
   it('should return values of optional tokens in case they are not provided', () => {
@@ -86,7 +87,7 @@ describe('tryResolveValue()', () => {
       b: STRING,
       c: OPTIONAL_STRING,
     });
-    expect(props).toEqual({a: 1, b: undefined, c: 'value'});
+    expect(props).toEqual({ a: 1, b: undefined, c: 'value' });
   });
 });
 
@@ -149,11 +150,11 @@ describe('resolveValue()', () => {
     container.bindValue(NUMBER, 1);
     container.bindValue(STRING, 'abc');
 
-    const props: {a: number; b: string} = resolveValue(container, {
+    const props: { a: number; b: string } = resolveValue(container, {
       a: NUMBER,
       b: STRING,
     });
-    expect(props).toEqual({a: 1, b: 'abc'});
+    expect(props).toEqual({ a: 1, b: 'abc' });
   });
 
   it('should throw an error in case a value is not provided', () => {
@@ -161,7 +162,7 @@ describe('resolveValue()', () => {
     container.bindValue(NUMBER, 1);
 
     expect(() => {
-      resolveValue(container, {a: NUMBER, b: STRING});
+      resolveValue(container, { a: NUMBER, b: STRING });
     }).toThrowError(
       new ResolverError(`Token "${STRING.symbol.description}" is not provided`),
     );
@@ -175,7 +176,7 @@ describe('resolveValue()', () => {
       a: NUMBER,
       b: optional(STRING, 'value'),
     });
-    expect(props).toEqual({a: 1, b: 'value'});
+    expect(props).toEqual({ a: 1, b: 'value' });
   });
 });
 
@@ -224,7 +225,7 @@ describe('resolveValues()', () => {
 });
 
 describe('injectable()', () => {
-  function join({a, b}: {a: number; b: string}): string {
+  function join({ a, b }: { a: number; b: string }): string {
     return `${a}/${b}`;
   }
 
@@ -275,7 +276,7 @@ describe('injectable()', () => {
     container.bindValue(NUMBER, 1);
     container.bindValue(STRING, '2');
 
-    const decoratedFactory = injectable(join, {a: NUMBER, b: STRING});
+    const decoratedFactory = injectable(join, { a: NUMBER, b: STRING });
 
     expect(decoratedFactory(container)).toBe('1/2');
   });
@@ -284,7 +285,7 @@ describe('injectable()', () => {
     const container = createContainer();
     container.bindValue(NUMBER, 1);
 
-    const decoratedFactory = injectable(join, {a: NUMBER, b: STRING});
+    const decoratedFactory = injectable(join, { a: NUMBER, b: STRING });
 
     expect(() => decoratedFactory(container)).toThrowError(
       new ResolverError(`Token "${STRING.symbol.description}" is not provided`),
@@ -359,7 +360,7 @@ describe('injectableClass()', () => {
     a: number;
     b: string;
 
-    constructor(props: {a: number; b: string}) {
+    constructor(props: { a: number; b: string }) {
       this.a = props.a;
       this.b = props.b;
     }
@@ -374,7 +375,7 @@ describe('injectableClass()', () => {
     container.bindValue(NUMBER, 1);
     container.bindValue(STRING, '2');
 
-    const factory = injectableClass(TestClass, {a: NUMBER, b: STRING});
+    const factory = injectableClass(TestClass, { a: NUMBER, b: STRING });
 
     expect(factory(container).join()).toBe('1/2');
   });
@@ -383,7 +384,7 @@ describe('injectableClass()', () => {
     const container = createContainer();
     container.bindValue(NUMBER, 1);
 
-    const factory = injectableClass(TestClass, {a: NUMBER, b: STRING});
+    const factory = injectableClass(TestClass, { a: NUMBER, b: STRING });
 
     expect(() => factory(container)).toThrowError(
       new ResolverError(`Token "${STRING.symbol.description}" is not provided`),
