@@ -11,7 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/mnasyrov/ditox.git"
   },
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "type": "module",
   "scripts": {
     "prepare": "test -d .git && husky || true",
@@ -28,7 +30,7 @@
     "test-coverage": "vitest --run --coverage",
     "build": "npm run --workspaces build",
     "build-docs": "npm run build && typedoc",
-    "pack": "npm run build && mkdir -p dist && cd dist && npm pack --workspaces",
+    "pack": "npm run build && mkdir -p dist && npm pack --workspaces --pack-destination ./dist",
     "preversion": "npm run check && npm run build && npm run test && git add --all",
     "release-version": "lerna version --no-push --no-commit-hooks",
     "release-publish": "lerna publish from-git"

@@ -521,4 +521,22 @@ describe('declareModuleBindings()', () => {
 
     expect(container.get(MODULE_BINDINGS.token)).toEqual({});
   });
+
+  it('should ignore falsy tokens in exports', () => {
+    const container = createContainer();
+
+    const MODULE = declareModule({
+      factory: () => ({
+        valid: 1,
+        invalid: 2,
+      }),
+      exports: {
+        valid: token(),
+        invalid: undefined,
+      } as any,
+    });
+
+    bindModule(container, MODULE);
+    expect(container.get(MODULE.token)).toEqual({ valid: 1, invalid: 2 });
+  });
 });

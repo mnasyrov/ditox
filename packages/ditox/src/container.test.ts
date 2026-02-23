@@ -3,6 +3,7 @@ import {
   CONTAINER,
   createContainer,
   PARENT_CONTAINERS,
+  RESOLVER,
   ResolverError,
 } from './container';
 import { optional, token } from './tokens';
@@ -687,6 +688,21 @@ describe('Container', () => {
       const child = createContainer([p1, p2]);
 
       expect(() => child.resolve(NUMBER)).toThrow(ResolverError);
+    });
+
+    it('should NOT resolve a token from a parent that does NOT provide a RESOLVER token', () => {
+      const T1 = token<number>('T1');
+
+      const customParent = {
+        hasToken: () => true,
+        get: (t: any) => (t === RESOLVER ? undefined : undefined),
+        resolve: () => {
+          throw new Error('Not implemented');
+        },
+      };
+
+      const container = createContainer(customParent);
+      expect(container.get(T1)).toBeUndefined();
     });
   });
 });
