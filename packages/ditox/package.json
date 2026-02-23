@@ -1,6 +1,6 @@
 {
   "name": "ditox",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Dependency injection for web applications",
   "license": "MIT",
   "author": "Mikhail Nasyrov <mikhail@mnasyrov.com> (https://github.com/mnasyrov)",
@@ -26,7 +26,13 @@
   "engines": {
     "node": ">=12"
   },
-  "files": ["dist", "docs", "src", "LICENSE", "README.md"],
+  "files": [
+    "dist",
+    "docs",
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

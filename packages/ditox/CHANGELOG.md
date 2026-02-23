@@ -1,5 +1,21 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [3.3.0](https://github.com/mnasyrov/ditox/compare/v3.2.0...v3.3.0) (2026-02-23)
+
+
+### Features
+
+* Add support for "eager" module binding strategy and related test cases ([09354ea](https://github.com/mnasyrov/ditox/commit/09354ea00d6a7a5e618d175b50af191ca295737b))
+
+
+
+
+
+# Change Log
+
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
