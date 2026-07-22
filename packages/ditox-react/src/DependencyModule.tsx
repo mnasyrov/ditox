@@ -1,9 +1,9 @@
 import type { Module, ModuleDeclaration } from 'ditox';
 import { bindModule } from 'ditox';
-import React, { ReactElement, ReactNode, useCallback } from 'react';
+import React, { type ReactElement, type ReactNode, useCallback } from 'react';
 import {
   DependencyContainer,
-  DependencyContainerBinder,
+  type DependencyContainerBinder,
 } from './DependencyContainer';
 
 /**

@@ -1,7 +1,7 @@
 import { render, renderHook } from '@testing-library/react';
-import { Container, createContainer, Token, token } from 'ditox';
+import { type Container, createContainer, type Token, token } from 'ditox';
 import React, { useEffect } from 'react';
-import { describe, expect, it, Mock, vi } from 'vitest';
+import { describe, expect, it, type Mock, vi } from 'vitest';
 import {
   CustomDependencyContainer,
   DependencyContainer,
@@ -208,7 +208,7 @@ describe('DependencyContainer', () => {
     removeHandler1.mockClear();
     removeHandler2.mockClear();
 
-    rerender(<></>);
+    rerender(null);
     expect(monitorCallback).toBeCalledTimes(0);
     expect(removeHandler1).toBeCalledTimes(0);
     expect(removeHandler2).toBeCalledTimes(1);
@@ -245,7 +245,7 @@ describe('DependencyContainer', () => {
     monitorCallback.mockClear();
     removeHandler1.mockClear();
 
-    rerender(<></>);
+    rerender(null);
     expect(monitorCallback).toBeCalledTimes(0);
     expect(removeHandler1).toBeCalledTimes(1);
   });
@@ -294,7 +294,7 @@ describe('CustomDependencyContainer', () => {
       </CustomDependencyContainer>,
     );
 
-    rerender(<></>);
+    rerender(null);
 
     expect(monitorCallback).toBeCalledTimes(2);
     expect(monitorCallback).nthCalledWith(1, 'foo1');

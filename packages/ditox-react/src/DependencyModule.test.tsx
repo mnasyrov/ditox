@@ -2,8 +2,8 @@ import { renderHook } from '@testing-library/react';
 import {
   bindModule,
   createContainer,
-  Module,
-  ModuleDeclaration,
+  type Module,
+  type ModuleDeclaration,
   token,
 } from 'ditox';
 import React from 'react';

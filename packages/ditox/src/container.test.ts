@@ -55,7 +55,7 @@ describe('Container', () => {
     it('should bind a factory to the container', () => {
       const container = createContainer();
 
-      let containerArg;
+      let containerArg: unknown;
       const factory = vi.fn((arg) => {
         containerArg = arg;
         return 1;

@@ -1,4 +1,4 @@
-import { Token, token } from './tokens';
+import { type Token, token } from './tokens';
 
 /**
  * ResolverError is thrown by the resolver when a token is not found in a container.

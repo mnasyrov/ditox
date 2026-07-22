@@ -1,5 +1,5 @@
-import { Container } from './container';
-import { Token, token } from './tokens';
+import type { Container } from './container';
+import { type Token, token } from './tokens';
 import { injectable } from './utils';
 
 type AnyObject = Record<string, any>;
@@ -204,7 +204,9 @@ function bindModuleEntry(
         moduleInstance.destroy();
       }
 
-      exportedValueTokens.forEach((valueToken) => container.remove(valueToken));
+      exportedValueTokens.forEach((valueToken) => {
+        container.remove(valueToken);
+      });
       exportedValueTokens.clear();
     },
   });

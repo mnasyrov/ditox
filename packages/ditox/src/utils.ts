@@ -1,5 +1,5 @@
 import type { Container } from './container';
-import { Token } from './tokens';
+import type { Token } from './tokens';
 
 type ValuesProps = { [key: string]: unknown };
 type TokenProps<Props extends ValuesProps> = {
@@ -65,7 +65,9 @@ export function tryResolveValue<
   }
 
   const obj: any = {};
-  Object.keys(token).forEach((key) => (obj[key] = container.get(token[key])));
+  Object.keys(token).forEach((key) => {
+    obj[key] = container.get(token[key]);
+  });
   return obj;
 }
 
@@ -129,9 +131,9 @@ export function resolveValue<
   }
 
   const obj: any = {};
-  Object.keys(token).forEach(
-    (key) => (obj[key] = container.resolve(token[key])),
-  );
+  Object.keys(token).forEach((key) => {
+    obj[key] = container.resolve(token[key]);
+  });
   return obj;
 }
 
@@ -203,7 +205,7 @@ export function injectable<
  * If an argument is an object which has tokens as its properties,
  * then returns an object containing resolved values as properties.
  *
- * @param constructor - Constructor of a class
+ * @param constructorFn - Constructor of a class
  * @param tokens - Tokens which correspond to constructor arguments
  *
  * @return A factory function which takes a dependency container as a single argument
@@ -221,11 +223,11 @@ export function injectableClass<
   Result,
 >(
   this: unknown,
-  constructor: new (...params: Values) => Result,
+  constructorFn: new (...params: Values) => Result,
   ...tokens: Tokens
 ): (container: Container) => Result {
   return injectable<Tokens, Values, Result>(
-    (...values) => new constructor(...values),
+    (...values) => new constructorFn(...values),
     ...tokens,
   );
 }

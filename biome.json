@@ -19,92 +19,22 @@
     "useEditorconfig": true
   },
   "linter": {
-    "enabled": false,
+    "enabled": true,
     "rules": {
-      "recommended": false,
-      "complexity": {
-        "noAdjacentSpacesInRegex": "error",
-        "noArguments": "error",
-        "noExtraBooleanCast": "error",
-        "noUselessCatch": "error",
-        "noUselessEscapeInRegex": "error",
-        "noUselessTypeConstraint": "error"
-      },
+      "recommended": true,
       "correctness": {
-        "noConstAssign": "error",
-        "noConstantCondition": "error",
-        "noEmptyCharacterClassInRegex": "error",
-        "noEmptyPattern": "error",
-        "noGlobalObjectCalls": "error",
-        "noInvalidBuiltinInstantiation": "error",
-        "noInvalidConstructorSuper": "error",
-        "noNonoctalDecimalEscape": "error",
-        "noPrecisionLoss": "error",
-        "noSelfAssign": "error",
-        "noSetterReturn": "error",
-        "noSwitchDeclarations": "error",
-        "noUndeclaredVariables": "error",
-        "noUnreachable": "error",
-        "noUnreachableSuper": "error",
-        "noUnsafeFinally": "error",
-        "noUnsafeOptionalChaining": "error",
-        "noUnusedLabels": "error",
-        "noUnusedPrivateClassMembers": "error",
-        "noUnusedVariables": "error",
-        "useExhaustiveDependencies": "warn",
-        "useHookAtTopLevel": "error",
-        "useIsNan": "error",
-        "useValidForDirection": "error",
-        "useValidTypeof": "error",
-        "useYield": "error"
+        "useExhaustiveDependencies": "warn"
       },
       "style": {
-        "noCommonJs": "error",
-        "noNamespace": "error",
-        "useArrayLiterals": "error",
-        "useAsConstAssertion": "error",
-        "useBlockStatements": "off",
-        "useConst": "error"
+        "useBlockStatements": "off"
       },
       "suspicious": {
-        "noAsyncPromiseExecutor": "error",
-        "noCatchAssign": "error",
-        "noClassAssign": "error",
-        "noCompareNegZero": "error",
-        "noConstantBinaryExpressions": "error",
-        "noControlCharactersInRegex": "error",
-        "noDebugger": "error",
-        "noDuplicateCase": "error",
-        "noDuplicateClassMembers": "error",
-        "noDuplicateElseIf": "error",
-        "noDuplicateObjectKeys": "error",
-        "noDuplicateParameters": "error",
-        "noEmptyBlockStatements": "error",
-        "noExplicitAny": "off",
-        "noExtraNonNullAssertion": "error",
-        "noFallthroughSwitchClause": "error",
-        "noFunctionAssign": "error",
-        "noGlobalAssign": "error",
-        "noImportAssign": "error",
-        "noIrregularWhitespace": "error",
-        "noMisleadingCharacterClass": "error",
-        "noMisleadingInstantiator": "error",
-        "noNonNullAssertedOptionalChain": "error",
-        "noPrototypeBuiltins": "error",
-        "noRedeclare": "error",
-        "noShadowRestrictedNames": "error",
-        "noSparseArray": "error",
-        "noUnsafeDeclarationMerging": "error",
-        "noUnsafeNegation": "error",
-        "noUselessRegexBackrefs": "error",
-        "noVar": "error",
-        "noWith": "error",
-        "useGetterReturn": "error",
-        "useNamespaceKeyword": "error"
+        "noExplicitAny": "warn"
       }
     }
   },
   "javascript": {
+    "jsxRuntime": "reactClassic",
     "formatter": {
       "jsxQuoteStyle": "double",
       "quoteProperties": "asNeeded",

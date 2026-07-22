@@ -2,8 +2,8 @@ import type { Container } from 'ditox';
 import { createContainer } from 'ditox';
 import React, {
   createContext,
-  ReactElement,
-  ReactNode,
+  type ReactElement,
+  type ReactNode,
   useContext,
   useEffect,
   useMemo,

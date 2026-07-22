@@ -5,9 +5,9 @@ import {
   bindModules,
   declareModule,
   declareModuleBindings,
-  Module,
-  ModuleBindingEntry,
-  ModuleDeclaration,
+  type Module,
+  type ModuleBindingEntry,
+  type ModuleDeclaration,
 } from './modules';
 import { token } from './tokens';
 import { injectable } from './utils';
@@ -375,7 +375,9 @@ describe('bindModule()', () => {
         imports,
         beforeBinding: () => route.push(`${id}:before`),
         factory: (container) => {
-          imports?.forEach((m) => container.resolve(m.token));
+          imports?.forEach((m) => {
+            container.resolve(m.token);
+          });
           route.push(`${id}:factory`);
           return {};
         },

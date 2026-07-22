@@ -1,4 +1,4 @@
-import { Container, Token } from 'ditox';
+import type { Container, Token } from 'ditox';
 import { useContext, useMemo } from 'react';
 import { DependencyContainerContext } from './DependencyContainer';
 
