@@ -1,6 +1,6 @@
 /**
- * @ignore
- * Binding token for mandatory value
+ * Binding token for a mandatory value.
+ * The value must be bound to a container before resolving.
  */
 export type RequiredToken<T> = {
   symbol: symbol;
@@ -9,8 +9,8 @@ export type RequiredToken<T> = {
 };
 
 /**
- * @ignore
- * Binding token for optional value
+ * Binding token for an optional value.
+ * It provides a default value which is used when the token is not bound to a container.
  */
 export type OptionalToken<T> = {
   symbol: symbol;

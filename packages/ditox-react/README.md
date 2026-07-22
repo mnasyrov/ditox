@@ -20,19 +20,12 @@ You can use the following command to install this package:
 npm install --save ditox-react
 ```
 
-Packages can be used as [UMD](https://github.com/umdjs/umd) modules. Use
-[jsdelivr.com](https://jsdelivr.com) CDN to load
-[ditox](https://www.jsdelivr.com/package/npm/ditox) and
-[ditox-react](https://www.jsdelivr.com/package/npm/ditox-react):
+The package is distributed as ESM and CommonJS modules and requires Node.js 20
+or newer. It has a peer dependency on the
+[ditox](https://www.npmjs.com/package/ditox) package of the same major version.
 
-```html
-<script src="//cdn.jsdelivr.net/npm/ditox/dist/umd/index.js"></script>
-<script src="//cdn.jsdelivr.net/npm/ditox-react/dist/umd/index.js"></script>
-<script>
-  const container = Ditox.createContainer();
-  // DitoxReact.useDependency(SOME_TOKEN);
-</script>
-```
+Upgrading from v3? See the
+[migration guide](https://github.com/mnasyrov/ditox/blob/master/MIGRATION.md).
 
 ## Overview
 

@@ -25,9 +25,9 @@ resolving are used.
 ## Features
 
 - Functional API
-- Container hierarchy
+- Container hierarchy with support for multiple parent containers
 - Scopes for factory bindings
-- Dependency modules
+- Dependency modules with eager and lazy binding strategies
 - Multi-value tokens
 - TypeScript types
 
@@ -51,20 +51,10 @@ npm install --save ditox
 npm install --save ditox-react
 ```
 
-Packages can be used as [UMD](https://github.com/umdjs/umd) modules. Use
-[jsdelivr.com](https://jsdelivr.com) CDN site to load
-[ditox](https://www.jsdelivr.com/package/npm/ditox) and
-[ditox-react](https://www.jsdelivr.com/package/npm/ditox-react):
+The packages are distributed as ESM and CommonJS modules and require Node.js 20
+or newer.
 
-```html
-
-<script src="//cdn.jsdelivr.net/npm/ditox/dist/umd/index.js"></script>
-<script src="//cdn.jsdelivr.net/npm/ditox-react/dist/umd/index.js"></script>
-<script>
-  const container = Ditox.createContainer();
-  // DitoxReact.useDependency(SOME_TOKEN);
-</script>
-```
+Upgrading from v3? See the [migration guide](MIGRATION.md).
 
 ### Basic concepts
 
@@ -194,6 +184,21 @@ const sendMetric = container.resolve(SEND_METRIC_TOKEN);
 sendMetric('foo', 'bar');
 ```
 
+### Advanced features
+
+- **Multiple parent containers** – `createContainer()` accepts a single parent
+  or an array of parents which are queried left-to-right during token
+  resolution.
+- **`ContainerResolver` type** – a parent can be any read-only resolver with
+  `hasToken`, `get` and `resolve` methods, so a container can be shared without
+  exposing its mutation methods.
+- **Eager and lazy modules** – a module declaration supports the `strategy`
+  field: `lazy` (default) resolves the module on first use, while `eager`
+  initializes it immediately after binding.
+
+See the [ditox package documentation](packages/ditox/README.md) for details and
+examples.
+
 ### Using in React app
 
 Wrap a component tree by a DI container and bind modules:
@@ -208,6 +213,7 @@ import { TELEMETRY_MODULE } from './telemetry';
 
 const APP_MODULE = declareModule({
   imports: [TELEMETRY_MODULE],
+  factory: () => ({}),
 });
 
 const App: FC = () => {
@@ -251,34 +257,12 @@ export const Greeting: FC = () => {
   [tweet](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fmnasyrov%2Fditox&hashtags=developers,frontend,javascript)
   to promote the project
 
+## Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for
+development setup, checks, and commit conventions.
+
 ## License
 
 This project is licensed under the
 [MIT license](https://github.com/mnasyrov/ditox/blob/master/LICENSE).
-
-<!---
-III. Ditox Package
-- Explanation of the core library
-- List of available methods and functions
-- Examples of advanced usage
-
-IV. Ditox-React Package
-- Explanation of the React library
-- List of available components and functions
-- Examples of usage in a React project
-
-V. Best Practices
-- Recommendations for using Ditox.js effectively
-- Tips for optimizing performance
-
-VI. Troubleshooting
-- Common issues and solutions
-- How to report bugs or request new features
-
-VII. Contributing
-- Guidelines for contributing to the project
-- Code of conduct for contributors
-
-IX. Credits
-- Acknowledgements for contributors and external resources used in the project.
---->

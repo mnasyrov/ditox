@@ -20,17 +20,11 @@ You can use the following command to install this package:
 npm install --save ditox
 ```
 
-The package can be used as an [UMD](https://github.com/umdjs/umd) module. Use
-[jsdelivr.com](https://jsdelivr.com) CDN site to load
-[ditox](https://www.jsdelivr.com/package/npm/ditox):
+The package is distributed as ESM and CommonJS modules and requires Node.js 20
+or newer.
 
-```html
-
-<script src="//cdn.jsdelivr.net/npm/ditox/dist/umd/index.js"></script>
-<script>
-  const container = Ditox.createContainer();
-</script>
-```
+Upgrading from v3? See the
+[migration guide](https://github.com/mnasyrov/ditox/blob/master/MIGRATION.md).
 
 ## General description
 
@@ -182,6 +176,95 @@ child2.resolve(VALUE); // 'from-p1' (first parent wins)
 // The child can still override parents
 child2.bindValue(VALUE, 'from-child');
 child2.resolve(VALUE); // 'from-child'
+```
+
+A parent does not have to be a full container. `createContainer()` accepts any
+`ContainerResolver` — a read-only subset of `Container` with `hasToken()`,
+`get()` and `resolve()` methods. It allows passing a parent which cannot be
+mutated by the child container.
+
+## Multi-value Tokens
+
+`bindMultiValue()` appends a value to an array token. It allows registering
+several implementations under a single token, for example a list of plugins or
+event handlers, and resolving them together as an array:
+
+```ts
+import { bindMultiValue, createContainer, token } from 'ditox';
+
+type Plugin = { name: string; setup: () => void };
+
+const PLUGINS_TOKEN = token<ReadonlyArray<Plugin>>();
+
+const container = createContainer();
+
+// Register plugins independently, e.g. from different parts of the app.
+bindMultiValue(container, PLUGINS_TOKEN, {
+  name: 'analytics',
+  setup: () => console.log('analytics is ready'),
+});
+bindMultiValue(container, PLUGINS_TOKEN, {
+  name: 'logging',
+  setup: () => console.log('logging is ready'),
+});
+
+// Resolve all registered plugins as a single array.
+const plugins = container.resolve(PLUGINS_TOKEN);
+plugins.forEach((plugin) => plugin.setup());
+// analytics is ready
+// logging is ready
+```
+
+## Shareable Tokens
+
+By default, `token()` creates a unique symbol, so tokens created in different
+bundles are different even if they have the same description. Pass the `key`
+option to create a token which is backed by `Symbol.for(key)`. Such tokens are
+shared via the global symbol registry, so different bundles or micro-frontends
+with their own copies of the `ditox` package can bind and resolve the same
+value:
+
+```ts
+import { token } from 'ditox';
+
+// bundle-a.ts
+const LOGGER_TOKEN = token<Logger>({ key: 'app.logger' });
+container.bindValue(LOGGER_TOKEN, createLogger());
+
+// bundle-b.ts – another bundle with its own copy of "ditox"
+const LOGGER_TOKEN = token<Logger>({ key: 'app.logger' });
+const logger = container.resolve(LOGGER_TOKEN); // Resolves the same binding
+```
+
+## Class Injection
+
+`injectableClass()` decorates a class constructor to create a factory function.
+The constructor is called with resolved dependencies as its arguments:
+
+```ts
+import { createContainer, injectableClass, token } from 'ditox';
+
+class UserService {
+  constructor(
+    private storage: Storage,
+    private logger: Logger,
+  ) {}
+
+  greet() {
+    this.logger.log('Hello!');
+  }
+}
+
+const USER_SERVICE_TOKEN = token<UserService>();
+
+const container = createContainer();
+container.bindFactory(
+  USER_SERVICE_TOKEN,
+  injectableClass(UserService, STORAGE_TOKEN, LOGGER_TOKEN),
+);
+
+const userService = container.resolve(USER_SERVICE_TOKEN);
+userService.greet(); // Hello!
 ```
 
 ## Factory Lifetimes
@@ -351,11 +434,10 @@ bindModules(container, [DATABASE_MODULE, CONFIG_MODULE, API_MODULE]);
 Utility functions for module declarations:
 
 - `declareModule()` – declare a module as `ModuleDeclaration` however `token`
-  field can be optional for anonymous modules.
-- `declareModuleBindings()` – declares an anonymous module with imports. This
-  module binds the provided ones to a container.
+  field can be optional for anonymous modules. Use the `imports` field to
+  declare a module which binds other modules to a container.
 
-Example for these functions:
+Example for this function:
 
 ```typescript
 const LOGGER_MODULE = declareModule<LoggerModule>({
@@ -365,7 +447,11 @@ const LOGGER_MODULE = declareModule<LoggerModule>({
   },
 });
 
-const APP_MODULE = declareModuleBindings([LOGGER_MODULE, DATABASE_MODULE]);
+// An anonymous module which binds the imported modules to a container.
+const APP_MODULE = declareModule({
+  imports: [LOGGER_MODULE, DATABASE_MODULE],
+  factory: () => ({}),
+});
 ```
 
 ## API Reference
@@ -385,9 +471,13 @@ const APP_MODULE = declareModuleBindings([LOGGER_MODULE, DATABASE_MODULE]);
 
 - Container
 
-  - createContainer(parent?: Container | ReadonlyArray<Container>): Container
+  - createContainer(parent?: ContainerResolver |
+    ReadonlyArray<ContainerResolver>): Container
     - Creates a new container optionally linked to one or more parents; parents
       are queried left-to-right
+  - type ContainerResolver = Pick<Container, 'hasToken' | 'get' | 'resolve'>
+    - A read-only subset of a container: `hasToken`, `get` and `resolve`. It
+      allows passing a parent without exposing its mutation methods
   - class ResolverError extends Error
     - Thrown by `resolve()` when a token is not found and no optional default
       exists
@@ -451,10 +541,8 @@ const APP_MODULE = declareModuleBindings([LOGGER_MODULE, DATABASE_MODULE]);
   - bindModules(container: Container, modules:
     ReadonlyArray<ModuleBindingEntry>): void — binds multiple modules
   - declareModule(declaration): ModuleDeclaration<T>
-    - Creates a module declaration; generates a token if not provided
-  - declareModuleBindings(modules: ReadonlyArray<ModuleBindingEntry>):
-    ModuleDeclaration<Module>
-    - Declares an anonymous module that binds the provided modules
+    - Creates a module declaration; generates a token if not provided; use the
+      `imports` field to bind other modules along with the declared one
 
 ---
 
