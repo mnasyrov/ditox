@@ -107,10 +107,10 @@ type FactoryContext<T> = {
 };
 
 /** @internal */
-type ValuesMap = Map<symbol, any>;
+type ValuesMap = Map<symbol, unknown>;
 
 /** @internal */
-export type FactoriesMap = Map<symbol, FactoryContext<any>>;
+export type FactoriesMap = Map<symbol, FactoryContext<unknown>>;
 
 /** @internal */
 export const FACTORIES_MAP: Token<FactoriesMap> = token('ditox.FactoriesMap');
@@ -157,8 +157,8 @@ export function createContainer(
       : [parentArg]
     : undefined;
 
-  const values: ValuesMap = new Map<symbol, any>();
-  const factories: FactoriesMap = new Map<symbol, FactoryContext<any>>();
+  const values: ValuesMap = new Map<symbol, unknown>();
+  const factories: FactoriesMap = new Map<symbol, FactoryContext<unknown>>();
 
   const container: Container = {
     bindValue<T>(token: Token<T>, value: T): void {
@@ -178,7 +178,10 @@ export function createContainer(
         return;
       }
 
-      factories.set(token.symbol, { factory, options });
+      factories.set(token.symbol, {
+        factory,
+        options,
+      } as FactoryContext<unknown>);
     },
 
     remove<T>(token: Token<T>): void {
@@ -248,7 +251,7 @@ export function createContainer(
     token: Token<T>,
     origin: Container,
   ): T | typeof NOT_FOUND {
-    const value = values.get(token.symbol);
+    const value = values.get(token.symbol) as T;
     const hasValue = value !== undefined || values.has(token.symbol);
 
     if (hasValue && origin === container) {
@@ -267,7 +270,7 @@ export function createContainer(
             break;
           } else {
             // Cache the value in the same container where the factory is registered.
-            const value = factoryContext.factory(container);
+            const value = factoryContext.factory(container) as T;
             container.bindValue(token, value);
             return value;
           }
@@ -278,7 +281,7 @@ export function createContainer(
             return value;
           } else {
             // Create a value within the factory's container and cache it.
-            const value = factoryContext.factory(container);
+            const value = factoryContext.factory(container) as T;
             container.bindValue(token, value);
             return value;
           }
@@ -286,7 +289,7 @@ export function createContainer(
 
         case 'transient': {
           // Create a value within the origin container and don't cache it.
-          return factoryContext.factory(origin);
+          return factoryContext.factory(origin) as T;
         }
       }
     }
@@ -302,9 +305,9 @@ export function createContainer(
     return NOT_FOUND;
   }
 
-  function executeOnRemoved<T>(
+  function executeOnRemoved(
     tokenSymbol: symbol,
-    options: FactoryOptions<T>,
+    options: FactoryOptions<unknown>,
   ) {
     const onRemoved = getOnRemoved(options);
     if (onRemoved) {

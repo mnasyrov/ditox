@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createContainer } from './container';
 import {
+  type AnyModuleDeclaration,
   bindModule,
   bindModules,
   declareModule,
-  declareModuleBindings,
   type Module,
   type ModuleBindingEntry,
   type ModuleDeclaration,
@@ -367,10 +367,7 @@ describe('bindModule()', () => {
   it('should call beforeBinding() and afterBinding() in deep-first order', () => {
     const route: string[] = [];
 
-    const declareTestModule = (
-      id: string,
-      imports?: ModuleDeclaration<Record<string, any>>[],
-    ) =>
+    const declareTestModule = (id: string, imports?: AnyModuleDeclaration[]) =>
       declareModule({
         imports,
         beforeBinding: () => route.push(`${id}:before`),
@@ -499,31 +496,7 @@ describe('declareModule()', () => {
   });
 });
 
-describe('declareModuleBindings()', () => {
-  it('should declare bindings for the modules', () => {
-    const container = createContainer();
-
-    const VALUE1_TOKEN = token<number>();
-    const MODULE1 = declareModule({
-      factory: () => ({ value: 1 }),
-      exports: { value: VALUE1_TOKEN },
-    });
-
-    const VALUE2_TOKEN = token<number>();
-    const MODULE2 = declareModule({
-      factory: () => ({ value: 2 }),
-      exports: { value: VALUE2_TOKEN },
-    });
-
-    const MODULE_BINDINGS = declareModuleBindings([MODULE1, MODULE2]);
-
-    bindModule(container, MODULE_BINDINGS);
-    expect(container.get(VALUE1_TOKEN)).toBe(1);
-    expect(container.get(VALUE2_TOKEN)).toBe(2);
-
-    expect(container.get(MODULE_BINDINGS.token)).toEqual({});
-  });
-
+describe('declareModule()', () => {
   it('should ignore falsy tokens in exports', () => {
     const container = createContainer();
 
@@ -533,9 +506,9 @@ describe('declareModuleBindings()', () => {
         invalid: 2,
       }),
       exports: {
-        valid: token(),
+        valid: token<number>(),
         invalid: undefined,
-      } as any,
+      },
     });
 
     bindModule(container, MODULE);

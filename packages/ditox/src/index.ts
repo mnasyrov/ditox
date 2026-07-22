@@ -12,12 +12,7 @@ export type {
   ModuleBindingEntry,
   ModuleDeclaration,
 } from './modules';
-export {
-  bindModule,
-  bindModules,
-  declareModule,
-  declareModuleBindings,
-} from './modules';
+export { bindModule, bindModules, declareModule } from './modules';
 export type { OptionalToken, RequiredToken, Token } from './tokens';
 export { optional, token } from './tokens';
 export {

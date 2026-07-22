@@ -15,8 +15,23 @@ export function isToken<T>(value: unknown): value is Token<T> {
     value !== null &&
     typeof value === 'object' &&
     'symbol' in value &&
-    typeof (value as any).symbol === 'symbol'
+    typeof value.symbol === 'symbol'
   );
+}
+
+function resolveTokenValue(
+  token: Token<unknown> | { [key: string]: Token<unknown> },
+  getValue: (token: Token<unknown>) => unknown,
+): unknown {
+  if (isToken(token)) {
+    return getValue(token);
+  }
+
+  const obj: Record<string, unknown> = {};
+  Object.keys(token).forEach((key) => {
+    obj[key] = getValue(token[key]);
+  });
+  return obj;
 }
 
 /**
@@ -60,15 +75,7 @@ export function tryResolveValue<
       ? Partial<Props>
       : never,
 >(container: Container, token: Tokens): Values {
-  if (isToken(token)) {
-    return container.get(token) as Values;
-  }
-
-  const obj: any = {};
-  Object.keys(token).forEach((key) => {
-    obj[key] = container.get(token[key]);
-  });
-  return obj;
+  return resolveTokenValue(token, (item) => container.get(item)) as Values;
 }
 
 /**
@@ -126,15 +133,7 @@ export function resolveValue<
       ? Props
       : never,
 >(container: Container, token: Tokens): Values {
-  if (isToken(token)) {
-    return container.resolve(token) as Values;
-  }
-
-  const obj: any = {};
-  Object.keys(token).forEach((key) => {
-    obj[key] = container.resolve(token[key]);
-  });
-  return obj;
+  return resolveTokenValue(token, (item) => container.resolve(item)) as Values;
 }
 
 /**

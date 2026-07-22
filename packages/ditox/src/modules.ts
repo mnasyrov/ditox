@@ -2,6 +2,9 @@ import type { Container } from './container';
 import { type Token, token } from './tokens';
 import { injectable } from './utils';
 
+// `Record<string, unknown>` would reject module props declared as interfaces,
+// which have no implicit index signature.
+// biome-ignore lint/suspicious/noExplicitAny: see above
 type AnyObject = Record<string, any>;
 type EmptyObject = Record<string, never>;
 
@@ -258,20 +261,4 @@ export function declareModule<T extends Module<AnyObject>>(
     Partial<Pick<ModuleDeclaration<T>, 'token'>>,
 ): ModuleDeclaration<T> {
   return { ...declaration, token: declaration.token ?? token() };
-}
-
-/**
- * @deprecated Use `declareModule` instead
- *
- * Declares bindings of several modules
- *
- * @param modules - module declaration entries
- */
-export function declareModuleBindings(
-  modules: ReadonlyArray<ModuleBindingEntry>,
-): ModuleDeclaration<Module> {
-  return declareModule({
-    factory: () => ({}),
-    imports: modules,
-  });
 }

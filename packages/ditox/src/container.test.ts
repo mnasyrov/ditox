@@ -3,7 +3,6 @@ import {
   CONTAINER,
   createContainer,
   PARENT_CONTAINERS,
-  RESOLVER,
   ResolverError,
 } from './container';
 import { optional, token } from './tokens';
@@ -695,7 +694,7 @@ describe('Container', () => {
 
       const customParent = {
         hasToken: () => true,
-        get: (t: any) => (t === RESOLVER ? undefined : undefined),
+        get: () => undefined,
         resolve: () => {
           throw new Error('Not implemented');
         },
