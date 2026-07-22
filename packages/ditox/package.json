@@ -24,7 +24,7 @@
     "di"
   ],
   "engines": {
-    "node": ">=12"
+    "node": ">=20"
   },
   "files": [
     "dist",
@@ -34,12 +34,9 @@
     "README.md"
   ],
   "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
-  "unpkg": "dist/index.umd.js",
-  "umd:main": "dist/index.umd.js",
-  "browser": "dist/index.js",
-  "react-native": "dist/index.js",
   "types": "./dist/index.d.cts",
   "source": "src/index.ts",
   "exports": {
