@@ -4,6 +4,14 @@
     "target": "ES2020",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "paths": {
+      "ditox": [
+        "./packages/ditox/src/index.ts"
+      ],
+      "ditox-react": [
+        "./packages/ditox-react/src/index.ts"
+      ]
+    },
     "lib": [
       "ES2020"
     ],
