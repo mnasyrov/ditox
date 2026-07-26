@@ -20,7 +20,7 @@ You can use the following command to install this package:
 npm install --save ditox-react
 ```
 
-The package is distributed as ESM and CommonJS modules and requires Node.js 20
+The package is distributed as ESM and CommonJS modules and requires Node.js 22
 or newer. It has a peer dependency on the
 [ditox](https://www.npmjs.com/package/ditox) package of the same major version.
 

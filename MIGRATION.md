@@ -25,9 +25,9 @@ The packages are distributed as ESM and CommonJS modules only. The `unpkg`,
 `package.json`. If you loaded the packages from a CDN as UMD scripts, switch to
 ESM imports (for example, via a bundler or an import map).
 
-### Node.js 20 or newer is required
+### Node.js 22 or newer is required
 
-The minimal supported Node.js version is 20 (previously 12).
+The minimal supported Node.js version is 22 (previously 12).
 
 ### Build target is ES2020
 

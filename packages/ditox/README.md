@@ -20,7 +20,7 @@ You can use the following command to install this package:
 npm install --save ditox
 ```
 
-The package is distributed as ESM and CommonJS modules and requires Node.js 20
+The package is distributed as ESM and CommonJS modules and requires Node.js 22
 or newer.
 
 Upgrading from v3? See the

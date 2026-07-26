@@ -51,7 +51,7 @@ npm install --save ditox
 npm install --save ditox-react
 ```
 
-The packages are distributed as ESM and CommonJS modules and require Node.js 20
+The packages are distributed as ESM and CommonJS modules and require Node.js 22
 or newer.
 
 Upgrading from v3? See the [migration guide](MIGRATION.md).
