@@ -1,11 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import {
-  bindModule,
-  CleanupError,
-  createContainer,
-  declareModule,
-  token,
-} from './index';
+import { bindModule, createContainer, declareModule, token } from './index';
 
 describe('container teardown', () => {
   it('finishes cleanup after an onRemoved failure and does not retry callbacks', () => {
@@ -41,149 +35,35 @@ describe('container teardown', () => {
     expect(calls).toEqual(['before', 'failure', 'after']);
   });
 
-  it('reports every thrown value in callback order after clearing bindings', () => {
+  it.each([
+    new Error('first'),
+    undefined,
+    null,
+    false,
+    0,
+    'failure',
+  ])('rethrows the first value unchanged after all callbacks, including %s', (failure) => {
     const container = createContainer();
-    const failures = [new Error('first'), undefined, 'third'];
-    const callbacks = failures.map((failure) => {
+    const callbacks = [failure, new Error('second')].map((error) => {
       const resource = token();
       const onRemoved = vi.fn(() => {
-        throw failure;
+        throw error;
       });
       container.bindFactory(resource, () => undefined, { onRemoved });
       container.resolve(resource);
       return onRemoved;
     });
-
-    let caught: unknown;
+    let threw = false;
     try {
       container.removeAll();
     } catch (error) {
-      caught = error;
-    }
-    expect(caught).toBeInstanceOf(Error);
-    expect(caught).toBeInstanceOf(CleanupError);
-    expect((caught as CleanupError).name).toBe('CleanupError');
-    expect((caught as CleanupError).errors).toEqual(failures);
-    failures.forEach((failure, index) => {
-      expect((caught as CleanupError).errors[index]).toBe(failure);
-    });
-    container.removeAll();
-    callbacks.forEach((callback) => expect(callback).toHaveBeenCalledTimes(1));
-  });
-
-  it.each([
-    'remove',
-    'removeAll',
-  ] as const)('%s preserves a single thrown value, including undefined', (method) => {
-    const container = createContainer();
-    const resource = token();
-    container.bindFactory(resource, () => undefined, {
-      onRemoved() {
-        throw undefined;
-      },
-    });
-    container.resolve(resource);
-    let threw = false;
-    try {
-      container[method](resource);
-    } catch (error) {
       threw = true;
-      expect(error).toBeUndefined();
+      expect(error).toBe(failure);
     }
     expect(threw).toBe(true);
-    expect(container.hasToken(resource)).toBe(false);
-  });
-
-  it('removes a single binding even if its callback throws', () => {
-    const container = createContainer();
-    const resource = token();
-    const failure = new Error('cleanup failed');
-    const onRemoved = vi.fn(() => {
-      container.remove(resource);
-      throw failure;
-    });
-    container.bindFactory(resource, () => ({}), { onRemoved });
-    container.resolve(resource);
-
-    let caught: unknown;
-    try {
-      container.remove(resource);
-    } catch (error) {
-      caught = error;
-    }
-    expect(caught).toBe(failure);
-    expect(container.hasToken(resource)).toBe(false);
-    container.remove(resource);
+    callbacks.forEach((callback) => expect(callback).toHaveBeenCalledTimes(1));
     container.removeAll();
-    expect(onRemoved).toHaveBeenCalledTimes(1);
-  });
-
-  it.each([
-    'remove',
-    'removeAll',
-  ] as const)('handles nested remove and removeAll during %s without duplicate callbacks', (method) => {
-    const container = createContainer();
-    const first = token();
-    const second = token();
-    const last = token();
-    const calls: string[] = [];
-    container.bindFactory(first, () => 1, {
-      onRemoved() {
-        calls.push('first');
-        container.remove(first);
-        container.removeAll();
-        // The outer callback must remain guarded after nested cleanup returns.
-        container.remove(first);
-        container.remove(second);
-      },
-    });
-    container.bindFactory(second, () => 2, {
-      onRemoved() {
-        calls.push('second');
-        container.remove(first);
-        container.remove(second);
-        container.removeAll();
-      },
-    });
-    container.bindFactory(last, () => 3, {
-      onRemoved() {
-        calls.push('last');
-        container.remove(second);
-        container.remove(first);
-      },
-    });
-    [first, second, last].forEach((resource) => container.resolve(resource));
-
-    container[method](first);
-    expect(calls).toEqual(['first', 'second', 'last']);
-    [first, second, last].forEach((resource) => {
-      expect(container.hasToken(resource)).toBe(false);
-    });
-    container.removeAll();
-    expect(calls).toEqual(['first', 'second', 'last']);
-  });
-
-  it('continues after a nested remove fails without calling it again', () => {
-    const container = createContainer();
-    const first = token();
-    const second = token();
-    const last = token();
-    const failure = new Error('nested cleanup failed');
-    const failingCallback = vi.fn(() => {
-      throw failure;
-    });
-    const lastCallback = vi.fn();
-    container.bindFactory(first, () => 1, {
-      onRemoved: () => container.remove(second),
-    });
-    container.bindFactory(second, () => 2, { onRemoved: failingCallback });
-    container.bindFactory(last, () => 3, { onRemoved: lastCallback });
-    [first, second, last].forEach((resource) => container.resolve(resource));
-
-    expect(() => container.removeAll()).toThrow(failure);
-    container.removeAll();
-    expect(failingCallback).toHaveBeenCalledTimes(1);
-    expect(lastCallback).toHaveBeenCalledTimes(1);
+    callbacks.forEach((callback) => expect(callback).toHaveBeenCalledTimes(1));
   });
 
   it.each([

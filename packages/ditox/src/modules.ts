@@ -1,4 +1,4 @@
-import { Container, throwCleanupErrors } from './container';
+import { Container } from './container';
 import { Token, token } from './tokens';
 import { injectable } from './utils';
 
@@ -200,21 +200,12 @@ function bindModuleEntry(
   container.bindFactory(module.token, module.factory, {
     scope,
     onRemoved: (moduleInstance) => {
-      const errors: unknown[] = [];
-      try {
-        moduleInstance.destroy?.();
-      } catch (error) {
-        errors.push(error);
+      if (moduleInstance.destroy) {
+        moduleInstance.destroy();
       }
-      exportedValueTokens.forEach((valueToken) => {
-        try {
-          container.remove(valueToken);
-        } catch (error) {
-          errors.push(error);
-        }
-      });
+
+      exportedValueTokens.forEach((valueToken) => container.remove(valueToken));
       exportedValueTokens.clear();
-      throwCleanupErrors(errors);
     },
   });
 }

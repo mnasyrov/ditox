@@ -12,22 +12,6 @@ export class ResolverError extends Error {
 }
 
 /**
- * Thrown after container or module cleanup when multiple cleanup operations fail.
- * A single failure is rethrown unchanged instead.
- * Nested CleanupError instances are preserved in errors, not flattened.
- */
-export class CleanupError extends Error {
-  readonly errors: ReadonlyArray<unknown>;
-
-  constructor(errors: ReadonlyArray<unknown>) {
-    super('Multiple onRemoved callbacks failed');
-    Object.setPrototypeOf(this, new.target.prototype);
-    this.name = 'CleanupError';
-    this.errors = [...errors];
-  }
-}
-
-/**
  * @see https://github.com/mnasyrov/ditox#factory-lifetimes
  */
 export type FactoryScope = 'scoped' | 'singleton' | 'transient';
@@ -86,19 +70,13 @@ export type Container = {
 
   /**
    * Removes a binding for the token.
-   * The binding is removed even if onRemoved throws; its error is rethrown unchanged.
-   * Reentrant removal of the same cached value record has no effect.
-   * New bindings created by the callback are preserved, including the factory
-   * associated with a replacement cached value.
    */
   remove<T>(token: Token<T>): void;
 
   /**
    * Removes all bindings in the container.
-   * Runs all eligible onRemoved callbacks before clearing bindings, even if callbacks throw.
-   * Rethrows a single failure unchanged, or throws CleanupError for multiple failures.
-   * A nested removeAll() during this operation has no effect.
-   * New cached value records created by callbacks are visited in subsequent passes.
+   * Continues after cleanup failures and rethrows the first thrown value unchanged
+   * after clearing bindings and restoring internal tokens. Later failures are discarded.
    */
   removeAll(): void;
 };
@@ -183,14 +161,6 @@ export function createContainer(
 
   const values: ValuesMap = new Map<symbol, any>();
   const factories: FactoriesMap = new Map<symbol, FactoryContext<any>>();
-  // Identity belongs to each cache write, even for undefined or the same value.
-  // Replacing a factory alone must not dispose the same cached record twice.
-  const valueRecords = new Map<symbol, object>();
-  const activeRemovals = new Set<object>();
-  let bulkRemovals: Set<object> | undefined;
-  let failedLookups: Map<FactoryContext<any>, Set<object>> | undefined;
-  let failedLookupCount = 0;
-  let bindingRevision = 0;
 
   const container: Container = {
     bindValue<T>(token: Token<T>, value: T): void {
@@ -199,8 +169,6 @@ export function createContainer(
       }
 
       values.set(token.symbol, value);
-      valueRecords.set(token.symbol, {});
-      bindingRevision++;
     },
 
     bindFactory<T>(
@@ -213,71 +181,45 @@ export function createContainer(
       }
 
       factories.set(token.symbol, { factory, options });
-      bindingRevision++;
     },
 
     remove<T>(token: Token<T>): void {
-      const record = valueRecords.get(token.symbol);
-      if (isInternalToken(token) || (record && activeRemovals.has(record))) {
+      if (isInternalToken(token)) {
         return;
       }
 
-      const context = factories.get(token.symbol);
-      try {
-        if (context?.options) {
-          executeOnRemoved(token.symbol, context);
-        }
-      } finally {
-        const currentRecord = valueRecords.get(token.symbol);
-        if (currentRecord === record) {
-          values.delete(token.symbol);
-          valueRecords.delete(token.symbol);
-        }
-        // A replacement value still needs its factory for subsequent teardown.
-        if (
-          factories.get(token.symbol) === context &&
-          (currentRecord === record || currentRecord === undefined)
-        ) {
-          factories.delete(token.symbol);
-        }
+      const options = factories.get(token.symbol)?.options;
+      if (options) {
+        executeOnRemoved(token.symbol, options);
       }
+
+      values.delete(token.symbol);
+      factories.delete(token.symbol);
     },
 
     removeAll(): void {
-      if (bulkRemovals) return;
-      bulkRemovals = new Set();
-      failedLookups = new Map();
-      failedLookupCount = 0;
-      const errors: unknown[] = [];
+      // A separate flag preserves thrown values such as undefined or false.
+      let hasError = false;
+      let firstError: unknown;
       try {
-        let progress: boolean;
-        do {
-          // A callback can replace or resolve a value at an already visited key.
-          // Failed lookups also count as progress, but each context/record pair
-          // is attempted only once so later passes cannot duplicate its error.
-          const previousSize = bulkRemovals.size + failedLookupCount;
-          const previousRevision = bindingRevision;
-          factories.forEach((context, tokenSymbol) => {
-            try {
-              if (context.options) executeOnRemoved(tokenSymbol, context);
-            } catch (error) {
-              errors.push(error);
+        factories.forEach((context, tokenSymbol) => {
+          try {
+            if (context.options) {
+              executeOnRemoved(tokenSymbol, context.options);
             }
-          });
-          // An accessor can create a resource without returning a callback.
-          progress =
-            bulkRemovals.size + failedLookupCount > previousSize ||
-            bindingRevision !== previousRevision;
-        } while (progress);
+          } catch (error) {
+            if (!hasError) {
+              hasError = true;
+              firstError = error;
+            }
+          }
+        });
       } finally {
         values.clear();
-        valueRecords.clear();
         factories.clear();
         bindInternalTokens();
-        bulkRemovals = undefined;
-        failedLookups = undefined;
       }
-      throwCleanupErrors(errors);
+      if (hasError) throw firstError;
     },
 
     hasToken(token: Token<unknown>): boolean {
@@ -377,41 +319,14 @@ export function createContainer(
 
   function executeOnRemoved<T>(
     tokenSymbol: symbol,
-    context: FactoryContext<T>,
+    options: FactoryOptions<T>,
   ) {
-    const record = valueRecords.get(tokenSymbol);
-    if (
-      !record ||
-      activeRemovals.has(record) ||
-      bulkRemovals?.has(record) ||
-      failedLookups?.get(context)?.has(record)
-    ) {
-      return;
-    }
-    const value = values.get(tokenSymbol);
-    // Options may have accessors which reenter removal or change the bindings.
-    activeRemovals.add(record);
-    try {
-      let onRemoved: ((value: T) => void) | undefined;
-      try {
-        onRemoved = context.options ? getOnRemoved(context.options) : undefined;
-      } catch (error) {
-        if (failedLookups) {
-          let records = failedLookups.get(context);
-          if (!records) {
-            records = new Set();
-            failedLookups.set(context, records);
-          }
-          records.add(record);
-          failedLookupCount++;
-        }
-        throw error;
+    const onRemoved = getOnRemoved(options);
+    if (onRemoved) {
+      const value = values.get(tokenSymbol);
+      if (value !== undefined || values.has(tokenSymbol)) {
+        onRemoved(value);
       }
-      if (!onRemoved) return;
-      bulkRemovals?.add(record);
-      onRemoved(value);
-    } finally {
-      activeRemovals.delete(record);
     }
   }
 
@@ -460,10 +375,4 @@ function parentContainersResolveToken<T>(
   }
 
   return NOT_FOUND;
-}
-
-/** @internal */
-export function throwCleanupErrors(errors: ReadonlyArray<unknown>): void {
-  if (errors.length === 1) throw errors[0];
-  if (errors.length > 1) throw new CleanupError(errors);
 }
