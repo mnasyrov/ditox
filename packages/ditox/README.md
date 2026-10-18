@@ -126,6 +126,62 @@ container.remove(LOGGER_TOKEN);
 container.removeAll();
 ```
 
+### Cleanup errors and reentrancy
+
+`removeAll()` calls `onRemoved` for locally cached singleton/scoped values in
+factory registration order. It continues after cleanup failures, clears local
+bindings, and restores internal tokens before reporting errors. It does not
+resolve unused factories, dispose transient values, or dispose values owned by
+parent containers. The container can be reused after cleanup, including after
+an error. Repeating cleanup does not call the removed callbacks again.
+
+If one cleanup operation throws, its thrown value is rethrown unchanged. If multiple
+operations throw, cleanup throws the exported `CleanupError` class, which
+extends `Error`. Its `errors: ReadonlyArray<unknown>` contains the original
+thrown values in failure order, including non-`Error` values. Nested
+`CleanupError` instances are preserved rather than flattened. This error class
+does not require native `AggregateError` support.
+
+`remove(token)` removes the local binding even when its callback throws, then
+rethrows the original thrown value. If the callback changes the binding, the
+original removal preserves replacements according to these rules:
+
+| Change during the callback | Result of the original removal |
+| --- | --- |
+| Neither factory nor cached value changed | Remove both |
+| Only the factory changed | Remove the old cached value; keep the new factory unresolved |
+| Only the cached value changed | Keep the new value and its factory |
+| Both changed | Keep both replacements |
+
+Neither method can resume execution inside a failing callback; the callback is
+responsible for its own internal cleanup. For modules bound through `bindModule`,
+cleanup attempts to remove every export even if `destroy()` throws. Exports
+are removed by token after `destroy()`, so an export replaced inside `destroy()`
+is also subject to that subsequent removal. Replacing a module inside its own
+`destroy()` is not an atomic operation.
+
+Bindings remain available while bulk callbacks run, until explicitly removed
+by a callback or cleared at the end. A nested `removeAll()` during bulk cleanup
+does nothing. Reentrant removal of the same active cached value record does
+nothing. Other nested `remove(token)` calls take effect immediately. A callback
+runs at most once per cached value record during bulk cleanup. Each `bindValue`
+call, including caching a factory result, creates a new record even when its
+value is `undefined` or is identical to the previous value. Rebinding only a
+factory does not create a new cached value record.
+
+Bulk cleanup revisits current records created or resolved by callbacks or
+factory options accessors at already visited tokens, including accessors that
+return no callback. It does not resolve unused factories itself. Failed
+reads of factory options such as `onRemoved` are reported once for each unchanged
+factory registration and cached value record; a replacement registration or
+record can be attempted again. Calling `removeAll()` from a single-token
+removal cleans the other bindings without repeating the active callback.
+
+Ordinary rebinding does not automatically dispose overwritten values, including
+intermediate values overwritten before cleanup visits them. Cleanup cannot
+guarantee termination if callbacks or accessors keep changing bindings indefinitely.
+These rules apply to synchronous callbacks; returned promises are not awaited.
+
 ## Container Hierarchy
 
 Ditox.js supports a "parent-child" hierarchy. If the child container cannot
@@ -481,6 +537,9 @@ const APP_MODULE = declareModule({
   - class ResolverError extends Error
     - Thrown by `resolve()` when a token is not found and no optional default
       exists
+  - class CleanupError extends Error
+    - Thrown after multiple cleanup failures; `errors` contains original thrown
+      values. A single failure is rethrown unchanged
   - type FactoryScope = 'scoped' | 'singleton' | 'transient'
   - type FactoryOptions<T>
     - For 'scoped' | 'singleton': { scope?: 'scoped' | 'singleton'; onRemoved?:
@@ -497,9 +556,9 @@ const APP_MODULE = declareModule({
     - resolve<T>(token: Token<T>): T — resolve or throw ResolverError; optional
       tokens return their default
     - remove<T>(token: Token<T>): void — remove binding; for scoped/singleton
-      factories calls `onRemoved` if provided
+      factories calls `onRemoved` if provided; removes the binding even if it throws
     - removeAll(): void — remove all bindings and call `onRemoved` for
-      applicable factories
+      applicable factories; complete cleanup before reporting callback failures
 
 - Utilities
 

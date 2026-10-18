@@ -2,7 +2,9 @@ import { describe, expect, it, test, vi } from 'vitest';
 import {
   CONTAINER,
   createContainer,
+  FACTORIES_MAP,
   PARENT_CONTAINERS,
+  RESOLVER,
   ResolverError,
 } from './container';
 import { optional, token } from './tokens';
@@ -366,6 +368,32 @@ describe('Container', () => {
   });
 
   describe('removeAll()', () => {
+    it('should restore internal tokens after a callback throws and allow reuse', () => {
+      const parent = createContainer();
+      const container = createContainer(parent);
+      const child = createContainer(container);
+      parent.bindValue(STRING, 'parent');
+      container.bindFactory(NUMBER, () => 1, {
+        onRemoved() {
+          throw new Error('cleanup failed');
+        },
+      });
+      container.resolve(NUMBER);
+
+      expect(() => container.removeAll()).toThrow('cleanup failed');
+      expect(container.resolve(CONTAINER)).toBe(container);
+      expect(container.resolve(PARENT_CONTAINERS)).toEqual([parent]);
+      expect(container.resolve(RESOLVER)).toBeTypeOf('function');
+      expect(container.hasToken(FACTORIES_MAP)).toBe(true);
+      expect(child.resolve(STRING)).toBe('parent');
+      const onRemoved = vi.fn();
+      container.bindFactory(NUMBER, () => 2, { onRemoved });
+      expect(child.resolve(NUMBER)).toBe(2);
+      container.removeAll();
+      expect(onRemoved).toHaveBeenCalledExactlyOnceWith(2);
+      expect(child.get(NUMBER)).toBeUndefined();
+    });
+
     it('should remove all values and factories', () => {
       const container = createContainer();
 
