@@ -4,7 +4,7 @@ export type {
   FactoryOptions,
   FactoryScope,
 } from './container';
-export { createContainer, ResolverError } from './container';
+export { CleanupError, createContainer, ResolverError } from './container';
 export type {
   AnyModuleDeclaration,
   BindModuleOptions,
