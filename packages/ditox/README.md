@@ -132,6 +132,33 @@ container.remove(LOGGER_TOKEN);
 container.removeAll();
 ```
 
+### Errors during bulk cleanup
+
+`removeAll()` continues visiting factories after an `onRemoved` callback or a
+cleanup options accessor throws. It clears local bindings and restores internal
+tokens before rethrowing the first thrown value unchanged, including non-`Error`
+values. Later errors are discarded. The container can be reused after cleanup;
+a subsequent `removeAll()` does not retry callbacks for the cleared bindings.
+
+Bindings remain available to callbacks until explicitly removed or cleared at
+the end. Cleanup does not resolve unused factories or dispose transient values
+or values owned by a parent container. A failing callback must handle its own
+internal cleanup; the container cannot resume execution inside it.
+
+`remove(token)` retains its existing behavior: if its callback throws, the binding
+remains and removal can be retried. This also applies to single-module removal
+when `destroy()` throws.
+
+Reentrant removal and mutation retain the existing live traversal behavior.
+Nested removals run immediately and can invoke a callback more than once.
+New factory entries appended during traversal can be visited. Replacing an
+existing entry without deleting it does not revisit an already visited key;
+deleting and reinserting it appends a new entry that can be visited again.
+This fix does not add recursion guards or guarantee cleanup of every value
+created during callbacks. Callbacks must
+avoid unbounded recursive removal or endlessly adding bindings. Cleanup remains
+synchronous; returned promises are not awaited.
+
 ## Container Hierarchy
 
 Ditox.js supports a "parent-child" hierarchy. If the child container cannot

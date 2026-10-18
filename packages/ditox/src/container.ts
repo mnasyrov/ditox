@@ -75,6 +75,8 @@ export type Container = {
 
   /**
    * Removes all bindings in the container.
+   * Continues after cleanup failures and rethrows the first thrown value unchanged
+   * after clearing bindings and restoring internal tokens. Later failures are discarded.
    */
   removeAll(): void;
 };
@@ -196,15 +198,28 @@ export function createContainer(
     },
 
     removeAll(): void {
-      factories.forEach((context, tokenSymbol) => {
-        if (context.options) {
-          executeOnRemoved(tokenSymbol, context.options);
-        }
-      });
-
-      values.clear();
-      factories.clear();
-      bindInternalTokens();
+      // A separate flag preserves thrown values such as undefined or false.
+      let hasError = false;
+      let firstError: unknown;
+      try {
+        factories.forEach((context, tokenSymbol) => {
+          try {
+            if (context.options) {
+              executeOnRemoved(tokenSymbol, context.options);
+            }
+          } catch (error) {
+            if (!hasError) {
+              hasError = true;
+              firstError = error;
+            }
+          }
+        });
+      } finally {
+        values.clear();
+        factories.clear();
+        bindInternalTokens();
+      }
+      if (hasError) throw firstError;
     },
 
     hasToken(token: Token<unknown>): boolean {
