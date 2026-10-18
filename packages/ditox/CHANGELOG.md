@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.1](https://github.com/mnasyrov/ditox/compare/v3.3.0...v3.3.1) (2026-10-18)
+
+### Bug Fixes
+
+- Complete `removeAll()` cleanup after a cleanup callback or options accessor
+  throws: continue visiting factories, clear local bindings, restore internal
+  tokens, and rethrow the first thrown value unchanged. Later errors are discarded.
+  ([#43](https://github.com/mnasyrov/ditox/pull/43))
+- After failed bulk cleanup, the container can be reused; repeating `removeAll()`
+  does not retry callbacks for the cleared bindings. Public signatures, exports,
+  single-token removal, and existing reentrant traversal behavior are unchanged.
+
 # [3.3.0](https://github.com/mnasyrov/ditox/compare/v3.2.0...v3.3.0) (2026-02-23)
 
 
